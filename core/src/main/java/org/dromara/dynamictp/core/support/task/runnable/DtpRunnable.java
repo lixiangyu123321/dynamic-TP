@@ -24,25 +24,38 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.TRACE_ID;
 
 /**
  * DtpRunnable related
- *
+ * 框架的任务包装类
  * @author yanhom
  * @since 1.0.4
  */
 @Getter
 public class DtpRunnable implements Runnable {
 
+    /**
+     * 原始的任务
+     */
     private final Runnable originRunnable;
 
+    /**
+     * 包装后的任务
+     */
     private final Runnable runnable;
 
+    /**
+     * 任务名称
+     */
     private final String taskName;
 
+    /**
+     * 追踪ID
+     */
     private final String traceId;
 
     public DtpRunnable(Runnable originRunnable, Runnable runnable, String taskName) {
         this.originRunnable = originRunnable;
         this.runnable = runnable;
         this.taskName = taskName;
+        // 获得可追踪的traceID
         this.traceId = MDC.get(TRACE_ID);
     }
 

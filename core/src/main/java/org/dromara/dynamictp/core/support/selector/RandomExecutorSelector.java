@@ -23,7 +23,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * RandomExecutorSelector related
- *
+ * 随机选择一个执行器
  * @author yanhom
  * @since 1.1.3
  **/

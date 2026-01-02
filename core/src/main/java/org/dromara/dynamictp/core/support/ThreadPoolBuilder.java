@@ -88,6 +88,7 @@ public class ThreadPoolBuilder {
 
     /**
      * Blocking queue, see {@link QueueTypeEnum}
+     * TODO 这里的VariableLinkedBlockingQueue有点意思
      */
     private BlockingQueue<Runnable> workQueue = new VariableLinkedBlockingQueue<>(1024);
 
@@ -137,58 +138,69 @@ public class ThreadPoolBuilder {
     /**
      * If io intensive thread pool.
      * default false, true indicate cpu intensive thread pool.
+     * 线程池类型，IO密集型任务，队列满时立即创建线程，而不是拒绝任务
      */
     private boolean eager = false;
 
     /**
      * If ordered thread pool.
      * default false, true ordered thread pool.
+     * 设置为有序线程池，按任务提交顺序执行
      */
     private boolean ordered = false;
 
     /**
      * If scheduled executor, default false.
+     * 设置为调度线程池
      */
     private boolean scheduled = false;
 
     /**
      * If priority thread pool.
      * default false, true priority thread pool.
+     * 设置为优先级线程池
      */
     private boolean priority = false;
 
     /**
      * If pre start all core threads.
+     * 是否预启动核心线程
      */
     private boolean preStartAllCoreThreads = false;
 
     /**
      * If enhance reject.
+     * 是否拒绝增强
      */
     private boolean rejectEnhanced = true;
 
     /**
      * If enable notify.
+     * 是否通知增强
      */
     private boolean notifyEnabled = true;
 
     /**
      * Task execute timeout, unit (ms).
+     * 运行超时时间
      */
     private long runTimeout = 0;
 
     /**
      * If try interrupt thread when task run timeout.
+     * 任务超时是否尝试打断任务
      */
     private boolean tryInterrupt = false;
 
     /**
      * Task queue wait timeout, unit (ms), just for statistics.
+     * 队列等待超时时间
      */
     private long queueTimeout = 0;
 
     /**
      * Task wrappers.
+     * 任务包装器
      */
     private final List<TaskWrapper> taskWrappers = Lists.newArrayList();
 

@@ -36,7 +36,13 @@ public class BinderHelper {
 
     private BinderHelper() { }
 
+    /**
+     * 看看有没有加载，没有加载通过SPI机制加载
+     * ExtensionService相当于一层缓存，顶层还是SPI机制（ServiceLoader）
+     * @return
+     */
     private static PropertiesBinder getBinder() {
+        // 从单例池中获得PropertiesBinder对应的单例对象
         PropertiesBinder binder = Singleton.INST.get(PropertiesBinder.class);
         if (Objects.nonNull(binder)) {
             return binder;

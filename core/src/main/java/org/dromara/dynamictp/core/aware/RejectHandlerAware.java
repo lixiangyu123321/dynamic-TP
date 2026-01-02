@@ -19,7 +19,7 @@ package org.dromara.dynamictp.core.aware;
 
 /**
  * RejectHandlerAware related
- *
+ * 1-2 18:35 感知拒绝处理的
  * @author yanhom
  * @since 1.1.4
  **/

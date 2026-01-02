@@ -35,7 +35,10 @@ import java.util.concurrent.atomic.LongAdder;
 
 /**
  * Stat provider for thread pool.
- *
+ * 任务性能统计: 记录任务的执行时间，计算 TPS、响应时间分布等性能指标
+ * 超时监控: 监控任务在队列中的等待时间和执行时间，支持超时告警和中断
+ * 拒绝统计: 统计被拒绝的任务数量
+ * 超时统计: 统计执行超时和队列等待超时的任务数量
  * @author hanli
  * @since 1.1.4
  */
@@ -60,6 +63,7 @@ public class ThreadPoolStatProvider {
 
     /**
      * Total reject count.
+     * 通过缩小锁的粒度的思路，将多线程的相加分块，实现高效的多线程计数LongAdder
      */
     private final LongAdder rejectCount = new LongAdder();
 
@@ -75,6 +79,8 @@ public class ThreadPoolStatProvider {
 
     /**
      * runTimeoutMap  key -> Runnable  value -> Timeout
+     * 对于软引用，直接看内部的引用即可，即这里的value -> Timeout
+     * 只要指向SoftReference的引用被断掉，SoftReference指向Timeout的引用就会被断掉
      */
     private final Map<Runnable, SoftReference<Timeout>> runTimeoutMap = new ConcurrentHashMap<>();
 

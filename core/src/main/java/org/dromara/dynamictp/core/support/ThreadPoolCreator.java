@@ -28,7 +28,7 @@ import static org.dromara.dynamictp.common.em.QueueTypeEnum.VARIABLE_LINKED_BLOC
 /**
  * Offer a fast dtp creator, use only in simple scenario.
  * It is best to use ThreadPoolBuilder and assign relevant values.
- *
+ * 使用默认值和少量参数快速串讲线程池，功能类似于Excutors
  * @author yanhom
  * @since 1.0.0
  **/

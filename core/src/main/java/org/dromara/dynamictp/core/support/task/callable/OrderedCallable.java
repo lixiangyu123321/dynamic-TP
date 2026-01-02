@@ -23,7 +23,7 @@ import java.util.concurrent.Callable;
 
 /**
  * OrderedRunnable related
- *
+ * 用于提交可排序的任务，可以获得结果的任务
  * @param <C> the result type of method
  * @author yanhom
  * @since 1.0.0

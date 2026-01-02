@@ -42,7 +42,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Executor wrapper
- *
+ * 将原有的Excutor包一层，以涵盖元数据，配置信息和功能增强
  * @author yanhom
  * @since 1.0.3
  **/
@@ -66,6 +66,7 @@ public class ExecutorWrapper {
 
     /**
      * Notify items, see {@link NotifyItemEnum}.
+     * TODO NotifyItem
      */
     private List<NotifyItem> notifyItems;
 

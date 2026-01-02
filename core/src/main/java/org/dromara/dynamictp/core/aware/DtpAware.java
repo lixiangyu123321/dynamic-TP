@@ -20,6 +20,8 @@ package org.dromara.dynamictp.core.aware;
 /**
  * A marker interface for DTP
  *
+ * 1-2 18 : 25 感知器接口，用于类似于AOP操作的功能增强
+ * 为什么要交感知器呢，基于观察者模式，感知到事件发生了，进行响应
  * @author yanhom
  * @since 1.1.4
  **/

@@ -22,7 +22,7 @@ import java.util.concurrent.Executor;
 
 /**
  * HashedExecutorSelector related
- *
+ * 基于hashCode选择合适执行器
  * @author yanhom
  * @since 1.1.3
  **/

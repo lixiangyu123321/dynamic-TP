@@ -31,7 +31,7 @@ public interface PropertiesBinder {
 
     /**
      * bind dtp properties
-     *
+     * 将Map类型的数据绑定到DtpProperties
      * @param properties   properties
      * @param dtpProperties dtp properties
      */
@@ -39,7 +39,7 @@ public interface PropertiesBinder {
 
     /**
      * bind dtp properties
-     *
+     * 支持Environment的绑定
      * @param environment  environment
      * @param dtpProperties dtp properties
      */
@@ -47,7 +47,7 @@ public interface PropertiesBinder {
 
     /**
      * before bind
-     *
+     * 提供绑定前后的钩子方法
      * @param source source
      * @param dtpProperties dtp properties
      */

@@ -47,6 +47,12 @@ public class NamedRunnable implements Runnable {
         return name;
     }
 
+    /**
+     * 如果名字为空，通过UUID创建一个默认名
+     * @param runnable
+     * @param name
+     * @return
+     */
     public static NamedRunnable of(Runnable runnable, String name) {
         if (StringUtils.isBlank(name)) {
             name = runnable.getClass().getSimpleName() + "-" + UUID.randomUUID();

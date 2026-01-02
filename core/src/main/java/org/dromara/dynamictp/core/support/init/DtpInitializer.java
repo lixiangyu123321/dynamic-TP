@@ -19,7 +19,9 @@ package org.dromara.dynamictp.core.support.init;
 
 /**
  * DtpInitializer related
- *
+ * 初始化扩展: 提供框架初始化的扩展点
+ * 有序执行: 支持按顺序执行初始化器
+ * 参数传递: 支持传递初始化参数
  * @author yanhom
  * @since 1.1.6
  */

@@ -19,7 +19,7 @@ package org.dromara.dynamictp.core.support.task.wrapper;
 
 /**
  * TaskWrapper related
- *
+ * 任务包装器，将Runnable包装成不同的实现类或继承类
  * @author yanhom
  * @since 1.0.3
  **/

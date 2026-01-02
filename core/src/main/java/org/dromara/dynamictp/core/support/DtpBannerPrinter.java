@@ -27,7 +27,7 @@ import org.dromara.dynamictp.common.util.VersionUtil;
 
 /**
  * DtpBannerPrinter related
- *
+ * DtpBannerPrinter 是 Banner 打印器，用于在框架启动时打印框架的 Banner 信息。它会在 Spring 上下文刷新时自动打印 Banner。
  * @author yanhom
  * @since 1.0.0
  **/
@@ -61,6 +61,7 @@ public class DtpBannerPrinter {
     }
 
     public static void printBanner() {
+        // TODO 这里的CustomContextRefreshedEvent 和 ContextManagerHelper
         boolean enable = Boolean.parseBoolean(ContextManagerHelper.getEnvironmentProperty(DynamicTpConst.BANNER_ENABLED_PROP, "true"));
         if (enable) {
             log.info(BANNER + "\n" + NAME + "\n :: {} :: \n" + SITE + "\n" + GITHUB_REPO + "\n" + GITEE_REPO,

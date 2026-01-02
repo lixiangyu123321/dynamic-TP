@@ -21,7 +21,7 @@ import com.alibaba.ttl.TtlRunnable;
 
 /**
  * TtlTaskWrapper related
- *
+ * 基于com.alibaba.ttl实现含超时时间的任务
  * @author yanhom
  * @since 1.0.4
  **/

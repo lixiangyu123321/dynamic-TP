@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * MetricsAware related
- *
+ * 1-2 18:34 这里弱化了感知属性，只是提供了指标的查询的功能
  * @author yanhom
  * @since 1.0.9
  */

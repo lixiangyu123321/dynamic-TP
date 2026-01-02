@@ -22,7 +22,8 @@ import java.util.concurrent.Executor;
 
 /**
  * ExecutorSelector related
- *
+ * 执行器选择器接口，基于参数选择合适的执行器
+ * TODO 基于此可以实现负载均衡
  * @author yanhom
  * @since 1.1.3
  **/

@@ -26,7 +26,7 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.TRACE_ID;
 
 /**
  * MdcRunnable related
- *
+ * 在异步任务中传递MDC上下文
  * @author yanhom
  * @since 1.0.8
  **/
@@ -34,10 +34,14 @@ public class MdcRunnable implements Runnable {
 
     private final Runnable runnable;
 
+    /**
+     * 父线程
+     */
     private final Thread parentThread;
 
     /**
      * Saves the MDC value of the current thread
+     * 父线程的MDC
      */
     private final Map<String, String> parentMdc;
 
@@ -54,6 +58,7 @@ public class MdcRunnable implements Runnable {
     @Override
     public void run() {
 
+        // TODO 什么叫当前线程并没有发生线程切换
         if (MapUtils.isEmpty(parentMdc) || Objects.equals(Thread.currentThread(), parentThread)) {
             runnable.run();
             return;

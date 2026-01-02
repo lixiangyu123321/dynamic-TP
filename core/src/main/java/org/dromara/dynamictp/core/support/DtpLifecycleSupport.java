@@ -28,7 +28,10 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * DtpLifecycleSupport which mainly implements ThreadPoolExecutor's lifecycle management.
- *
+ * 线程池生命周期工具类
+ * 初始化管理: 提供线程池初始化的统一入口
+ * 优雅关闭: 实现线程池的优雅关闭逻辑
+ * 异步关闭: 支持异步关闭线程池
  * @author yanhom
  * @since 1.0.3
  **/
@@ -61,6 +64,12 @@ public class DtpLifecycleSupport {
         }
     }
 
+    /**
+     * 使用一个新线程去关闭线程池并阻塞等待线程池终止，不会阻塞主线程
+     * @param executor
+     * @param threadPoolName
+     * @param timeout
+     */
     public static void shutdownGracefulAsync(ExecutorService executor,
                                              String threadPoolName,
                                              int timeout) {
@@ -88,9 +97,14 @@ public class DtpLifecycleSupport {
             return;
         }
         log.info("Shutting down ExecutorService, threadPoolName: {}", threadPoolName);
+        // 是否要等未完成任务完成
         if (waitForTasksToCompleteOnShutdown) {
+            /**
+             * shutdown异步返回，会执行所有已提交的任务，拒绝接受新的任务
+             */
             executor.shutdown();
         } else {
+            // 依次取消未完成任务
             for (Runnable remainingTask : executor.shutdownNow()) {
                 cancelRemainingTask(remainingTask);
             }
@@ -112,6 +126,7 @@ public class DtpLifecycleSupport {
 
     /**
      * Wait for the executor to terminate, according to the value of the awaitTerminationSeconds property.
+     * 这个方法会阻塞等待线程池终止，当然是带超时时间的等待
      * @param executor executor
      */
     private static void awaitTerminationIfNecessary(ExecutorService executor,

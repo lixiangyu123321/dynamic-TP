@@ -37,14 +37,22 @@ import static java.util.stream.Collectors.toList;
  **/
 public class TaskWrappers {
 
+
+    /**
+     * 缓存任务包装器
+     */
     private static final List<TaskWrapper> TASK_WRAPPERS = Lists.newArrayList();
 
+    /**
+     * SPI发现任务包装器
+     */
     private TaskWrappers() {
         List<TaskWrapper> loadedWrappers = ExtensionServiceLoader.get(TaskWrapper.class);
         if (CollectionUtils.isNotEmpty(loadedWrappers)) {
             TASK_WRAPPERS.addAll(loadedWrappers);
         }
 
+        // 默认的TTL任务包装器，和MDC任务包装器，包装可过期的任务和含MDC上下文的任务
         TASK_WRAPPERS.add(new TtlTaskWrapper());
         TASK_WRAPPERS.add(new MdcTaskWrapper());
     }
@@ -57,6 +65,10 @@ public class TaskWrappers {
         return TASK_WRAPPERS.stream().filter(t -> StringUtil.containsIgnoreCase(t.name(), names)).collect(toList());
     }
 
+    /**
+     * 手动注册任务封装器
+     * @param taskWrapper
+     */
     public static void register(TaskWrapper taskWrapper) {
         Set<String> names = TASK_WRAPPERS.stream().map(TaskWrapper::name).collect(Collectors.toSet());
         if (names.contains(taskWrapper.name())) {
@@ -69,6 +81,9 @@ public class TaskWrappers {
         return TaskWrappersHolder.INSTANCE;
     }
 
+    /**
+     * 静态内部类实现的单例模式，懒汉式的加载，外部类的加载不会触发内部静态类的加载
+     */
     private static class TaskWrappersHolder {
         private static final TaskWrappers INSTANCE = new TaskWrappers();
     }

@@ -21,7 +21,7 @@ import org.dromara.dynamictp.core.support.task.runnable.MdcRunnable;
 
 /**
  * MdcTaskWrapper related
- *
+ * MDC任务包装器，将一个Runnable包装成MdcRunnable
  * @author yanhom
  * @since 1.0.8
  **/

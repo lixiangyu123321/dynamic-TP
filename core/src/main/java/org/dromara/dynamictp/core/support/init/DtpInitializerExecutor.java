@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * DtpInitializerExecutor related
- *
+ * 负责执行所有注册的DtpInitializer，确保初始化器只执行依次，并按照顺序执行
  * @author yanhom
  * @since 1.1.6
  */
@@ -34,6 +34,10 @@ public class DtpInitializerExecutor {
 
     private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
 
+    /**
+     * 基于SPI机制发现所有扩展的初始化器，依次执行所有的初始化
+     * @param args
+     */
     public static void init(Object... args) {
         if (!INITIALIZED.compareAndSet(false, true)) {
             return;

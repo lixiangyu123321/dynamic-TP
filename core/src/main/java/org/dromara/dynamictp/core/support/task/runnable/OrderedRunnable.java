@@ -21,7 +21,7 @@ import org.dromara.dynamictp.core.support.task.Ordered;
 
 /**
  * OrderedRunnable related
- *
+ * 可排序的任务
  * @author yanhom
  * @since 1.0.0
  **/

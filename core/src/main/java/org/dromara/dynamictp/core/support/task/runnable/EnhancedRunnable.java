@@ -50,6 +50,7 @@ public class EnhancedRunnable implements Runnable {
         if (Objects.isNull(runnable)) {
             return;
         }
+        // 触发任务执行前事件
         AwareManager.beforeExecute(executor, Thread.currentThread(), runnable);
         Throwable t = null;
         try {
@@ -58,7 +59,9 @@ public class EnhancedRunnable implements Runnable {
             t = e;
             throw e;
         } finally {
+            // 触发任务执行后事件
             AwareManager.afterExecute(executor, runnable, t);
+            // 重试
             ExecutorUtil.tryExecAfterExecute(runnable, t);
         }
     }

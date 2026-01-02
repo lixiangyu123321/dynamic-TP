@@ -26,7 +26,7 @@ import java.util.concurrent.Executor;
 
 /**
  * ExecutorAware related
- *
+ * 1-2 18:29 感知线程池发生的事件后做出响应
  * @author kyao
  * @since 1.1.4
  */

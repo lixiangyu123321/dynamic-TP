@@ -22,7 +22,7 @@ import lombok.Getter;
 
 /**
  * AwareType Enum
- *
+ * 1-2 18:29 感知器类型，感知到事件发生后进行响应
  * @author kyao
  * @since 1.1.4
  */
