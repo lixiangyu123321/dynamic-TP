@@ -23,7 +23,8 @@ package org.dromara.dynamictp.core.executor.priority;
  * {@link Priority} interface. Lower values have higher priority. The default value is
  * {@code Priority.LOWEST_PRECEDENCE}, indicating the lowest priority (losing to any
  * other specified priority value).
- *
+ * 优先级接口，表示支持优先级的任务
+ * 值越低，优先级越高
  * @author <a href = "mailto:kamtohung@gmail.com">KamTo Hung</a>
  * @since 1.1.7
  */

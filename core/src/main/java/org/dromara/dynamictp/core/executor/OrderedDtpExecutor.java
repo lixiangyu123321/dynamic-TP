@@ -45,15 +45,23 @@ import java.util.concurrent.atomic.LongAdder;
  * according to the key and task submission order. It is applicable to scenarios
  * where the throughput is improved through parallel processing and the tasks
  * are run in a certain order.
- *
+ * 只能保证同一个hashKey的任务有序执行，不同hashKey之间的任务仍然是并发执行的。
+ * 一是保证执行器需要为OrderDtpExecutor，二是任务需要实现Ordered接口并重写hashKey方法。
+ * 上面这两点都满足时，任务才能有序执行，否则按普通任务处理。
  * @author yanhom
  * @since 1.1.3
  */
 @Slf4j
 public class OrderedDtpExecutor extends DtpExecutor {
 
+    /**
+     * 执行器选择器
+     */
     private final ExecutorSelector selector = new HashedExecutorSelector();
 
+    /**
+     * 执行器列表
+     */
     private final List<Executor> childExecutors = Lists.newArrayList();
 
     public OrderedDtpExecutor(int corePoolSize,

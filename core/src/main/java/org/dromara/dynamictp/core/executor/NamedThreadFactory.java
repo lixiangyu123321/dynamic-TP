@@ -24,15 +24,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Default ThreadFactory used in Dynamic ThreadPoolExecutor.
- *
+ * ThreadFactory 用于基于Runnable 创建一个新的线程Thread
  * @author yanhom
  * @since 1.0.0
  **/
 @Slf4j
 public class NamedThreadFactory implements ThreadFactory {
 
+    /**
+     * 命名前缀
+     */
     private String namePrefix;
 
+    /**
+     * 线程组
+     */
     private final ThreadGroup group;
 
     /**
@@ -47,6 +53,7 @@ public class NamedThreadFactory implements ThreadFactory {
 
     /**
      * thread name index.
+     * 序列号
      */
     private final AtomicInteger seq = new AtomicInteger(1);
 
@@ -66,6 +73,11 @@ public class NamedThreadFactory implements ThreadFactory {
         this(namePrefix, daemon, Thread.NORM_PRIORITY);
     }
 
+    /**
+     * 基于线程工厂创建一个新的线程
+     * @param r a runnable to be executed by new thread instance
+     * @return
+     */
     @Override
     public Thread newThread(Runnable r) {
         String name = namePrefix + "-" + seq.getAndIncrement();

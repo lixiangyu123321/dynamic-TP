@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * ExecutorConverter related
- *
+ * 将ExecutorWrapper 转换为 配置对象和监控对象
  * @author yanhom
  * @since 1.0.0
  **/
@@ -39,6 +39,11 @@ public class ExecutorConverter {
     private ExecutorConverter() {
     }
 
+    /**
+     * 获得线程池主要配置字段
+     * @param executorWrapper
+     * @return
+     */
     public static TpMainFields toMainFields(ExecutorWrapper executorWrapper) {
         TpMainFields mainFields = new TpMainFields();
         mainFields.setThreadPoolName(executorWrapper.getThreadPoolName());
@@ -53,6 +58,11 @@ public class ExecutorConverter {
         return mainFields;
     }
 
+    /**
+     * 获得线程池监控信息/或者叫指标信息
+     * @param wrapper
+     * @return
+     */
     public static ThreadPoolStats toMetrics(ExecutorWrapper wrapper) {
         ExecutorAdapter<?> executor = wrapper.getExecutor();
         if (executor == null) {

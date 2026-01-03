@@ -34,7 +34,7 @@ public interface TaskEnhanceAware extends DtpAware {
 
     /**
      * Enhance task
-     *
+     * Runnable使用TaskWrapper层层包装
      * @param command      command
      * @param taskWrappers task wrappers
      * @return enhanced task
@@ -47,6 +47,7 @@ public interface TaskEnhanceAware extends DtpAware {
                 wrapRunnable = t.wrap(wrapRunnable);
             }
         }
+        // 最后包装成DtpRunnable
         return new DtpRunnable(command, wrapRunnable, taskName);
     }
 

@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * ScheduledThreadPoolExecutorProxy related
  * The schedule method does not support queue timeout monitoring
- *
+ * 这个代理类就是为了对拒绝策略进行一次代理
  * @author kyao
  * @since 1.1.5
  */
@@ -49,6 +49,10 @@ public class ScheduledThreadPoolExecutorProxy extends ScheduledThreadPoolExecuto
      */
     private String rejectHandlerType;
 
+    /**
+     * 实现拒绝策略的代理
+     * @param executor
+     */
     public ScheduledThreadPoolExecutorProxy(ScheduledThreadPoolExecutor executor) {
         super(executor.getCorePoolSize(), executor.getThreadFactory());
         this.rejectHandlerType = executor.getRejectedExecutionHandler().getClass().getSimpleName();

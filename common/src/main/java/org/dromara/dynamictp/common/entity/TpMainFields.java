@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * TpMainFields related
- *
+ * 表示线程池的主要配置字段
  * @author yanhom
  * @since 1.0.0
  **/

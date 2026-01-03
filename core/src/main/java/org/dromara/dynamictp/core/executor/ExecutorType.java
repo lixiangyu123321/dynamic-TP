@@ -24,7 +24,7 @@ import org.dromara.dynamictp.core.executor.priority.PriorityDtpExecutor;
 
 /**
  * ExecutorType related
- *
+ * 执行器类型枚举
  * @author yanhom
  * @since 1.0.4
  **/

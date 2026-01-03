@@ -149,6 +149,12 @@ public interface ExecutorAware extends DtpAware {
         // default no Operation
     }
 
+    /**
+     * 调用before 后返回Runnable
+     * @param r
+     * @param executor
+     * @return
+     */
     default Runnable beforeRejectWrap(Runnable r, Executor executor) {
         beforeReject(r, executor);
         return r;

@@ -26,7 +26,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * TaskQueue in the EagerDtpExecutor。
  * Mainly used in io intensive scenario.
- *
+ * 继承自VariableLinkedBlockingQueue，支持动态修改队列容量
+ * 根据执行器状态决定是否入队
  * @author yanhom
  * @since 1.0.3
  **/
@@ -34,6 +35,9 @@ public class TaskQueue extends VariableLinkedBlockingQueue<Runnable> {
 
     private static final long serialVersionUID = -1L;
 
+    /**
+     * 关联的IO密集型场景
+     */
     private transient EagerDtpExecutor executor;
 
     public TaskQueue(int queueCapacity) {
@@ -57,6 +61,7 @@ public class TaskQueue extends VariableLinkedBlockingQueue<Runnable> {
             return super.offer(runnable);
         }
         // return false to let executor create new worker.
+        // 返回false 让 执行器创建新线程处理任务
         if (executor.getPoolSize() < executor.getMaximumPoolSize()) {
             return false;
         }

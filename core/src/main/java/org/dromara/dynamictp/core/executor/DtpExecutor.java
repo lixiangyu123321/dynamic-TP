@@ -42,7 +42,11 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Dynamic ThreadPoolExecutor, extending ThreadPoolExecutor, implements some new features
- *
+ * 这里就是动态线程池执行器
+ * 在ThreadLocalExecutor的基础上，增加动态配置，任务增强，监控告警等功能
+ * ThreadPoolExecutor 是Java并发包中提供的线程池实现类
+ * TaskEnhanceAware 用于增强任务
+ * ExecutorAdapter 用于适配不同类型的执行器
  * @author yanhom
  * @since 1.0.0
  **/

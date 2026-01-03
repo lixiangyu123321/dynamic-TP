@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * ThreadPool base properties, mainly used for adapter module.
- *
+ * 配置动态线程池的属性
  * @author yanhom
  * @since 1.0.6
  **/

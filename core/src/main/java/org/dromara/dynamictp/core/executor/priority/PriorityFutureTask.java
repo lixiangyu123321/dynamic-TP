@@ -22,7 +22,7 @@ import java.util.concurrent.FutureTask;
 
 /**
  * PriorityFutureTask related
- *
+ * 实现了Priority接口，用于表示任务的优先级
  * @author <a href = "mailto:kamtohung@gmail.com">KamTo Hung</a>
  * @since 1.1.7
  */

@@ -38,11 +38,16 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 /**
  * Support ScheduledDtpExecutor.
- *
+ * 支持延迟执行和定时执行任务的动态线程池
+ * 这里比较关键的就是将 ScheduledThreadPoolExecutorProxy 作为代理类来处理调度功能
  * @author windsearcher
  **/
 public class ScheduledDtpExecutor extends DtpExecutor implements ScheduledExecutorService {
 
+    /**
+     * 可调度的任务线程池代理类
+     * 委托模式，将调度功能委托给ScheduledThreadPoolExecutorProxy处理
+     */
     private final ScheduledThreadPoolExecutorProxy delegate;
 
     public ScheduledDtpExecutor(int corePoolSize,

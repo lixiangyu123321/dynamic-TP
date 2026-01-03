@@ -28,14 +28,22 @@ import java.util.concurrent.Executor;
 
 /**
  * TaskStatAware related
- *
+ * ThreadPoolStatProvider 用于管理和提供线程池的统计信息和性能指标
  * @author kyao
  * @since 1.1.4
  */
 public abstract class TaskStatAware implements ExecutorAware {
 
+    /**
+     * 一个线程池一个 ThreadPoolStatProvider 实例
+     * 缓存用
+     */
     protected final Map<Executor, ThreadPoolStatProvider> statProviders = new ConcurrentHashMap<>();
 
+    /**
+     * 将ThreadLocal注册到缓存中
+     * @param wrapper executor wrapper
+     */
     @Override
     public void register(ExecutorWrapper wrapper) {
         ThreadPoolStatProvider statProvider = wrapper.getThreadPoolStatProvider();

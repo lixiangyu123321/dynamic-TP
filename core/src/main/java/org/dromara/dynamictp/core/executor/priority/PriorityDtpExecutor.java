@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * PriorityDtpExecutor related, extending DtpExecutor, implements priority feature
- *
+ * 本质就是使用PriorityBlockingQueue作为任务队列的线程池
  * @author <a href = "mailto:kamtohung@gmail.com">KamTo Hung</a>
  * @since 1.1.7
  */

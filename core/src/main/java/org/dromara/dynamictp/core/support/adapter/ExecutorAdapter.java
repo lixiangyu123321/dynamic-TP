@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * ExecutorAdapter inherits Executor, the goal of this interface is to be
  * as compatible as possible with {@link java.util.concurrent.ThreadPoolExecutor}.
- *
+ * 将ThreadLocal的公共方法向上抽取为适配器方法
  * @author dragon-zhang
  * @since 1.1.3
  * @param <E> the executor type
