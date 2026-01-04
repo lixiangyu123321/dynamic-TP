@@ -23,7 +23,7 @@ import javax.management.MXBean;
 
 /**
  * ThreadPoolStatsMXBean related
- *
+ * 动态线程池
  * @author <a href = "mailto:kamtohung@gmail.com">KamTo Hung</a>
  */
 @MXBean

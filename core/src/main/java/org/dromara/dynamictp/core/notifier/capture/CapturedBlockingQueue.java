@@ -26,6 +26,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 用于捕获阻塞队列瞬时状态
  * @author ruoan
  * @since 1.1.3
  */

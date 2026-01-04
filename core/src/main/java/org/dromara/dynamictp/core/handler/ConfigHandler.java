@@ -42,10 +42,12 @@ public final class ConfigHandler {
     private static final List<ConfigParser> PARSERS = Lists.newArrayList();
 
     private ConfigHandler() {
+        // 通过SPI机制获得配置文件解析器
         List<ConfigParser> loadedParses = ExtensionServiceLoader.get(ConfigParser.class);
         if (CollectionUtils.isNotEmpty(loadedParses)) {
             PARSERS.addAll(loadedParses);
         }
+        // 都是想获得dynamic.hello.arr[0]这样的键对应的键值对
         PARSERS.add(new PropertiesConfigParser());
         PARSERS.add(new YamlConfigParser());
         PARSERS.add(new JsonConfigParser());
@@ -65,6 +67,9 @@ public final class ConfigHandler {
         return ConfigHandlerHolder.INSTANCE;
     }
 
+    /**
+     * 静态内部类实现单例
+     */
     private static class ConfigHandlerHolder {
         private static final ConfigHandler INSTANCE = new ConfigHandler();
     }

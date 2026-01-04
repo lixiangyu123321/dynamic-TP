@@ -25,16 +25,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * AlarmInfo related
- *
+ * 告警类型 + 告警次数
  * @author yanhom
  * @since 1.0.4
  **/
 @Data
 @Accessors(chain = true)
+/**
+ * Accessors注解修改setter方法，使得setter方法可以链式编程
+ */
 public class AlarmInfo {
 
     private NotifyItemEnum notifyItem;
 
+    /**
+     * 告警次数
+     */
     private final AtomicInteger counter = new AtomicInteger(0);
 
     public void incCounter() {

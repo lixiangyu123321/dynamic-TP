@@ -27,7 +27,7 @@ import java.util.concurrent.Executor;
 
 /**
  * RejectedInvocationHandler related
- *
+ * 基于动态代理在拒绝策略之前或者之后进行增强
  * @author yanhom
  * @since 1.0.0
  */

@@ -21,7 +21,7 @@ import org.dromara.dynamictp.common.entity.ThreadPoolStats;
 
 /**
  * MetricsCollector related
- *
+ * 指标收集接口
  * @author yanhom
  * @since 1.0.0
  **/

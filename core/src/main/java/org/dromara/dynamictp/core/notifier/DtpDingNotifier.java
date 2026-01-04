@@ -26,7 +26,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * DtpDingNotifier related
- *
+ * 钉钉通知器
  * @author yanhom
  * @since 1.0.0
  **/

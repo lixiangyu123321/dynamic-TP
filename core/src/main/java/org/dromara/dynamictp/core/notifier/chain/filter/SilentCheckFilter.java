@@ -31,7 +31,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * SilentCheckFilter related
- *
+ * 静默检查过滤器
+ *      静默检查: 检查告警是否在静默期内
+ *      限流控制: 通过静默期控制告警频率
+ *      线程安全: 使用锁保证线程安全
+ * TODO 没懂这里为什么要做静默的过滤
  * @author yanhom
  * @since 1.0.0
  **/
@@ -57,23 +61,29 @@ public class SilentCheckFilter implements NotifyFilter {
         // silence period <= 0 indicates that no silence check will be conducted.
         NotifyItem notifyItem = context.getNotifyItem();
         if (notifyItem.getSilencePeriod() <= 0) {
+            // 不进行默认检查
             return false;
         }
 
         ExecutorWrapper executorWrapper = context.getExecutorWrapper();
+        // 这里的键名只是线程池的名字
         String lockKey = executorWrapper.getThreadPoolName();
+        // 判断有没有 + 获得
         Lock lock = LOCK_MAP.computeIfAbsent(lockKey, k -> new ReentrantLock());
 
         lock.lock();
         try {
             boolean isAllowed = AlarmLimiter.isAllowed(executorWrapper.getThreadPoolName(), notifyItem.getType());
             if (!isAllowed) {
+                // 在静默期内
                 if (log.isDebugEnabled()) {
                     log.debug("DynamicTp notify, trigger rate limit, threadPoolName: {}, notifyItem: {}",
                             executorWrapper.getThreadPoolName(), notifyItem.getType());
                 }
                 return true;
             }
+            // 不在静默期间
+            // 设置静默期
             AlarmLimiter.putVal(executorWrapper.getThreadPoolName(), notifyItem.getType());
         } finally {
             lock.unlock();

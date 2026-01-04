@@ -41,19 +41,33 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.SCHEDULE_NOTI
 
 /**
  * DtpMonitor related
- *
+ * DtpMonitor 是监控管理器，负责定时收集线程池指标和检查告警。它使用定时任务定期执行监控逻辑。
+ * 通过Collector收集指标信息 + 基于告警管理器告警信息
  * @author yanhom
  * @since 1.0.0
  **/
 @Slf4j
 public class DtpMonitor {
 
+    /**
+     * 定时任务执行器
+     * 提供延迟任务以及周期任务提交
+     */
     private static ScheduledExecutorService monitorExecutor;
 
+    /**
+     * 动态线程池属性信息
+     */
     private final DtpProperties dtpProperties;
 
+    /**
+     * 获得定时任务的结果或者延迟任务的结果，以及任务的状态
+     */
     private ScheduledFuture<?> monitorFuture;
 
+    /**
+     * 监控间隔
+     */
     private int monitorInterval;
 
     public DtpMonitor(DtpProperties dtpProperties) {
@@ -61,9 +75,14 @@ public class DtpMonitor {
         EventBusManager.register(this);
     }
 
+    /**
+     * Subscribe 订阅模式
+     * @param event
+     */
     @Subscribe
     public synchronized void onContextRefreshedEvent(CustomContextRefreshedEvent event) {
         // if monitorInterval is same as before, do nothing.
+        // 如果监控间隔相同，不做刷新处理
         if (monitorInterval == dtpProperties.getMonitorInterval()) {
             return;
         }
@@ -103,6 +122,7 @@ public class DtpMonitor {
         }
         executorNames.forEach(x -> {
             ExecutorWrapper wrapper = DtpRegistry.getExecutorWrapper(x);
+            // toMetrics 获得线程池指标信息
             doCollect(ExecutorConverter.toMetrics(wrapper));
         });
         publishCollectEvent();

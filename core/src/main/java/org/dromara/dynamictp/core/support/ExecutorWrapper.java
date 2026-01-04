@@ -162,7 +162,7 @@ public class ExecutorWrapper {
 
     /**
      * capture executor
-     *
+     * 用于捕获瞬时的快照
      * @return ExecutorWrapper
      */
     public ExecutorWrapper capture() {

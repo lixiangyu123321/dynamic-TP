@@ -24,7 +24,7 @@ import java.util.UUID;
 
 /**
  * NotifyPlatform related
- *
+ * 通知的平台信息
  * @author yanhom
  * @since 1.0.0
  **/
@@ -53,6 +53,7 @@ public class NotifyPlatform {
 
     /**
      * webhook, may be null.
+     * web回调
      */
     private String webhook;
 

@@ -35,7 +35,8 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * In other words, this can ensure that the thread pool status when the alarm threshold is triggered is
  * consistent with the content in the {@link AbstractDtpNotifier#buildAlarmContent(NotifyPlatform, NotifyItemEnum)}
- *
+ * 捕获的执行器，用于在构建上下文时捕获执行器的执行快照
+ * 确保告警内容中的线程池状态和触发告警时的状态一致
  * @author ruoan
  * @since 1.1.3
  */

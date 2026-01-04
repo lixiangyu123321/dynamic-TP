@@ -19,7 +19,7 @@ package org.dromara.dynamictp.core.metric;
 
 /**
  * Summary related
- *
+ * 继承Meter，提供累计计数和重置
  * @author yanhom
  * @since 1.1.5
  */

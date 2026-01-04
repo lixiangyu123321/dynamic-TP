@@ -30,8 +30,14 @@ import java.util.concurrent.atomic.AtomicLong;
 @SuppressWarnings("all")
 public class MMACounter implements Summary {
 
+    /**
+     * 累加总数
+     */
     private final AtomicLong total = new AtomicLong();
 
+    /**
+     * 累加次数
+     */
     private final AtomicLong count = new AtomicLong();
 
     private final AtomicLong min = new AtomicLong(Long.MAX_VALUE);
@@ -62,6 +68,10 @@ public class MMACounter implements Summary {
         return count.get();
     }
 
+    /**
+     * 等于0 表示未初始化 或者是 0
+     * @return
+     */
     public long getMin() {
         long current = min.get();
         return (current == Long.MAX_VALUE) ? 0 : current;
@@ -78,11 +88,16 @@ public class MMACounter implements Summary {
         if (currentCount > 0) {
             double avgLatency = currentTotal / (double) currentCount;
             BigDecimal bg = new BigDecimal(avgLatency);
+            // 这里是四舍五入
             return bg.setScale(4, RoundingMode.HALF_UP).doubleValue();
         }
         return 0;
     }
 
+    /**
+     * 这里直接调用max.get而不是getMax
+     * @param value
+     */
     private void setMax(long value) {
         long current;
         while (value > (current = max.get()) && !max.compareAndSet(current, value)) {

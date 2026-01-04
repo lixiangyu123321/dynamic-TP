@@ -40,7 +40,7 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.MAIN_PROPERTI
 
 /**
  * AbstractRefresher related
- *
+ * 解析配置文件，检查是否需要刷新，发布配置刷新事件
  * @author yanhom
  * @since 1.0.0
  **/
@@ -61,7 +61,9 @@ public abstract class AbstractRefresher implements Refresher {
         }
 
         try {
+            // ConfigHandler
             val configHandler = ConfigHandler.getInstance();
+            // Map<Object, Object>
             val properties = configHandler.parseConfig(content, fileType);
             refresh(properties);
         } catch (IOException e) {
@@ -98,6 +100,11 @@ public abstract class AbstractRefresher implements Refresher {
         return CollectionUtils.isNotEmpty(changedKeys);
     }
 
+    /**
+     * 发布事件，基于Event来发布事件
+     * TODO 事件处理
+     * @param dtpProperties
+     */
     private void publishEvent(DtpProperties dtpProperties) {
         RefreshEvent event = new RefreshEvent(this, dtpProperties);
         EventBusManager.post(event);

@@ -42,6 +42,11 @@ public enum ConfigFileTypeEnum {
 
     private final String value;
 
+    /**
+     * 基于配置文件名解析枚举
+     * @param value
+     * @return
+     */
     public static ConfigFileTypeEnum of(String value) {
         for (ConfigFileTypeEnum typeEnum : ConfigFileTypeEnum.values()) {
             if (typeEnum.value.equals(value)) {

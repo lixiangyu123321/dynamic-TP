@@ -21,7 +21,7 @@ import org.dromara.dynamictp.common.em.ConfigFileTypeEnum;
 
 /**
  * Refresher related
- *
+ * 定义了配置刷新的方法。它用于从配置中心或其他来源刷新线程池配置。
  * @author yanhom
  * @since 1.0.0
  **/

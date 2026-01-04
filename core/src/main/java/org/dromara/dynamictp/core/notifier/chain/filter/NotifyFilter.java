@@ -23,7 +23,7 @@ import org.dromara.dynamictp.core.notifier.context.BaseNotifyCtx;
 
 /**
  * NotifyFilter related
- *
+ * 通知的过滤
  * @author yanhom
  * @since 1.0.8
  **/
@@ -31,7 +31,7 @@ public interface NotifyFilter extends Filter<BaseNotifyCtx> {
 
     /**
      * If supports this type.
-     *
+     * 是否支持当前类型
      * @param notifyType notifyType
      * @return true if supported, else false
      */

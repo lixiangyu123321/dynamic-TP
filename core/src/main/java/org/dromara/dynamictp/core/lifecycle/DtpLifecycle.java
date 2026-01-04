@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * DtpLifecycle related
- *
+ * 动态线程池框架的生命周期管理器
  * @author yanhom
  * @since 1.1.3
  **/

@@ -39,7 +39,10 @@ public class AlarmInvoker implements Invoker<BaseNotifyCtx> {
         val notifyItem = context.getNotifyItem();
         try {
             DtpNotifyCtxHolder.set(context);
+            // 发送告警
             NotifierHandler.getInstance().sendAlarm(NotifyItemEnum.of(notifyItem.getType()));
+            // 发送告警后重置告警次数
+            // TODO 所以这里是缓存告警后统一发送吗？
             AlarmCounter.reset(executorWrapper.getThreadPoolName(), notifyItem.getType());
         } finally {
             DtpNotifyCtxHolder.remove();

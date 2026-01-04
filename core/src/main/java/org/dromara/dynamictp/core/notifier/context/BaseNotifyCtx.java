@@ -24,15 +24,21 @@ import lombok.Data;
 
 /**
  * BaseNotifyCtx related
- *
+ * 通知上下文： 包括对应的执行器和通知项
  * @author yanhom
  * @since 1.0.8
  */
 @Data
 public class BaseNotifyCtx {
 
+    /**
+     * 封装了的执行器
+     */
     private ExecutorWrapper executorWrapper;
 
+    /**
+     * 通知项
+     */
     private NotifyItem notifyItem;
 
     public BaseNotifyCtx() { }
@@ -42,6 +48,10 @@ public class BaseNotifyCtx {
         this.notifyItem = notifyItem;
     }
 
+    /**
+     * 获得通知类型
+     * @return
+     */
     public NotifyItemEnum getNotifyItemEnum() {
         return NotifyItemEnum.of(notifyItem.getType());
     }

@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * NoticeCtx related
- *
+ * 配置变更通知上下文
  * @author yanhom
  * @since 1.0.8
  */

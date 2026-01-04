@@ -61,6 +61,8 @@ public class BinderHelper {
         if (Objects.isNull(binder)) {
             return;
         }
+        // binder用于将Map<Object, Object> 绑定到dtpProperties上
+        // 并且提供属性绑定前后的钩子方法
         binder.bindDtpProperties(properties, dtpProperties);
     }
 

@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * DtpNotifier related
- *
+ * 通知器接口，定义了通知器的标准方法，用于向不同的平台（钉钉，企业微信，飞书）发送告警和通知消息
  * @author yanhom
  * @since 1.0.0
  **/
@@ -40,7 +40,7 @@ public interface DtpNotifier {
 
     /**
      * Send change notify message.
-     *
+     * 发送动态线程池配置信息的改变
      * @param notifyPlatform notify platform
      * @param oldFields      old properties
      * @param diffs          the changed keys
@@ -49,7 +49,8 @@ public interface DtpNotifier {
 
     /**
      * Send alarm message.
-     *
+     * 发送告警信息
+     * TODO 这里的告警信息会不会太单薄了
      * @param notifyPlatform notify platform
      * @param notifyItemEnum notify item enum
      */

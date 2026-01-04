@@ -34,7 +34,7 @@ import static org.dromara.dynamictp.common.em.RejectedTypeEnum.DISCARD_POLICY;
 
 /**
  * RejectHandlerGetter related
- * 基于代理模式实现拒绝策略的功能增强
+ * 基于代理模式实现拒绝策略的功能增强，在拒绝策略执行前通知拒绝感知器感知拒绝前后
  * @author yanhom
  * @since 1.0.0
  **/

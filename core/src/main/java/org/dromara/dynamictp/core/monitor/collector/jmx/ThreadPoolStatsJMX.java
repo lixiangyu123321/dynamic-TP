@@ -20,6 +20,7 @@ package org.dromara.dynamictp.core.monitor.collector.jmx;
 import org.dromara.dynamictp.common.entity.ThreadPoolStats;
 
 /**
+ * 对于ThreadPoolStatsMXBean的实现，用于获得动态线程池指标信息
  * @author <a href = "mailto:kamtohung@gmail.com">KamTo Hung</a>
  */
 public class ThreadPoolStatsJMX implements ThreadPoolStatsMXBean {

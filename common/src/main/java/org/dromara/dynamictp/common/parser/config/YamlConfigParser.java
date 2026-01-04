@@ -63,6 +63,12 @@ public class YamlConfigParser extends AbstractConfigParser {
         return flattenedMap;
     }
 
+    /**
+     * 扁平化处理Map
+     * @param result
+     * @param source
+     * @param path
+     */
     @SuppressWarnings("unchecked")
     private void flattenMap(Map<Object, Object> result, Map<Object, Object> source, String path) {
         source.forEach((key, value) -> {

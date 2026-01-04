@@ -34,7 +34,7 @@ import static org.dromara.dynamictp.common.constant.LarkNotifyConst.LARK_OPENID_
 
 /**
  * DtpLarkNotifier
- *
+ * 飞书通知器
  * @author fxbin
  * @version v1.0
  * @since 2022/4/28 23:25
@@ -66,6 +66,11 @@ public class DtpLarkNotifier extends AbstractDtpNotifier {
         return new ImmutablePair<>(LarkNotifyConst.WARNING_COLOR, LarkNotifyConst.COMMENT_COLOR);
     }
 
+    /**
+     * TODO 飞书的通知规则
+     * @param receives
+     * @return
+     */
     @Override
     protected String formatReceivers(String receives) {
         return Arrays.stream(receives.split(","))

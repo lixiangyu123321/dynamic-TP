@@ -34,7 +34,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * MicroMeterCollector related
- *
+ * Micrometer 是一款开源的应用监控度量工具，
+ * 定位为 Java 应用的度量门面（Metrics Facade），
+ * 其核心目标是统一不同监控系统的度量接口，
+ * 让开发者可以用一套 API 采集应用指标，无需关心底层监控系统的实现差异。
+ * TODO 了解prometheus + grafana + MicroMeter架构的监控能力
  * @author yanhom
  * @since 1.0.0
  */
@@ -43,15 +47,28 @@ public class MicroMeterCollector extends AbstractCollector {
 
     /**
      * Prefix used for all dtp metric names.
+     * 指标名称前缀
      */
     public static final String DTP_METRIC_NAME_PREFIX = "thread.pool";
 
+    /**
+     * 线程池名称标签
+     */
     public static final String POOL_NAME_TAG = DTP_METRIC_NAME_PREFIX + ".name";
 
+    /**
+     * 线程池别名标签
+     */
     public static final String POOL_ALIAS_TAG = DTP_METRIC_NAME_PREFIX + ".alias";
 
+    /**
+     * 应用名称标签
+     */
     public static final String APP_NAME_TAG = "app.name";
 
+    /**
+     * Gauge 缓存
+     */
     private static final Map<String, ThreadPoolStats> GAUGE_CACHE = new ConcurrentHashMap<>();
 
     @Override
@@ -61,8 +78,10 @@ public class MicroMeterCollector extends AbstractCollector {
         if (Objects.isNull(oldStats)) {
             GAUGE_CACHE.put(threadPoolStats.getPoolName(), threadPoolStats);
         } else {
+            // 将新值拷贝到旧值中
             BeanUtil.copyProperties(threadPoolStats, oldStats);
         }
+        // TODO 核心方法
         gauge(GAUGE_CACHE.get(threadPoolStats.getPoolName()));
     }
 
@@ -71,6 +90,10 @@ public class MicroMeterCollector extends AbstractCollector {
         return CollectorTypeEnum.MICROMETER.name().toLowerCase();
     }
 
+    /**
+     * 注册gauge指标
+     * @param poolStats
+     */
     public void gauge(ThreadPoolStats poolStats) {
 
         Iterable<Tag> tags = getTags(poolStats);

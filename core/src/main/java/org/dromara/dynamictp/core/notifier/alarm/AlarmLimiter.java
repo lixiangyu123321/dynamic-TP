@@ -31,16 +31,24 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * AlarmLimiter related
- *
+ * 告警限流器， 用于控制告警频率，使用Guava Cache实现限流，在静默期不发送告警
  * @author yanhom
  * @since 1.0.0
  */
 public class AlarmLimiter {
 
+    /**
+     * 基于线程池#告警类型 -> Cache（Type，AlarmInfo）的缓存
+     */
     private static final Map<String, Cache<String, String>> ALARM_LIMITER = new ConcurrentHashMap<>();
 
     private AlarmLimiter() { }
 
+    /**
+     * 与AlarmCounter同
+     * @param threadPoolName
+     * @param notifyItem
+     */
     public static void initAlarmLimiter(String threadPoolName, NotifyItem notifyItem) {
         if (NotifyItemEnum.CHANGE.getValue().equalsIgnoreCase(notifyItem.getType())) {
             return;
@@ -58,6 +66,12 @@ public class AlarmLimiter {
         ALARM_LIMITER.get(key).put(type, type);
     }
 
+    /**
+     * 获得限流信息
+     * @param key
+     * @param type
+     * @return
+     */
     public static String getAlarmLimitInfo(String key, String type) {
         val cache = ALARM_LIMITER.get(key);
         if (Objects.isNull(cache)) {
@@ -66,6 +80,13 @@ public class AlarmLimiter {
         return cache.getIfPresent(type);
     }
 
+    /**
+     * 基于限流信息是否为空进行限流
+     * TODO 这里可以解析限流信息来扩展限流功能
+     * @param threadPoolName
+     * @param type
+     * @return
+     */
     public static boolean isAllowed(String threadPoolName, String type) {
         String key = genKey(threadPoolName, type);
         return StringUtils.isBlank(getAlarmLimitInfo(key, type));

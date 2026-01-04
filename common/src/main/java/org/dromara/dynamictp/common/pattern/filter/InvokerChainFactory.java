@@ -27,6 +27,13 @@ public final class InvokerChainFactory {
 
     private InvokerChainFactory() { }
 
+    /**
+     * 过滤器链数组，以及最终调用器
+     * @param target
+     * @param filters
+     * @return
+     * @param <T>
+     */
     @SafeVarargs
     public static<T> InvokerChain<T> buildInvokerChain(Invoker<T> target, Filter<T>... filters) {
 

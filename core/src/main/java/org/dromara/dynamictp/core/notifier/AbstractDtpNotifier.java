@@ -59,6 +59,10 @@ import static org.dromara.dynamictp.core.notifier.manager.NotifyHelper.getAllAla
 @Slf4j
 public abstract class AbstractDtpNotifier implements DtpNotifier {
 
+    /**
+     * 通知器，获得通知的平台信息和通知方法
+     * 这是发送通知的最底层
+     */
     protected Notifier notifier;
 
     protected AbstractDtpNotifier() { }
@@ -135,14 +139,18 @@ public abstract class AbstractDtpNotifier implements DtpNotifier {
     protected String buildNoticeContent(NotifyPlatform platform, TpMainFields oldFields, List<String> diffs) {
         BaseNotifyCtx context = DtpNotifyCtxHolder.get();
         ExecutorWrapper executorWrapper = context.getExecutorWrapper();
+        // 获得对应的执行器适配器
         val executor = executorWrapper.getExecutor();
 
         String content = String.format(
                 getNoticeTemplate(),
+                // 服务信息
                 CommonUtil.getInstance().getServiceName(),
                 CommonUtil.getInstance().getIp() + ":" + CommonUtil.getInstance().getPort(),
                 CommonUtil.getInstance().getEnv(),
+                // 线程池信息
                 populatePoolName(executorWrapper),
+                // 配置变更信息
                 oldFields.getCorePoolSize(), executor.getCorePoolSize(),
                 oldFields.getMaxPoolSize(), executor.getMaximumPoolSize(),
                 oldFields.isAllowCoreThreadTimeOut(), executor.allowsCoreThreadTimeOut(),
@@ -156,6 +164,10 @@ public abstract class AbstractDtpNotifier implements DtpNotifier {
         return highlightNotifyContent(content, diffs);
     }
 
+    /**
+     * 基于MDC 获得 分布式链路ID
+     * @return 分布式链路ID
+     */
     protected String getTraceInfo() {
         String tid = MDC.get(TRACE_ID);
         if (StringUtils.isBlank(tid)) {
@@ -168,6 +180,12 @@ public abstract class AbstractDtpNotifier implements DtpNotifier {
         return SystemMetricManager.getSystemMetric();
     }
 
+    /**
+     * 获得接收者
+     * @param notifyItem
+     * @param platform
+     * @return
+     */
     protected String getReceives(NotifyItem notifyItem, NotifyPlatform platform) {
         String receives = StringUtils.isBlank(notifyItem.getReceivers()) ?
                 platform.getReceivers() : notifyItem.getReceivers();
@@ -177,11 +195,22 @@ public abstract class AbstractDtpNotifier implements DtpNotifier {
         return formatReceivers(receives);
     }
 
+    /**
+     * 格式化接收者
+     * 张三，李四，王五 -> 张三，@李四，@王五
+     * @param receives
+     * @return
+     */
     protected String formatReceivers(String receives) {
         String[] receivers = StringUtils.split(receives, ',');
         return Joiner.on(", @").join(receivers);
     }
 
+    /**
+     * 基于通知平台和通知项的接收者重新拼接接收者
+     * @param platform
+     * @return
+     */
     private NotifyPlatform newTargetPlatform(NotifyPlatform platform) {
         NotifyPlatform targetPlatform = new NotifyPlatform();
         BeanUtil.copyProperties(platform, targetPlatform);
@@ -193,6 +222,11 @@ public abstract class AbstractDtpNotifier implements DtpNotifier {
         return targetPlatform;
     }
 
+    /**
+     * 获得线程池名和别名
+     * @param executorWrapper 线程池包装器
+     * @return
+     */
     protected String populatePoolName(ExecutorWrapper executorWrapper) {
         String poolAlisaName = executorWrapper.getThreadPoolAliasName();
         if (StringUtils.isBlank(poolAlisaName)) {
@@ -201,6 +235,13 @@ public abstract class AbstractDtpNotifier implements DtpNotifier {
         return executorWrapper.getThreadPoolName() + " (" + poolAlisaName + ")";
     }
 
+    /**
+     * 格式化告警信息
+     * @param notifyType
+     * @param notifyItem
+     * @param executorWrapper
+     * @return
+     */
     protected String populateAlarmItem(NotifyItemEnum notifyType, NotifyItem notifyItem, ExecutorWrapper executorWrapper) {
         String suffix = StringUtils.EMPTY;
         switch (notifyType) {
@@ -235,6 +276,12 @@ public abstract class AbstractDtpNotifier implements DtpNotifier {
         return content;
     }
 
+    /**
+     * TODO 内容高亮
+     * @param content
+     * @param notifyItemEnum
+     * @return
+     */
     private String highlightAlarmContent(String content, NotifyItemEnum notifyItemEnum) {
         if (StringUtils.isBlank(content) || Objects.isNull(getColors())) {
             return content;
@@ -253,21 +300,21 @@ public abstract class AbstractDtpNotifier implements DtpNotifier {
 
     /**
      * Implement by subclass, get notice template.
-     *
+     * 获得通知模板
      * @return notice template
      */
     protected abstract String getNoticeTemplate();
 
     /**
      * Implement by subclass, get alarm template.
-     *
+     * 获得告警模板
      * @return alarm template
      */
     protected abstract String getAlarmTemplate();
 
     /**
      * Implement by subclass, get content color config.
-     *
+     * 获得颜色
      * @return left: highlight color, right: other content color
      */
     protected abstract Pair<String, String> getColors();

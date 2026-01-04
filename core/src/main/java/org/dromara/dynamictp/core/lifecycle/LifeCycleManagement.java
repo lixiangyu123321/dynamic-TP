@@ -21,7 +21,7 @@ package org.dromara.dynamictp.core.lifecycle;
  * Interface for managing the lifecycle of a component.
  * Provides methods to start, stop, and check the running state of a component,
  * as well as handling auto startup and shutdown phases.
- *
+ * 生命周期管理接口
  * @author vzer200
  * @since 1.2.0
  */

@@ -19,7 +19,7 @@ package org.dromara.dynamictp.core.metric;
 
 /**
  * Meter related
- *
+ * 定义计量器的基本接口，提供重置功能
  * @author yanhom
  * @since 1.1.5
  */

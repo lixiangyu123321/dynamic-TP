@@ -53,7 +53,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Builder for creating a ThreadPoolExecutor gracefully.
- *
+ * 线程池构造器
  * @author yanhom
  * @since 1.0.0
  **/

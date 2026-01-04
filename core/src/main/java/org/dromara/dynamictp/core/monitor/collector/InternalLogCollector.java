@@ -23,11 +23,16 @@ import org.dromara.dynamictp.common.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 内部日志收集器
  * @author Redick01
  */
 @Slf4j
 public class InternalLogCollector extends AbstractCollector {
 
+    /**
+     * 基于log打印信息
+     * @param poolStats ThreadPoolStats instance
+     */
     @Override
     public void collect(ThreadPoolStats poolStats) {
         log.info("dynamic.tp metrics: {}", JsonUtil.toJson(poolStats));

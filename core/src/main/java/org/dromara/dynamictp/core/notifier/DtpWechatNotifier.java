@@ -61,6 +61,11 @@ public class DtpWechatNotifier extends AbstractDtpNotifier {
         return new ImmutablePair<>(WechatNotifyConst.WARNING_COLOR, WechatNotifyConst.COMMENT_COLOR);
     }
 
+    /**
+     * 微信格式化接收人方式
+     * @param receives
+     * @return
+     */
     @Override
     protected String formatReceivers(String receives) {
         return Arrays.stream(StringUtils.split(receives, ','))

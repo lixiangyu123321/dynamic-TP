@@ -28,7 +28,7 @@ import java.util.Objects;
 
 /**
  * BaseNoticeFilter related
- *
+ * 基础通知过滤器
  * @author yanhom
  * @since 1.1.0
  **/

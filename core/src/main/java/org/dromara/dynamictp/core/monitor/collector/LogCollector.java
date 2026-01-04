@@ -25,13 +25,17 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * LogCollector related
- *
+ * 将指标输出到监控日志中
  * @author yanhom
  * @since 1.0.0
  */
 @Slf4j
 public class LogCollector extends AbstractCollector {
 
+    /**
+     * TODO 研究一下日志技术
+     * @param threadPoolStats ThreadPoolStats instance
+     */
     @Override
     public void collect(ThreadPoolStats threadPoolStats) {
         String metrics = JsonUtil.toJson(threadPoolStats);

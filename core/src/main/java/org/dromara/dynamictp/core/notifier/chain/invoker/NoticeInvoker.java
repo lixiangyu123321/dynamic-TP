@@ -37,6 +37,7 @@ public class NoticeInvoker implements Invoker<BaseNotifyCtx> {
         try {
             DtpNotifyCtxHolder.set(context);
             val noticeCtx = (NoticeCtx) context;
+            // 发送通知
             NotifierHandler.getInstance().sendNotice(noticeCtx.getOldFields(), noticeCtx.getDiffs());
         } finally {
             DtpNotifyCtxHolder.remove();

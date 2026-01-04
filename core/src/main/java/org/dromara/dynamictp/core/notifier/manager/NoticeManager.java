@@ -34,7 +34,7 @@ import static org.dromara.dynamictp.common.em.QueueTypeEnum.LINKED_BLOCKING_QUEU
 
 /**
  * NoticeManager related
- *
+ * 使用线程池异步发送通知
  * @author yanhom
  * @since 1.0.8
  */

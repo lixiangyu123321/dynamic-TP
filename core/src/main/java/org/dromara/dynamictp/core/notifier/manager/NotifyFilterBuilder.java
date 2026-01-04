@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
 /**
  * NotifyFilterBuilder related
- *
+ * 收集所有过滤器，构建责任链
  * @author yanhom
  * @since 1.0.0
  */
@@ -48,17 +48,24 @@ public class NotifyFilterBuilder {
     private NotifyFilterBuilder() { }
 
     public static InvokerChain<BaseNotifyCtx> getAlarmInvokerChain() {
+        // 获得所有NotifyFilter类型的Bean
         val filters = ContextManagerHelper.getBeansOfType(NotifyFilter.class);
         Collection<NotifyFilter> alarmFilters = Lists.newArrayList(filters.values());
         alarmFilters.add(new BaseAlarmFilter());
         alarmFilters.add(new SilentCheckFilter());
+        // 排序过滤器
         alarmFilters = alarmFilters.stream()
                 .filter(x -> x.supports(NotifyTypeEnum.ALARM))
                 .sorted(Comparator.comparing(Filter::getOrder))
                 .collect(Collectors.toList());
+        // 基于调用链工厂构建调用链
         return InvokerChainFactory.buildInvokerChain(new AlarmInvoker(), alarmFilters.toArray(new NotifyFilter[0]));
     }
 
+    /**
+     * 构建通知责任链
+     * @return
+     */
     public static InvokerChain<BaseNotifyCtx> getCommonInvokerChain() {
         val filters = ContextManagerHelper.getBeansOfType(NotifyFilter.class);
         Collection<NotifyFilter> noticeFilters = Lists.newArrayList(filters.values());

@@ -26,7 +26,7 @@ import java.util.Set;
 
 /**
  * Dynamic ThreadPool main properties.
- *
+ * 在线程池配置的基础上增加一些动态配置
  * @author yanhom
  * @since 1.0.0
  **/

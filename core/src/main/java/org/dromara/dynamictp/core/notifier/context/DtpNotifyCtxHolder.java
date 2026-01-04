@@ -19,7 +19,7 @@ package org.dromara.dynamictp.core.notifier.context;
 
 /**
  * DtpNotifyCtxHolder related.
- *
+ * 通知上下文持有器
  * @author yanhom
  * @since 1.0.0
  */

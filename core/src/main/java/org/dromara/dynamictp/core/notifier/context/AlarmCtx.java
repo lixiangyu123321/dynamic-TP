@@ -25,7 +25,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * AlarmCtx related
- *
+ * 告警通知上下文
  * @author yanhom
  * @since 1.0.8
  */

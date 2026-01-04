@@ -50,10 +50,16 @@ public class LarkNotifyConst {
      */
     public static final String LARK_OPENID_PREFIX = "ou_";
 
+    /**
+     * 告警的颜色
+     */
     public static final String WARNING_COLOR = "\uD83D\uDD34";
 
     public static final String INFO_COLOR = "";
 
+    /**
+     * 内容的颜色
+     */
     public static final String COMMENT_COLOR = "";
 
     public static final String SIGN_REPLACE = "\\{";

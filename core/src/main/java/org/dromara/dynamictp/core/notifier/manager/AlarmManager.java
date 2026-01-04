@@ -43,7 +43,7 @@ import static org.dromara.dynamictp.common.em.QueueTypeEnum.LINKED_BLOCKING_QUEU
 
 /**
  * AlarmManager related
- *
+ * 告警管理器，基于责任链模式处理告警，支持告警限流和计数
  * @author yanhom
  * @since 1.0.0
  */
@@ -60,6 +60,9 @@ public class AlarmManager {
             .taskWrappers(TaskWrappers.getInstance().getByNames(Sets.newHashSet("mdc")))
             .buildDynamic();
 
+    /**
+     * 责任链，过滤 + 最终执行Invoker
+     */
     private static final InvokerChain<BaseNotifyCtx> ALARM_INVOKER_CHAIN;
 
     static {
@@ -72,6 +75,11 @@ public class AlarmManager {
         notifyItems.forEach(x -> initAlarm(poolName, x));
     }
 
+    /**
+     * 进行告警计数和限流
+     * @param poolName
+     * @param notifyItem
+     */
     public static void initAlarm(String poolName, NotifyItem notifyItem) {
         AlarmLimiter.initAlarmLimiter(poolName, notifyItem);
         AlarmCounter.initAlarmCounter(poolName, notifyItem);
@@ -85,6 +93,12 @@ public class AlarmManager {
         AlarmCounter.initAlarmCounter(poolName, notifyItem);
     }
 
+    /**
+     * 尝试异步发送告警
+     * @param executorWrapper
+     * @param notifyType
+     * @param runnable
+     */
     public static void tryAlarmAsync(ExecutorWrapper executorWrapper, NotifyItemEnum notifyType, Runnable runnable) {
         preAlarm(runnable);
         try {
@@ -94,6 +108,11 @@ public class AlarmManager {
         }
     }
 
+    /**
+     * checkAndTryAlarmAsync 传入的是 “待检查的告警类型列表”，而非 “已满足条件的告警信息”
+     * @param executorWrapper
+     * @param notifyTypes
+     */
     public static void checkAndTryAlarmAsync(ExecutorWrapper executorWrapper, List<NotifyItemEnum> notifyTypes) {
         ALARM_EXECUTOR.execute(() -> notifyTypes.forEach(x -> doCheckAndTryAlarm(executorWrapper, x)));
     }
@@ -110,6 +129,11 @@ public class AlarmManager {
         ALARM_EXECUTOR.execute(() -> notifyTypes.forEach(x -> doTryAlarm(executorWrapper, x)));
     }
 
+    /**
+     * 基于NotifyHelper获得通知项，保证为通知上下文，交给责任链处理
+     * @param executorWrapper
+     * @param notifyType
+     */
     public static void doTryAlarm(ExecutorWrapper executorWrapper, NotifyItemEnum notifyType) {
         NotifyHelper.getNotifyItem(executorWrapper, notifyType).ifPresent(notifyItem -> {
             val alarmCtx = new AlarmCtx(executorWrapper, notifyItem);
@@ -117,12 +141,20 @@ public class AlarmManager {
         });
     }
 
+    /**
+     * 由于异步发送告警信息，需要处理MDC分布式链路ID
+     * @param runnable
+     */
     private static void preAlarm(Runnable runnable) {
         if (runnable instanceof DtpRunnable) {
             MDC.put(TRACE_ID, ((DtpRunnable) runnable).getTraceId());
         }
     }
 
+    /**
+     * 线程池线程长期存在，避免分布式链路ID互相影响
+     * @param runnable
+     */
     private static void postAlarm(Runnable runnable) {
         if (runnable instanceof DtpRunnable) {
             MDC.remove(TRACE_ID);
@@ -132,7 +164,7 @@ public class AlarmManager {
     /**
      * Check if the threshold is reached, for capacity and liveness we need to check.
      * for reject, run timeout and queue timeout we don't need to check here, because it has been checked before.
-     *
+     * 它就是一个 “阈值校验开关”，只有返回 true，才会进入后续的责任链告警流程；返回 false 则直接跳过该监控项的告警。
      * @param executor    the executor
      * @param notifyType  the notify type
      * @param notifyItem  the notify item

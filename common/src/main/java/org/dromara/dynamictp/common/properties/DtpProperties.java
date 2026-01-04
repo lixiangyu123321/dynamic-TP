@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * Main properties that maintain by config center.
- *
+ * 动态线程的配置属性，类似于env
  * @author yanhom
  * @since 1.0.0
  **/

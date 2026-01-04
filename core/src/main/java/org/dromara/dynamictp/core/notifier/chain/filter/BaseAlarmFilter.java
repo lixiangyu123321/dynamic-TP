@@ -31,13 +31,19 @@ import java.util.Objects;
 
 /**
  * BaseAlarmFilter related
- *
+ * 告警过滤
  * @author yanhom
  * @since 1.0.8
  **/
 @Slf4j
 public class BaseAlarmFilter implements NotifyFilter {
 
+    /**
+     * 基于内容过滤
+     * Invoker是对于过滤后内容的调用
+     * @param context context
+     * @param nextInvoker next invoker
+     */
     @Override
     public void doFilter(BaseNotifyCtx context, Invoker<BaseNotifyCtx> nextInvoker) {
         ExecutorWrapper executorWrapper = context.getExecutorWrapper();
@@ -46,6 +52,7 @@ public class BaseAlarmFilter implements NotifyFilter {
             return;
         }
 
+        // 告警次数递增
         String threadPoolName = executorWrapper.getThreadPoolName();
         AlarmCounter.incAlarmCount(threadPoolName, notifyItem.getType());
         AlarmInfo alarmInfo = AlarmCounter.getAlarmInfo(threadPoolName, notifyItem.getType());
@@ -53,6 +60,7 @@ public class BaseAlarmFilter implements NotifyFilter {
             return;
         }
 
+        // 判断是否达到与之
         if (alarmInfo.getCount() < notifyItem.getCount()) {
             if (log.isDebugEnabled()) {
                 log.debug("DynamicTp notify, alarm count not reached, current count: {}, threshold: {}, threadPoolName: {}, notifyItem: {}",
@@ -60,10 +68,20 @@ public class BaseAlarmFilter implements NotifyFilter {
             }
             return;
         }
+        // 达到阈值，发送告警
         ((AlarmCtx) context).setAlarmInfo(alarmInfo);
         nextInvoker.invoke(context);
     }
 
+    /**
+     * 基于多个内容判断是否满足通知条件
+     * 执行器通知已启用
+     * 通知项已启用
+     * 通知项配置了平台 ID
+     * @param notifyItem
+     * @param executorWrapper
+     * @return
+     */
     private boolean satisfyBaseCondition(NotifyItem notifyItem, ExecutorWrapper executorWrapper) {
         return executorWrapper.isNotifyEnabled()
                 && notifyItem.isEnabled()

@@ -25,6 +25,11 @@ package org.dromara.dynamictp.core.monitor.collector;
  **/
 public abstract class AbstractCollector implements MetricsCollector {
 
+    /**
+     * 忽略大小写差异比较两个字符串是否相等
+     * @param type collector type
+     * @return
+     */
     @Override
     public boolean support(String type) {
         return this.type().equalsIgnoreCase(type);

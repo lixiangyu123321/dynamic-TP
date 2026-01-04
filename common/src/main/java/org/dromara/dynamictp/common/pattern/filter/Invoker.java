@@ -19,7 +19,7 @@ package org.dromara.dynamictp.common.pattern.filter;
 
 /**
  * Invoker related
- *
+ * 用于基于过滤后内容的调用，context是上下文
  * @param <T> the param type
  * @author yanhom
  * @since 1.0.8

@@ -57,6 +57,7 @@ public class NotifyItem {
 
     /**
      * Within a cycle window, when the number of occurrences surpassing the threshold reaches the specified count, an alarm will be triggered.
+     * 一个统计周期内，发生告警的次数达到与之，就会触发告警
      */
     private int count;
 

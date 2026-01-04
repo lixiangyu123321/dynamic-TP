@@ -33,14 +33,20 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * AlarmCounter related
- *
+ * 告警计数器，用于统计告警次数和记录最后告警时间，使用Guava Cache存储告警信息，支持过期自动清理
  * @author yanhom
  * @since 1.0.4
  **/
 public class AlarmCounter {
 
+    /**
+     * 告警信息缓存
+     */
     private static final Map<String, Cache<String, AlarmInfo>> ALARM_INFO_CACHE = new ConcurrentHashMap<>();
 
+    /**
+     * 最后告警时间的映射
+     */
     private static final Map<String, String> LAST_ALARM_TIME_MAP = new ConcurrentHashMap<>();
 
     private AlarmCounter() { }
@@ -57,6 +63,12 @@ public class AlarmCounter {
         ALARM_INFO_CACHE.put(key, cache);
     }
 
+    /**
+     * 基于线程池名和告警类型获得缓存中对应的告警信息
+     * @param threadPoolName
+     * @param notifyType
+     * @return
+     */
     public static AlarmInfo getAlarmInfo(String threadPoolName, String notifyType) {
         String key = buildKey(threadPoolName, notifyType);
         val cache = ALARM_INFO_CACHE.get(key);
@@ -66,6 +78,11 @@ public class AlarmCounter {
         return cache.getIfPresent(notifyType);
     }
 
+    /**
+     * 重置告警次数
+     * @param threadPoolName
+     * @param notifyType
+     */
     public static void reset(String threadPoolName, String notifyType) {
         val alarmInfo = getAlarmInfo(threadPoolName, notifyType);
         if (Objects.nonNull(alarmInfo)) {
@@ -74,6 +91,11 @@ public class AlarmCounter {
         LAST_ALARM_TIME_MAP.put(buildKey(threadPoolName, notifyType), DateUtil.now());
     }
 
+    /**
+     * 增加告警次数
+     * @param threadPoolName
+     * @param notifyType
+     */
     public static void incAlarmCount(String threadPoolName, String notifyType) {
         AlarmInfo alarmInfo = getAlarmInfo(threadPoolName, notifyType);
         if (Objects.isNull(alarmInfo)) {
@@ -88,6 +110,12 @@ public class AlarmCounter {
         return LAST_ALARM_TIME_MAP.get(buildKey(threadPoolName, notifyType));
     }
 
+    /**
+     * 线程池名 + 通知类型构建键名
+     * @param threadPoolName
+     * @param notifyItemType
+     * @return
+     */
     private static String buildKey(String threadPoolName, String notifyItemType) {
         return threadPoolName + "#" + notifyItemType;
     }

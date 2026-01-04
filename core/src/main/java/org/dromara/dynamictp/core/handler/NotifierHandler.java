@@ -38,15 +38,21 @@ import java.util.Map;
 
 /**
  * NotifierHandler related
- *
+ * 处理通知
  * @author yanhom
  * @since 1.0.0
  **/
 @Slf4j
 public final class NotifierHandler {
 
+    /**
+     * 平台名2通知器
+     */
     private static final Map<String, DtpNotifier> NOTIFIERS = new HashMap<>();
 
+    /**
+     * 基于SPI获得扩展的通知器，以及固定好的通知器，注册到缓存中
+     */
     private NotifierHandler() {
         List<DtpNotifier> loadedNotifiers = ExtensionServiceLoader.get(DtpNotifier.class);
         loadedNotifiers.forEach(notifier -> NOTIFIERS.put(notifier.platform().toLowerCase(), notifier));
@@ -59,6 +65,11 @@ public final class NotifierHandler {
         NOTIFIERS.put(larkNotifier.platform(), larkNotifier);
     }
 
+    /**
+     * 统一处理所有注册的通知器的通知发送
+     * @param oldFields
+     * @param diffs
+     */
     public void sendNotice(TpMainFields oldFields, List<String> diffs) {
         NotifyItem notifyItem = DtpNotifyCtxHolder.get().getNotifyItem();
         for (String platformId : notifyItem.getPlatformIds()) {
@@ -71,6 +82,10 @@ public final class NotifierHandler {
         }
     }
 
+    /**
+     * 统一处理所有注册的通知器的告警发送
+     * @param notifyItemEnum
+     */
     public void sendAlarm(NotifyItemEnum notifyItemEnum) {
         NotifyItem notifyItem = DtpNotifyCtxHolder.get().getNotifyItem();
         for (String platformId : notifyItem.getPlatformIds()) {
@@ -83,6 +98,10 @@ public final class NotifierHandler {
         }
     }
 
+    /**
+     * 静态内部类实现单例
+     * @return
+     */
     public static NotifierHandler getInstance() {
         return NotifierHandlerHolder.INSTANCE;
     }

@@ -33,6 +33,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * ThreadPoolStatsInfo related
  *
+ *  JMX，是 Java Management Extensions（Java 管理扩展） 的缩写，
+ *  它是 Java 平台提供的一套标准的、内置的管理和监控技术体系，
+ *  核心目的是让开发者能够便捷地对 Java 应用（尤其是服务端应用、中间件）进行远程或本地的监控、配置调整、状态查询等操作，
+ *  无需侵入式修改应用核心业务代码。
  * @author <a href = "mailto:kamtohung@gmail.com">KamTo Hung</a>
  */
 @Slf4j
@@ -52,6 +56,7 @@ public class JMXCollector extends AbstractCollector {
             BeanUtil.copyProperties(threadPoolStats, poolStats);
         } else {
             try {
+                // 没有指标信息，则注册进去
                 MBeanServer server = ManagementFactory.getPlatformMBeanServer();
                 ObjectName name = new ObjectName(DTP_METRIC_NAME_PREFIX + ":name=" + threadPoolStats.getPoolName());
                 ThreadPoolStatsJMX stats = new ThreadPoolStatsJMX(threadPoolStats);

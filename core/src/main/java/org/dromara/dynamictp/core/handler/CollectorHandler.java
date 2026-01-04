@@ -43,6 +43,7 @@ public final class CollectorHandler {
     private static final Map<String, MetricsCollector> COLLECTORS = Maps.newHashMap();
 
     private CollectorHandler() {
+        // 支持一些通过SPI的扩展收集器，收集监控信息
         List<MetricsCollector> loadedCollectors = ExtensionServiceLoader.get(MetricsCollector.class);
         loadedCollectors.forEach(collector -> COLLECTORS.put(collector.type().toLowerCase(), collector));
 
@@ -56,6 +57,11 @@ public final class CollectorHandler {
         COLLECTORS.put(jmxCollector.type(), jmxCollector);
     }
 
+    /**
+     *
+     * @param poolStats 动态线程池统计信息
+     * @param types 收集器类型数组
+     */
     public void collect(ThreadPoolStats poolStats, List<String> types) {
         if (poolStats == null || CollectionUtils.isEmpty(types)) {
             return;

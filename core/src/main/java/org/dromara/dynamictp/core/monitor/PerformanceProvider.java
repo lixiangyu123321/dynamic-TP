@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * PerformanceProvider related
- *
+ * 性能提供者，用于收集和提供线程池的性能指标，主要是响应时间
  * @author kyao
  * @since 1.1.5
  */
@@ -40,6 +40,10 @@ public class PerformanceProvider {
 
     private final MMAPCounter mmapCounter = new MMAPCounter();
 
+    /**
+     * 更新数据在这里
+     * @param rt 响应时间
+     */
     public void completeTask(long rt) {
         mmapCounter.add(rt);
     }
@@ -60,14 +64,26 @@ public class PerformanceProvider {
     @Getter
     public static class PerformanceSnapshot {
 
+        /**
+         * 每秒事务数
+         */
         private final double tps;
 
+        /**
+         * 最大响应时间
+         */
         private final long maxRt;
 
+        /**
+         * 最小响应时间
+         */
         private final long minRt;
 
         private final double avg;
 
+        /**
+         * 分位数
+         */
         private final double tp50;
 
         private final double tp75;

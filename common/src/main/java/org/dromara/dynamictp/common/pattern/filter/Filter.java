@@ -19,7 +19,7 @@ package org.dromara.dynamictp.common.pattern.filter;
 
 /**
  * Filter related
- *
+ * 自定义过滤器，基于T内容进行过滤
  * @param <T> the param type
  * @author yanhom
  * @since 1.0.8
