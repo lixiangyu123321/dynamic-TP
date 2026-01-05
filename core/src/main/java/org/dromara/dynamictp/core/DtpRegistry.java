@@ -64,7 +64,10 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.PROPERTIES_CH
 
 /**
  * Core Registry, which keeps all registered Dynamic ThreadPoolExecutors.
- *
+ * 框架的核心注册中心，负责管理所有注册的动态线程池执行器
+ * 是框架中线程池的统一管理中心
+ * 提供注册，获得，刷新功能，刷新篇幅最大
+ * TODO 这里的队列的刷新是怎么做到的？？？
  * @author yanhom
  * @since 1.0.0
  **/
@@ -78,9 +81,13 @@ public class DtpRegistry {
 
     /**
      * Equator for comparing two TpMainFields.
+     * 不仅可以比较是否相等，还可以获得差异字段的详情信息
      */
     private static final Equator EQUATOR = new GetterBaseEquator();
 
+    /**
+     * 动态线程池的配置属性
+     */
     private static DtpProperties dtpProperties;
 
     public DtpRegistry(DtpProperties dtpProperties) {
@@ -90,7 +97,7 @@ public class DtpRegistry {
 
     /**
      * Get all Executor names.
-     *
+     * 返回一个不可更改的Set视图
      * @return all executor names
      */
     public static Set<String> getAllExecutorNames() {
@@ -114,6 +121,7 @@ public class DtpRegistry {
      */
     public static void registerExecutor(ExecutorWrapper wrapper, String source) {
         log.info("DynamicTp register executor: {}, source: {}", ExecutorConverter.toMainFields(wrapper), source);
+        // 如果没有插入，有则返回旧值
         EXECUTOR_REGISTRY.putIfAbsent(wrapper.getThreadPoolName(), wrapper);
     }
 
@@ -184,6 +192,7 @@ public class DtpRegistry {
             log.debug("DynamicTp refresh, empty thread pool properties.");
             return;
         }
+        // dtpProperties.getExecutors获得的应该是DtpExecutorProps，是动态线程池的配置（包括一些动态属性）
         dtpProperties.getExecutors().forEach(DtpRegistry::refresh);
     }
 
@@ -205,6 +214,7 @@ public class DtpRegistry {
             log.error("DynamicTp refresh, invalid parameters exist, properties: {}", props);
             return;
         }
+        // 通过线程池包装器获得并封装旧配置
         TpMainFields oldFields = ExecutorConverter.toMainFields(executorWrapper);
         doRefresh(executorWrapper, props);
         TpMainFields newFields = ExecutorConverter.toMainFields(executorWrapper);
@@ -233,9 +243,11 @@ public class DtpRegistry {
     private static void doRefresh(ExecutorWrapper executorWrapper, DtpExecutorProps props) {
         ExecutorAdapter<?> executor = executorWrapper.getExecutor();
         doRefreshPoolSize(executor, props);
+        // 调整存活时间
         if (!Objects.equals(executor.getKeepAliveTime(props.getUnit()), props.getKeepAliveTime())) {
             executor.setKeepAliveTime(props.getKeepAliveTime(), props.getUnit());
         }
+        // 允许核心线程超时回收
         if (!Objects.equals(executor.allowsCoreThreadTimeOut(), props.isAllowCoreThreadTimeOut())) {
             executor.allowCoreThreadTimeOut(props.isAllowCoreThreadTimeOut());
         }
@@ -335,6 +347,7 @@ public class DtpRegistry {
      */
     private static void doRefreshPoolSize(ExecutorAdapter<?> executor, DtpExecutorProps props) {
         if (props.getMaximumPoolSize() < executor.getMaximumPoolSize()) {
+            // 目标最大线程数 < 当前最大线程数，先调整核心线程，再调整最大线程，防止核心线程大于最大线程数
             if (!Objects.equals(executor.getCorePoolSize(), props.getCorePoolSize())) {
                 executor.setCorePoolSize(props.getCorePoolSize());
             }
@@ -351,6 +364,12 @@ public class DtpRegistry {
         }
     }
 
+    /**
+     * 更新队列容量
+     * TODO 这里比较有意思，是原生ThreadLocal没有的
+     * @param executor
+     * @param props
+     */
     private static void updateQueueProps(ExecutorAdapter<?> executor, DtpExecutorProps props) {
 
         val blockingQueue = executor.getQueue();
@@ -369,6 +388,10 @@ public class DtpRegistry {
                 props.getThreadPoolName(), blockingQueue.getClass().getSimpleName());
     }
 
+    /**
+     * 监听上下文刷新事件
+     * @param event
+     */
     @Subscribe
     public void onContextRefreshedEvent(CustomContextRefreshedEvent event) {
         val executors = Optional.ofNullable(dtpProperties.getExecutors()).orElse(Collections.emptyList());

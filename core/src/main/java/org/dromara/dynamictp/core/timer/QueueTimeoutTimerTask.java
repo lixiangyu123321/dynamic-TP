@@ -28,7 +28,7 @@ import static org.dromara.dynamictp.common.em.NotifyItemEnum.QUEUE_TIMEOUT;
 
 /**
  * A timer task used to handle queued timeout.
- *
+ * 队列超时定时任务
  * @author kamtohung
  **/
 @Slf4j
@@ -43,8 +43,11 @@ public class QueueTimeoutTimerTask extends AbstractTimeoutTimerTask {
         val statProvider = executorWrapper.getThreadPoolStatProvider();
         ExecutorAdapter<?> executor = statProvider.getExecutorWrapper().getExecutor();
         val pair = getTaskNameAndTraceId();
+        // 增加队列超时计数
         statProvider.incQueueTimeoutCount(1);
+        // 发送告警通知
         AlarmManager.tryAlarmAsync(executorWrapper, QUEUE_TIMEOUT, runnable);
+        // 构建日志信息
         String logMsg = CharSequenceUtil.format("DynamicTp execute, queue timeout, " +
                         "tpName: {}, taskName: {}, traceId: {}, queueTimeout: {}ms, " +
                         "poolSize: {} (active: {}, core: {}, max: {}, largest: {}), " +

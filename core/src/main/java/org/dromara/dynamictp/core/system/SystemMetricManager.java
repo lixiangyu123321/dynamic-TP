@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Refer to sentinel, @see <a href="https://github.com/alibaba/Sentinel/blob/master/sentinel-core/src/main/java/com/alibaba/csp/sentinel/slots/system/SystemStatusListener.java">SystemStatusListener</a>
- *
+ * 系统指标管理器，负责管理 CPU 和内存指标。它定时捕获系统指标，并提供获取系统指标的方法。
  * @author yanhom
  * @since 1.1.5
  */
@@ -40,6 +40,9 @@ public class SystemMetricManager {
 
     private static final ScheduledExecutorService EXECUTOR = ThreadPoolCreator.newScheduledThreadPool("dtp-system-metric", 1);
 
+    /**
+     * 定时任务只是将操作系统信息的快照捕获
+     */
     static {
         CPU_METRICS_CAPTOR = new CpuMetricsCaptor();
         MEMORY_METRICS_CAPTOR = new MemoryMetricsCaptor();
@@ -47,6 +50,10 @@ public class SystemMetricManager {
         EXECUTOR.scheduleAtFixedRate(MEMORY_METRICS_CAPTOR, 0, 2, TimeUnit.SECONDS);
     }
 
+    /**
+     * 想要获得信息还是要额外调用
+     * @return
+     */
     public static String getSystemMetric() {
         OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
         double systemAvgLoad = osBean.getSystemLoadAverage();

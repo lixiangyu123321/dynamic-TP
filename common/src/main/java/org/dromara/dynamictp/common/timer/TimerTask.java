@@ -20,11 +20,7 @@ package org.dromara.dynamictp.common.timer;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A task which is executed after the delay specified with
- * {@link Timer#newTimeout(TimerTask, long, TimeUnit)} (TimerTask, long, TimeUnit)}.
- * <p>
- * Copy from dubbo, see <a href="https://github.com/apache/dubbo/blob/3.2/dubbo-common/src/main/java/org/apache/dubbo/common/timer/TimeTask.java">here</a> for more details.
- * </p>
+ * 定义了一个定时任务的接口，用于定义延迟执行的任务
  */
 public interface TimerTask {
 

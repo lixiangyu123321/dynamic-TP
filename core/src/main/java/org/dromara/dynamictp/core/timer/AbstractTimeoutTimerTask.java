@@ -29,7 +29,7 @@ import java.util.Objects;
 
 /**
  * AbstractTimeoutTimerTask related
- *
+ * 抽象超时定时任务基类
  * @author yanhom
  * @since 1.1.4
  **/
@@ -44,8 +44,14 @@ public abstract class AbstractTimeoutTimerTask implements TimerTask {
         this.runnable = runnable;
     }
 
+    /**
+     * 重写TimerTask中run方法
+     * @param timeout a handle which is associated with this task
+     * @throws Exception
+     */
     @Override
     public void run(Timeout timeout) throws Exception {
+        // 线程池状态信息提供者
         val statProvider = executorWrapper.getThreadPoolStatProvider();
         if (Objects.isNull(statProvider)) {
             return;
@@ -53,6 +59,10 @@ public abstract class AbstractTimeoutTimerTask implements TimerTask {
         doRun();
     }
 
+    /**
+     * 获得任务名称以及分布式链路ID
+     * @return
+     */
     protected Pair<String, String> getTaskNameAndTraceId() {
         String taskName = StringUtils.EMPTY;
         String traceId = StringUtils.EMPTY;

@@ -26,17 +26,26 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * CpuMetricsCaptor related
- *
+ * CPU指标捕获器，实现了Runnable接口， 定时捕获进程的CPU使用率
  * @author yanhom
  * @since 1.1.6
  */
 @Slf4j
 public class CpuMetricsCaptor implements Runnable {
 
+    /**
+     * 当前CPU使用率
+     */
     private double currProcessCpuUsage = -1;
 
+    /**
+     * 上次进程CPU时间
+     */
     private long prevProcessCpuTime = 0;
 
+    /**
+     * 上次运行时间
+     */
     private long prevUpTime = 0;
 
     public double getProcessCpuUsage() {
@@ -46,12 +55,16 @@ public class CpuMetricsCaptor implements Runnable {
     @Override
     public void run() {
         try {
+            // 获得提供的操作系统的MBean
             OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+
+            // 获得CPU 核数
             int cpuCores = osBean.getAvailableProcessors();
 
             long newProcessCpuTime = OperatingSystemBeanManager.getProcessCpuTime();
             RuntimeMXBean runtimeBean = ManagementFactory.getPlatformMXBean(RuntimeMXBean.class);
             long newUpTime = runtimeBean.getUptime();
+            // 计算CPU增量时间和实际运行时间，求得CPU的利用率
             long elapsedCpu = TimeUnit.NANOSECONDS.toMillis(newProcessCpuTime - prevProcessCpuTime);
             long elapsedTime = newUpTime - prevUpTime;
             double processCpuUsage = (double) elapsedCpu / elapsedTime / cpuCores;

@@ -29,7 +29,8 @@ import java.util.Objects;
 
 /**
  * OperatingSystemBeanManager related.
- *
+ * 操作系统Bean管理器，提供系统信息的访问。它封装了不同 JVM 实现（HotSpot、J9）的差异，提供统一的系统信息访问接口。
+ * 兼容不同 JVM 实现（HotSpot/J9）的操作系统信息获取工具类
  * @author yanhom
  * @since 1.1.5
  */
@@ -39,10 +40,14 @@ public class OperatingSystemBeanManager {
     /**
      * com.ibm for J9
      * com.sun for HotSpot
+     * 操作系统管理类
      */
     private static final List<String> OPERATING_SYSTEM_BEAN_CLASS_NAMES = Arrays.asList(
             "com.sun.management.OperatingSystemMXBean", "com.ibm.lang.management.OperatingSystemMXBean");
 
+    /**
+     * JVM提供的操作系统MXBean实例
+     */
     private static final OperatingSystemMXBean OPERATING_SYSTEM_BEAN;
 
     private static final Class<?> OPERATING_SYSTEM_BEAN_CLASS;
@@ -51,6 +56,9 @@ public class OperatingSystemBeanManager {
 
     private static final Method PROCESS_CPU_TIME_METHOD;
 
+    /**
+     * 空闲为物理内存
+     */
     private static final Method FREE_PHYSICAL_MEM_METHOD;
 
     private static final Method TOTAL_PHYSICAL_MEM_METHOD;
@@ -71,6 +79,10 @@ public class OperatingSystemBeanManager {
 
     private OperatingSystemBeanManager() { }
 
+    /**
+     * 下面4个方法在原有反射的基础上进行了一定的异常处理，本质还是反射的方法调用
+     * @return
+     */
     public static OperatingSystemMXBean getOperatingSystemBean() {
         return OPERATING_SYSTEM_BEAN;
     }
@@ -91,6 +103,11 @@ public class OperatingSystemBeanManager {
         return MethodUtil.invokeAndReturnLong(FREE_PHYSICAL_MEM_METHOD, OPERATING_SYSTEM_BEAN);
     }
 
+    /**
+     * 尝试加载非标准操作系统管理Bean
+     * @param classNames
+     * @return
+     */
     private static Class<?> loadOne(List<String> classNames) {
         for (String className : classNames) {
             try {
@@ -102,11 +119,17 @@ public class OperatingSystemBeanManager {
         return null;
     }
 
+    /**
+     * 类型转换校验 + 获得方法
+     * @param name
+     * @return
+     */
     private static Method deduceMethod(String name) {
         if (Objects.isNull(OPERATING_SYSTEM_BEAN_CLASS)) {
             return null;
         }
         try {
+            // 类型转换校验，确保当前获取的 MXBean 实例是已加载的扩展类的实例，避免后续反射调用出现类型不匹配问题。
             OPERATING_SYSTEM_BEAN_CLASS.cast(OPERATING_SYSTEM_BEAN);
             return OPERATING_SYSTEM_BEAN_CLASS.getDeclaredMethod(name);
         } catch (Exception e) {

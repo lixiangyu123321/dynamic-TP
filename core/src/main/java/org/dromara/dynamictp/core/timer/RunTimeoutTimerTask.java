@@ -28,7 +28,7 @@ import static org.dromara.dynamictp.common.em.NotifyItemEnum.RUN_TIMEOUT;
 
 /**
  * A timer task used to handle run timeout.
- *
+ * 运行超时定时任务
  * @author kamtohung
  **/
 @Slf4j
@@ -58,11 +58,17 @@ public class RunTimeoutTimerTask extends AbstractTimeoutTimerTask {
                 statProvider.getExecutorWrapper().getExecutor().getQueueCapacity(), executor.getQueue().size(),
                 executor.getQueue().remainingCapacity(), traceToString(thread.getStackTrace()));
         log.warn(logMsg);
+        // 如果配置了超时中断，则中断线程
         if (statProvider.isTryInterrupt()) {
             thread.interrupt();
         }
     }
 
+    /**
+     * 将堆栈跟踪转换为字符串
+     * @param trace
+     * @return
+     */
     public String traceToString(StackTraceElement[] trace) {
         StringBuilder builder = new StringBuilder(512);
         builder.append("\n");

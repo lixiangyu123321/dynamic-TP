@@ -36,10 +36,20 @@ import java.util.function.ToLongFunction;
 @Slf4j
 public class MemoryMetricsCaptor implements Runnable {
 
+    /**
+     * 最大内存
+     */
     private double max = -1;
 
+    /**
+     * 已使用内存
+     */
     private double used = -1;
 
+    /**
+     * 获得老年代内存使用率
+     * @return
+     */
     public double getLongLivedMemoryUsage() {
         if (max == -1 || used == -1) {
             return -1;
@@ -47,6 +57,12 @@ public class MemoryMetricsCaptor implements Runnable {
         return used / max;
     }
 
+    /**
+     * 获取所有内存池
+     * 查找老年代内存池
+     * 获取已使用内存和最大内存
+     * 计算使用率
+     */
     @Override
     public void run() {
         try {
@@ -68,6 +84,12 @@ public class MemoryMetricsCaptor implements Runnable {
         }
     }
 
+    /**】
+     *
+     * @param memoryPoolMXBean 内存池信息获取类
+     * @param getter 函数式接口， 接受类型为T的值，返回Long类型的结果
+     * @return
+     */
     private double getUsageValue(MemoryPoolMXBean memoryPoolMXBean, ToLongFunction<MemoryUsage> getter) {
         MemoryUsage usage = getUsage(memoryPoolMXBean);
         if (usage == null) {
@@ -84,6 +106,18 @@ public class MemoryMetricsCaptor implements Runnable {
         }
     }
 
+    /**
+     * 判断是否是老年代
+     * *Old Gen: HotSpot 老年代
+     * *Tenured Gen: HotSpot 老年代（旧名称）
+     * ZHeap: ZGC 堆
+     * Shenandoah: Shenandoah GC 堆
+     * *balanced-old: G1 老年代
+     * *tenured*: 包含 "tenured" 的名称
+     * JavaHeap: Java 堆
+     * @param name
+     * @return
+     */
     private boolean isLongLivedPool(String name) {
         return StringUtils.isNotBlank(name) && (name.endsWith("Old Gen") ||
                 name.endsWith("Tenured Gen") ||
