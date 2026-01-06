@@ -19,7 +19,7 @@ package org.dromara.dynamictp.common.em;
 
 /**
  * NotifyTypeEnum related
- *
+ * 通知类型枚举
  * @author yanhom
  * @since 1.0.9
  */

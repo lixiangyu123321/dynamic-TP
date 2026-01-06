@@ -22,7 +22,7 @@ import lombok.Getter;
 
 /**
  * Config file type.
- *
+ * 配置文件类型枚举
  * @author yanhom
  * @since 1.0.0
  **/

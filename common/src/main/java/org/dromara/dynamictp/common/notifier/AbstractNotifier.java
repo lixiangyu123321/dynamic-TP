@@ -29,6 +29,11 @@ import org.dromara.dynamictp.common.entity.NotifyPlatform;
 @Slf4j
 public abstract class AbstractNotifier implements Notifier {
 
+    /**
+     * 调用send0发送通知，并且做异常处理
+     * @param platform platform
+     * @param content  content
+     */
     @Override
     public final void send(NotifyPlatform platform, String content) {
         try {

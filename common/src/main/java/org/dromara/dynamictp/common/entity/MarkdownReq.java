@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * MarkdownReq related
- *
+ * 封装Markdown格式化消息的实体类
  * @author yanhom
  * @since 1.0.0
  */

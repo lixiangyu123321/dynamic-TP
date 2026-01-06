@@ -22,7 +22,7 @@ import lombok.Getter;
 
 /**
  * NotifyItemEnum related
- *
+ * 通知类型枚举
  * @author yanhom
  * @since 1.0.0
  **/
@@ -63,6 +63,11 @@ public enum NotifyItemEnum {
 
     private final String value;
 
+    /**
+     * 基于字符串筛选通知类型
+     * @param value
+     * @return
+     */
     public static NotifyItemEnum of(String value) {
         for (NotifyItemEnum notifyItem : NotifyItemEnum.values()) {
             if (notifyItem.value.equals(value)) {

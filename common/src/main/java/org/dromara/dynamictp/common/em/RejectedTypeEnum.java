@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * RejectedTypeEnum related
- *
+ * 拒绝策略的枚举
  * @author yanhom
  * @since 1.0.0
  **/

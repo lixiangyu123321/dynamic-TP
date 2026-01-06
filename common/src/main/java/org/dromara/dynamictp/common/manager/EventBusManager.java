@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Manages event registration and posting using EventBus.
- *
+ * 事件管理器
  * @author vzer200
  * @since 1.2.0
  */
@@ -55,10 +55,18 @@ public class EventBusManager {
         }
     }
 
+    /**
+     * 发布事件
+     * @param event
+     */
     public static void post(Object event) {
         EVENT_BUS.post(event);
     }
 
+    /**
+     * 获得实例
+     * @return
+     */
     public static EventBus getInstance() {
         return EVENT_BUS;
     }

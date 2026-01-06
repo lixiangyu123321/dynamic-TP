@@ -54,13 +54,24 @@ public class WechatNotifier extends AbstractHttpNotifier {
 
     @Override
     protected String buildUrl(NotifyPlatform platform) {
+        // 1. 优先判断：如果 urlKey 为空，直接返回原始 webhook（无需拼接参数）
         if (StringUtils.isBlank(platform.getUrlKey())) {
             return platform.getWebhook();
         }
+
+        // 2. 构建 URL 基础地址：
+        // - 如果 platform 的 webhook 不为空，用该值；
+        // - 如果 webhook 为空，使用企业微信默认的 webhook 地址（WechatNotifyConst.WECHAT_WEB_HOOK）
         UrlBuilder builder = UrlBuilder.of(Optional.ofNullable(platform.getWebhook()).orElse(WechatNotifyConst.WECHAT_WEB_HOOK));
+
+        // 3. 检查 URL 的查询参数中是否已包含 KEY_PARAM（如 "key"）：
+        // - StringUtils.isBlank：如果该参数值为空/不存在，进入逻辑
         if (StringUtils.isBlank(builder.getQuery().get(WechatNotifyConst.KEY_PARAM))) {
+            // 4. 给 URL 添加查询参数：KEY_PARAM = urlKey（如 key=xxx，用于接口鉴权）
             builder.addQuery(WechatNotifyConst.KEY_PARAM, platform.getUrlKey());
         }
+
+        // 5. 构建最终的 URL 字符串并返回
         return builder.build();
     }
 }

@@ -21,7 +21,7 @@ import org.dromara.dynamictp.common.properties.DtpProperties;
 
 /**
  * RefreshEvent related
- *
+ * 刷新事件
  * @author yanhom
  * @since 1.0.0
  */

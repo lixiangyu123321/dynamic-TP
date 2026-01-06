@@ -36,15 +36,26 @@ import java.util.Objects;
 @Slf4j
 public abstract class AbstractHttpNotifier extends AbstractNotifier {
 
+    /**
+     * 基于通知平台信息构建url以及消息主体后发送
+     * @param platform platform
+     * @param content content
+     */
     @Override
     protected void send0(NotifyPlatform platform, String content) {
         val url = buildUrl(platform);
         val msgBody = buildMsgBody(platform, content);
+        //TODO hutool的HttpRequest
+        // 这里果然是基于http请求发送通知的
         HttpRequest request = HttpRequest.post(url)
+                // 连接超时
                 .setConnectionTimeout(platform.getTimeout())
+                // 读取超时
                 .setReadTimeout(platform.getTimeout())
                 .body(msgBody);
+        // TODO 这里的代理设置的可以呀
         if (platform.getProxyType() != Proxy.Type.DIRECT) {
+            // 设置代理
             request.setProxy(new Proxy(platform.getProxyType(), new InetSocketAddress(platform.getProxyHost(), platform.getProxyPort())));
         }
         HttpResponse response = request.execute();

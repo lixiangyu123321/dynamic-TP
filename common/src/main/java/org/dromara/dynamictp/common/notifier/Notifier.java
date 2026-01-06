@@ -21,7 +21,7 @@ import org.dromara.dynamictp.common.entity.NotifyPlatform;
 
 /**
  * Notifier related
- *
+ * 最底层的通知类
  * @author yanhom
  * @since 1.0.8
  */
@@ -29,7 +29,7 @@ public interface Notifier {
 
     /**
      * Get the platform name.
-     *
+     * 获得通知的平台名称
      * @return platform
      */
     String platform();

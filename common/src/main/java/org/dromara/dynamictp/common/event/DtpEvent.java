@@ -24,7 +24,7 @@ import java.util.EventObject;
 
 /**
  * DtpEvent related
- *
+ * 动态线程池事件
  * @author vzer200
  * @since 1.2.0
  */

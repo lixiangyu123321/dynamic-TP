@@ -21,7 +21,7 @@ import lombok.Data;
 
 /**
  * Metrics related
- *
+ * 度量，监控，统计相关
  * @author yanhom
  * @since 1.0.0
  **/

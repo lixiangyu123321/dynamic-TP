@@ -19,7 +19,7 @@ package org.dromara.dynamictp.common.em;
 
 /**
  * Notify platform type.
- *
+ * 通知平台枚举
  * @author yanhom
  * @since 1.0.0
  **/
@@ -36,7 +36,7 @@ public enum NotifyPlatformEnum {
     WECHAT,
 
     /**
-     * Lark
+     * Lark 飞书
      */
     LARK,
 

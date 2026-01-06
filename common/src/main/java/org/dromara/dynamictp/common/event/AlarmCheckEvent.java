@@ -21,7 +21,7 @@ import org.dromara.dynamictp.common.properties.DtpProperties;
 
 /**
  * AlarmCheckEvent related
- *
+ * 告警检查事件
  * @author yanhom
  * @since 1.0.0
  */

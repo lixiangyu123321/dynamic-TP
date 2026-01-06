@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * Helper class for accessing ContextManager.
- *
+ * 上下文管理器的辅助方法，采用委托模式委托给ContextManager实现方法
  * @author vzer200
  * @since 1.2.0
  */
@@ -34,6 +34,7 @@ public class ContextManagerHelper {
     private static ContextManager contextManager;
 
     static {
+        // 基于SPI获得相应的上下文管理器扩展
         contextManager = ExtensionServiceLoader.getFirst(ContextManager.class);
         if (contextManager == null) {
             contextManager = new NullContextManager();

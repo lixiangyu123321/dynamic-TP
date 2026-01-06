@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * JvmStats related
- *
+ * JVM内存状况，继承Metrics，可度量接口
  * @author yanhom
  * @since 1.0.0
  **/

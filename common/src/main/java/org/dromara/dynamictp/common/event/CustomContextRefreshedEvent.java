@@ -21,7 +21,7 @@ import java.util.EventObject;
 
 /**
  * EventObject related
- *
+ * 用户上下文刷新事件
  * @author vzer200
  * @since 1.2.0
  */

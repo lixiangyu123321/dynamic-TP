@@ -19,7 +19,7 @@ package org.dromara.dynamictp.common.ex;
 
 /**
  * DtpException related
- *
+ * 动态线程池语义化异常
  * @author yanhom
  * @since 1.0.0
  **/

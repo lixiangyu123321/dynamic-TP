@@ -21,7 +21,7 @@ import org.dromara.dynamictp.common.properties.DtpProperties;
 
 /**
  * CollectEvent related
- *
+ * 收集事件
  * @author yanhom
  * @since 1.0.0
  */

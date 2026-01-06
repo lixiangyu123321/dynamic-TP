@@ -32,55 +32,60 @@ import java.util.UUID;
 public class NotifyPlatform {
 
     /**
-     * Notify platform id.
+     * 告警平台唯一标识ID
+     * 默认值：自动生成UUID字符串，保证每个平台配置的唯一性
      */
     private String platformId = UUID.randomUUID().toString();
 
     /**
-     * Notify platform name.
+     * 告警平台名称（如钉钉：dingtalk、企业微信：wechat）
      */
     private String platform;
 
     /**
-     * Token of url.
+     * 告警推送URL的令牌/密钥（用于接口鉴权）
      */
     private String urlKey;
 
     /**
-     * Secret, may be null.
+     * 告警平台密钥（可选，可能为null）
+     * 如钉钉机器人的加签密钥、企业微信的Secret等
      */
     private String secret;
 
     /**
-     * webhook, may be null.
-     * web回调
+     * 告警推送的webhook地址（可选，可能为null）
+     * 用于接收平台回调或直接推送告警消息的HTTP接口地址
      */
     private String webhook;
 
     /**
-     * Receivers, split by ,
+     * 告警接收人，多个接收人用英文逗号（,）分隔
+     * 默认值："all"（推送给所有预设接收人）
      */
     private String receivers = "all";
 
     /**
-     * http请求超时时间，单位（毫秒）<br>
-     * 默认3000毫秒
+     * HTTP请求超时时间（单位：毫秒）
+     * 默认值：3000毫秒（3秒），超过该时间则判定推送失败
      */
     private Integer timeout = 3000;
 
     /**
-     * http请求代理类型 <br>
-     * 默认为DIRECT
+     * HTTP请求代理类型
+     * 默认值：Proxy.Type.DIRECT（直连，不使用代理）
      */
     private Proxy.Type proxyType = Proxy.Type.DIRECT;
 
     /**
-     * http请求代理host
+     * HTTP请求代理服务器的主机地址（如127.0.0.1）
+     * 仅当proxyType不为DIRECT时生效
      */
     private String proxyHost;
 
     /**
-     * http请求代理port
+     * HTTP请求代理服务器的端口号（如8080）
+     * 仅当proxyType不为DIRECT时生效
      */
     private int proxyPort;
 

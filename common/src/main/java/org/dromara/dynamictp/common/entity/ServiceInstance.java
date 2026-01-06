@@ -22,7 +22,7 @@ import lombok.Data;
 
 /**
  * ServiceInstance related
- *
+ * 服务实例
  * @author yanhom
  * @since 1.0.0
  **/

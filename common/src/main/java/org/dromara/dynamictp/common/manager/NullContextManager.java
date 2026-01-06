@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * NullContextManager related
- *
+ * 空上下文管理器，用于兜底
  * @author yanhom
  * @since 1.2.0
  */

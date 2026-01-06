@@ -21,7 +21,7 @@ import lombok.Getter;
 
 /**
  * CollectorTypeEnum related
- *
+ * 指标收集类型
  * @author yanhom
  * @since 1.0.0
  **/

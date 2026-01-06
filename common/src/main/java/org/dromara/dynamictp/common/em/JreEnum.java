@@ -23,7 +23,8 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 
 /**
  * JRE version
- *
+ * JRE版本枚举
+ * TODO 枚举自带的方法和字段
  * @author kamtohung
  */
 @Slf4j
