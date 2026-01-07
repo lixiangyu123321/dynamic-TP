@@ -20,13 +20,17 @@ package org.dromara.dynamictp.common.parser.json;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- *
+ * 判断解析器JSON是否可以被加载
  * @author topsuder
  * @since 1.1.3
  */
 @Slf4j
 public abstract class AbstractJsonParser implements JsonParser {
 
+    /**
+     * 是否支持就看解析器是否可以加载了呗
+     * @return
+     */
     @Override
     public boolean supports() {
         String[] mapperClassNames = getMapperClassNames();

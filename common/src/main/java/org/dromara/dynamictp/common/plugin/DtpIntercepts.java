@@ -23,6 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 拦截器注解
  * @author windsearcher.lq
  * @since 1.1.4
  */
@@ -32,14 +33,14 @@ public @interface DtpIntercepts {
 
     /**
      * Intercept name.
-     *
+     * 拦截器名称
      * @return the intercept name.
      */
     String name();
 
     /**
      * Signatures.
-     *
+     * 方法签名数组
      * @return the dtp signatures.
      */
     DtpSignature[] signatures();

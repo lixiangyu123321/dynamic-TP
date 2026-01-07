@@ -23,7 +23,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import java.lang.reflect.Type;
 
 /**
- *
+ * FastJson对应的json解析操作
  * @author topsuder
  * @since 1.1.3
  */

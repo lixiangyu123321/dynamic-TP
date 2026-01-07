@@ -19,7 +19,7 @@ package org.dromara.dynamictp.common.plugin;
 
 /**
  * The annotation that indicate the method signature.
- *
+ * 签名
  * @author windsearcher.lq
  * @since 1.1.4
  */
@@ -27,21 +27,21 @@ public @interface DtpSignature {
 
     /**
      * Target class type.
-     *
+     * 目标类
      * @return class type
      */
     Class<?> clazz();
 
     /**
      * Method name.
-     *
+     * 方法名
      * @return method name
      */
     String method();
 
     /**
      * Method argument types.
-     *
+     * 方法参数类型数组
      * @return method argument types
      */
     Class<?>[] args();

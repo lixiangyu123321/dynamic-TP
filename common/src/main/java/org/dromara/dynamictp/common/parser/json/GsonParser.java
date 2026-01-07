@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
- *
+ * google提供的json解析能力，一般用不到
  * @author topsuder
  * @since 1.1.3
  */

@@ -30,6 +30,11 @@ import java.util.Map;
  **/
 public abstract class AbstractConfigParser implements ConfigParser {
 
+    /**
+     * 支持的配置文件类型
+     * @param type config file type
+     * @return
+     */
     @Override
     public boolean supports(ConfigFileTypeEnum type) {
         return this.types().contains(type);

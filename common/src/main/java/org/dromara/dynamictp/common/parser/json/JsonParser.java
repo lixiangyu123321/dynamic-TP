@@ -20,7 +20,7 @@ package org.dromara.dynamictp.common.parser.json;
 import java.lang.reflect.Type;
 
 /**
- *
+ * JSON解析器
  * @author topsuder
  * @since 1.1.3
  */
@@ -35,7 +35,7 @@ public interface JsonParser {
 
     /**
      * Json string to object.
-     *
+     * TODO 为什么要记录类型
      * @param <T> the target type
      * @param json json string
      * @param typeOfT type of target object

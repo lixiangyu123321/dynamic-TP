@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * ConfigParser related
- *
+ * 配置解析
  * @author yanhom
  * @since 1.0.0
  **/

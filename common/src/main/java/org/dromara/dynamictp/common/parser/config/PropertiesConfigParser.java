@@ -43,6 +43,12 @@ public class PropertiesConfigParser extends AbstractConfigParser {
         return CONFIG_TYPES;
     }
 
+    /**
+     * Properties文件有指定的解析工具
+     * @param content content
+     * @return
+     * @throws IOException
+     */
     @Override
     public Map<Object, Object> doParse(String content) throws IOException {
 

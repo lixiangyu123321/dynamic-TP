@@ -19,7 +19,7 @@ package org.dromara.dynamictp.common.pattern.filter;
 
 /**
  * InvokerChain related
- *
+ * 执行连，只搞了执行连的头节点，后续实现需要额外定义
  * @author yanhom
  * @since 1.0.8
  **/

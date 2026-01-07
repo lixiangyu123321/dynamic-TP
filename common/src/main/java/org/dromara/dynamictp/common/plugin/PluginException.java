@@ -21,7 +21,7 @@ import org.dromara.dynamictp.common.ex.DtpException;
 
 /**
  * PluginException related
- *
+ * 插件异常
  * @author yanhom
  * @since 1.0.0
  **/

@@ -19,7 +19,7 @@ package org.dromara.dynamictp.common.pattern.filter;
 
 /**
  * InvokerChainFactory related
- *
+ * 执行连工厂
  * @author yanhom
  * @since 1.0.8
  **/

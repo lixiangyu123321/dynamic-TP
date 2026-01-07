@@ -35,7 +35,7 @@ public interface Filter<T> {
 
     /**
      * Do filter.
-     *
+     * 过滤内容 和 不符合过滤条件的执行器
      * @param context context
      * @param nextInvoker next invoker
      */

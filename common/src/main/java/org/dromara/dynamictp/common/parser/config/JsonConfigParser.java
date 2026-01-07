@@ -46,6 +46,9 @@ public class JsonConfigParser extends AbstractConfigParser {
 
     private static final List<ConfigFileTypeEnum> CONFIG_TYPES = Lists.newArrayList(ConfigFileTypeEnum.JSON);
 
+    /**
+     * Jackson对应的json解析器
+     */
     private static final ObjectMapper MAPPER;
 
     static {
@@ -65,6 +68,13 @@ public class JsonConfigParser extends AbstractConfigParser {
         return doParse(content, MAIN_PROPERTIES_PREFIX);
     }
 
+    /**
+     * 解析置顶前缀的json项
+     * @param content content
+     * @param prefix key prefix
+     * @return
+     * @throws IOException
+     */
     @Override
     public Map<Object, Object> doParse(String content, String prefix) throws IOException {
 
@@ -75,6 +85,12 @@ public class JsonConfigParser extends AbstractConfigParser {
         return result;
     }
 
+    /**
+     * 扁平化Map
+     * @param result
+     * @param dataMap
+     * @param prefix
+     */
     private void flatMap(Map<Object, Object> result, Map<String, Object> dataMap, String prefix) {
 
         if (MapUtils.isEmpty(dataMap)) {
@@ -82,6 +98,7 @@ public class JsonConfigParser extends AbstractConfigParser {
         }
 
         dataMap.forEach((k, v) -> {
+            // 按照层级关系逐一构建键名
             String fullKey = genFullKey(prefix, k);
             if (v instanceof Map) {
                 flatMap(result, (Map<String, Object>) v, fullKey);

@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 基于枚举创建单例，用于存储单例类的工具类
  * Singleton.
  */
 public enum Singleton {

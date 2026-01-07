@@ -38,21 +38,28 @@ public class JacksonCreator {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
+    /**
+     * 创建一个定制化配置的 Jackson ObjectMapper 实例，专门解决 JSON 序列化 / 反序列化中的常见问题
+     * @return
+     */
     protected static ObjectMapper createMapper() {
+        // JavaTimeModule是专门用来处理Java8LocalDateTime时间类的模块
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)));
         javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DATE_FORMAT)));
         return JsonMapper.builder()
+                // 让 transient 关键字的效果在继承关系中生效。
                 .configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true)
-                // 反序列化时,遇到未知属性会不会报错 true - 遇到没有的属性就报错 false - 没有的属性不会管，不会报错
+                // 反序列化时，如果 JSON 中有 Java 对象不存在的字段，不会抛出异常（这是开发中最常用的配置之一）。
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                // 如果是空对象的时候,不抛异常
+                // 序列化一个没有任何可序列化字段的空对象时，不会抛出异常（比如一个类只有 transient 字段）。
                 .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
-                // 序列化的时候序列对象的那些属性
+                // 序列化时，忽略值为「空」的字段（包括 null、空字符串、空集合 / 数组等）。
                 .serializationInclusion(JsonInclude.Include.NON_EMPTY)
+                // 添加 Java 8 时间模块（处理 LocalDateTime 等）
                 .addModules(javaTimeModule)
                 .addModules(new JavaTimeModule())
-                // 修改序列化后日期格式
+                // 序列化时，忽略值为「空」的字段（包括 null、空字符串、空集合 / 数组等）。
                 .defaultDateFormat(new SimpleDateFormat(DATE_FORMAT))
                 .build();
     }

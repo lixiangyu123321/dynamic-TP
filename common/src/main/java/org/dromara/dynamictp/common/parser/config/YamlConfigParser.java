@@ -65,6 +65,30 @@ public class YamlConfigParser extends AbstractConfigParser {
 
     /**
      * 扁平化处理Map
+     * source
+     * ├── name: 张三
+     * ├── age: 25
+     * ├── address
+     * │   ├── province: 广东省
+     * │   ├── city: 深圳市
+     * │   └── details (List)
+     * │       ├── [0]: 南山区
+     * │       └── [1]: 科技园路
+     * └── hobbies (List)
+     *     ├── [0]: 篮球
+     *     └── [1] (List)
+     *         ├── [0]: 看电影
+     *         └── [1]: 听音乐
+     *
+     * name = 张三
+     * age = 25
+     * address.province = 广东省
+     * address.city = 深圳市
+     * address.details[0] = 南山区
+     * address.details[1] = 科技园路
+     * hobbies[0] = 篮球
+     * hobbies[1][0] = 看电影
+     * hobbies[1][1] = 听音乐
      * @param result
      * @param source
      * @param path

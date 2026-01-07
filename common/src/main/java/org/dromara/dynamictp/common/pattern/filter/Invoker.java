@@ -28,7 +28,7 @@ public interface Invoker<T> {
 
     /**
      * Invoke.
-     *
+     * 未通过过滤的执行器
      * @param context context
      */
     void invoke(T context);

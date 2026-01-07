@@ -56,6 +56,10 @@ public class JacksonParser extends AbstractJsonParser {
         }
     }
 
+    /**
+     * 双检锁拿到单例
+     * @return
+     */
     private ObjectMapper getMapper() {
         // double check lock
         if (mapper == null) {
@@ -72,6 +76,10 @@ public class JacksonParser extends AbstractJsonParser {
         return JacksonCreator.createMapper();
     }
 
+    /**
+     * 返回json解析的前提类
+     * @return
+     */
     @Override
     protected String[] getMapperClassNames() {
         return new String[]{PACKAGE_NAME, JAVA_TIME_MODULE_CLASS_NAME};

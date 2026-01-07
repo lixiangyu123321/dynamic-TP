@@ -21,15 +21,25 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
+ * 将源类的方法调用进行封装，便于环绕，前后插入
  * @author windsearcher.lq
  * @since 1.1.4
  */
 public class DtpInvocation {
 
+    /**
+     * 目标对象
+     */
     private final Object target;
 
+    /**
+     * 方法对象
+     */
     private final Method method;
 
+    /**
+     * 方法参数
+     */
     private final Object[] args;
 
     public DtpInvocation(Object target, Method method, Object[] args) {
@@ -50,6 +60,12 @@ public class DtpInvocation {
         return args;
     }
 
+    /**
+     * 执行目标方法
+     * @return
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
     public Object proceed() throws InvocationTargetException, IllegalAccessException {
         return method.invoke(target, args);
     }
