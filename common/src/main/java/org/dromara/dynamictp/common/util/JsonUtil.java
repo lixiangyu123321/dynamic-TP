@@ -40,11 +40,13 @@ public final class JsonUtil {
     private static final JsonParser JSON_PARSER = createJsonParser();
 
     private static JsonParser createJsonParser() {
+        // XXX 基于SPI机制加载json的解析器
         ServiceLoader<JsonParser> serviceLoader = ServiceLoader.load(JsonParser.class);
         Iterator<JsonParser> iterator = serviceLoader.iterator();
         while (iterator.hasNext()) {
             try {
                 JsonParser jsonParser = iterator.next();
+                // 改解析器是否支持
                 if (jsonParser.supports()) {
                     log.info("Using JSON parser: {}", jsonParser.getClass().getName());
                     return jsonParser;
@@ -59,7 +61,7 @@ public final class JsonUtil {
     /**
      * 方法注释: <br>
      * 〈可用于将任何 Java 值序列化为字符串的方法。〉
-     *
+     * XXX 基于json解析器的json字符串化
      * @param obj 任意类型入参
      * @return java.lang.String
      * @author topsuder 🌼🐇
@@ -71,7 +73,7 @@ public final class JsonUtil {
     /**
      * 方法注释: <br>
      * 〈此方法将指定的 Json 反序列化为指定类的对象。〉
-     *
+     * 解析json字符串为类对象
      * @param <T>     the target type
      * @param json    要反序列化的json字符串
      * @param typeOfT 要反序列化的对象类型

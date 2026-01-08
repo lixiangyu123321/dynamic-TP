@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
 
 /**
  * MethodUtil related.
- *
+ * XXX 基于反射的相关方法操作工具类
  * @author yanhom
  * @since 1.1.5
  */

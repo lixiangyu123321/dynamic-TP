@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 /**
  * StreamUtil related
- *
+ * XXX stream流的通用方法
  * @author yanhom
  * @since 1.0.0
  **/
@@ -39,7 +39,7 @@ public final class StreamUtil {
 
     /**
      * Fetches id to list.
-     *
+     * XXX 将方法作用与Collection中的各个元素
      * @param data    data collection
      * @param mapping calculate the id in data list
      * @param <I>     id type
@@ -48,6 +48,7 @@ public final class StreamUtil {
      */
     public static <I, T> List<I> fetchProperty(Collection<T> data,
                                                Function<T, I> mapping) {
+        // XXX 参数非空的检查
         Preconditions.checkNotNull(mapping, "mapping function must not be null");
         if (CollectionUtils.isEmpty(data)) {
             return Collections.emptyList();
@@ -57,7 +58,7 @@ public final class StreamUtil {
 
     /**
      * Converts to map (key from the list data)
-     *
+     * XXX coll中数据特殊处理作为键
      * @param coll data list
      * @param key  key mapping function
      * @param <O>  id type
@@ -75,7 +76,7 @@ public final class StreamUtil {
 
     /**
      * Converts to map (key from the list data)
-     *
+     * XXX 基于Collection获得Map
      * @param list  data list
      * @param key   key mapping function
      * @param value value mapping function
@@ -97,7 +98,7 @@ public final class StreamUtil {
 
     /**
      * Converts a list to a list map where list contains id in ids.
-     *
+     * XXX 基于一定规则分组
      * @param ids  id collection
      * @param list data list
      * @param key  calculate the id in data list

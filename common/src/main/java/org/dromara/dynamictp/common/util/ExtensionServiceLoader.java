@@ -27,12 +27,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Unified ServiceLoader Helper
- *
+ * XXX 扩展服务，基于SPI机制加载某个类/接口的扩展实现
  * @author xs.Tao
  * @since 1.1.4
  */
 public class ExtensionServiceLoader {
 
+    /**
+     * XXX 加载的扩展的缓存，基于类/接口进行分类
+     */
     private static final Map<Class<?>, List<?>> EXTENSION_MAP = new ConcurrentHashMap<>();
 
     private ExtensionServiceLoader() { }

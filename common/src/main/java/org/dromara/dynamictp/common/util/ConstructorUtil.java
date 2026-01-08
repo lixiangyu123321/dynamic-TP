@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * ConstructorUtil related
- *
+ * 返回自定义线程池的参数以及参数的类型
  * @author windsearcher.lq
  * @since 1.1.4
  */

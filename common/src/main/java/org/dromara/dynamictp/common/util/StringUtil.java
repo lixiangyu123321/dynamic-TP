@@ -23,7 +23,7 @@ import java.util.Collection;
 
 /**
  * StringUtil related
- *
+ * 判断集合中是否包含字符串
  * @author yanhom
  * @since 1.0.4
  **/

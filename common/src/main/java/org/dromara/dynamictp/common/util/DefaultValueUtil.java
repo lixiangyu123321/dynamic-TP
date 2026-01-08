@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 
 /**
  * DefaultValueUtil related
- *
+ * XXX 与默认值相关的工具类
  * @author yanhom
  * @since 1.2.1
  **/
@@ -31,6 +31,14 @@ public final class DefaultValueUtil {
     private DefaultValueUtil() {
     }
 
+    /**
+     * 从用vo -> do的参数映射
+     * XXX setIfZero(item::getCount, item::setCount, 1);
+     * @param getter
+     * @param setter
+     * @param defaultValue
+     * @param <T>
+     */
     public static <T extends Number> void setIfZero(Supplier<T> getter, Consumer<T> setter, T defaultValue) {
         T value = getter.get();
         if (value == null || value.intValue() == 0) {

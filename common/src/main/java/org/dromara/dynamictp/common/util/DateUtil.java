@@ -24,7 +24,7 @@ import java.util.Date;
 
 /**
  * 日期工具类
- *
+ * XXX 处理时间的工具类
  * @author <a href = "kamtohung@gmail.com">hongjintao</a>
  */
 public class DateUtil {

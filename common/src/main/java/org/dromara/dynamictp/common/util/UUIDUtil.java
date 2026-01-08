@@ -21,7 +21,7 @@ import java.util.UUID;
 
 /**
  * UUID util.
- *
+ * XXX 生成UUID
  * @author yanhom
  */
 public class UUIDUtil {
