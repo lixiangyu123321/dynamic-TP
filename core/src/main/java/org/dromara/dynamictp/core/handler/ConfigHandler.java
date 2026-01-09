@@ -33,7 +33,7 @@ import java.util.Map;
 
 /**
  * ConfigHandler related
- *
+ * XXX 配置处理器，基于不同的配置解析器解析配置文件
  * @author yanhom
  * @since 1.0.0
  **/

@@ -24,12 +24,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Adapts LifeCycleManagement to Spring's SmartLifecycle interface.
- *
+ * XXX SmartLifecycle 在 原有Lifecycle的基础上做了扩展，stop方法在stop之后会调用回调函数
+ * XXX Phase 此接口为标识接口， 同于标识生命周期的接口，需自定义实现
+ * XXX 总之这里实现的是spring的接口
  * @author vzer200
  * @since 1.2.0
  */
 public class DtpLifecycleSpringAdapter implements SmartLifecycle {
 
+    /**
+     * XXX 生命周期管理器
+     * XXX 适配（委托）模式，将stop/start委托给生命周期管理器执行
+     */
     private final LifeCycleManagement lifeCycleManagement;
 
     private final AtomicBoolean running = new AtomicBoolean(false);

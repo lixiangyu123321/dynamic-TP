@@ -140,6 +140,14 @@ public enum QueueTypeEnum {
         return buildLbq(name, capacity, false, 256);
     }
 
+    /**
+     * 基于队列名 创建对应的队列
+     * @param name
+     * @param capacity
+     * @param fair
+     * @param maxFreeMemory
+     * @return
+     */
     @SuppressWarnings("all")
     public static BlockingQueue<Runnable> buildLbq(String name, int capacity, boolean fair, int maxFreeMemory) {
         BlockingQueue<Runnable> blockingQueue = null;

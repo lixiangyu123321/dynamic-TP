@@ -214,6 +214,12 @@ public class NotifyHelper {
         AlarmManager.initAlarm(executor.getThreadPoolName(), executor.getNotifyItems());
     }
 
+    /**
+     * 更新通知项信息
+     * @param executorWrapper
+     * @param props
+     * @param platforms
+     */
     public static void updateNotifyInfo(ExecutorWrapper executorWrapper,
                                         TpExecutorProps props,
                                         List<NotifyPlatform> platforms) {

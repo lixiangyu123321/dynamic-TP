@@ -29,7 +29,7 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.DTP_ENABLED_P
 
 /**
  * DtpConfigurationSelector related
- *
+ * XXX 执行延迟导入，即所有@Import注解配置导入后再导入
  * @author KamTo Hung
  * @since 1.1.1
  */
@@ -42,11 +42,16 @@ public class DtpConfigurationSelector implements DeferredImportSelector, Ordered
         this.environment = environment;
     }
 
+    // XXX 延迟导入的配置类
     @Override
     public String[] selectImports(AnnotationMetadata metadata) {
         if (!BooleanUtils.toBoolean(environment.getProperty(DTP_ENABLED_PROP, BooleanUtils.TRUE))) {
             return new String[]{};
         }
+        // XXX Spring 通过DeferredImportSelector的selectImports()拿到这三个类的全限定名后，会解析这些类的逻辑并执行—— 不同类型的类，“导入” 后的行为完全不同：
+        // XXX 如果是@Configuration配置类（如DtpBaseBeanConfiguration）：解析类中的@Bean方法，注册对应的 Bean；
+        // XXX 如果是ImportBeanDefinitionRegistrar实现类（如DtpBaseBeanDefinitionRegistrar、DtpBeanDefinitionRegistrar）：执行其registerBeanDefinitions()方法，手动注册 BeanDefinition；
+
         return new String[] {
                 DtpBaseBeanDefinitionRegistrar.class.getName(),
                 DtpBeanDefinitionRegistrar.class.getName(),
@@ -54,6 +59,10 @@ public class DtpConfigurationSelector implements DeferredImportSelector, Ordered
         };
     }
 
+    /**
+     * 最高优先级
+     * @return
+     */
     @Override
     public int getOrder() {
         return HIGHEST_PRECEDENCE;

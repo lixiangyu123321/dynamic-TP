@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 
 /**
  * EnableDynamicTp related
- *
+ * XXX 是否开启动态线程池的注解
  * @author yanhom
  * @since 1.0.4
  **/

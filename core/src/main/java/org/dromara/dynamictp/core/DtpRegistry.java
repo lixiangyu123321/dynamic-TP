@@ -196,6 +196,11 @@ public class DtpRegistry {
         dtpProperties.getExecutors().forEach(DtpRegistry::refresh);
     }
 
+    /**
+     * 上面的方法调用的是这个方法
+     * XXX 这里基于新配置的各个动态线程池配置刷新相关的线程池包装器
+     * @param props
+     */
     public static void refresh(DtpExecutorProps props) {
         if (Objects.isNull(props) || StringUtils.isBlank(props.getThreadPoolName())) {
             log.warn("DynamicTp refresh, thread pool name must not be blank, executorProps: {}", props);
@@ -209,6 +214,11 @@ public class DtpRegistry {
         log.warn("DynamicTp refresh, cannot find specified executor, name: {}.", props.getThreadPoolName());
     }
 
+    /**
+     * XXX 基于新配置刷新动态线程池
+     * @param executorWrapper
+     * @param props
+     */
     private static void refresh(ExecutorWrapper executorWrapper, DtpExecutorProps props) {
         if (props.coreParamIsInValid()) {
             log.error("DynamicTp refresh, invalid parameters exist, properties: {}", props);
@@ -224,6 +234,7 @@ public class DtpRegistry {
             return;
         }
         // Get the changed keys
+        // XXX 获得更改的字段值，发送通知
         List<FieldInfo> diffFields = EQUATOR.getDiffFields(oldFields, newFields);
         List<String> diffKeys = StreamUtil.fetchProperty(diffFields, FieldInfo::getFieldName);
         NoticeManager.tryNoticeAsync(executorWrapper, oldFields, diffKeys);
@@ -252,15 +263,23 @@ public class DtpRegistry {
             executor.allowCoreThreadTimeOut(props.isAllowCoreThreadTimeOut());
         }
         // update queue
+        // XXX 更新队列的逻辑在这里
         updateQueueProps(executor, props);
 
         if (executorWrapper.isDtpExecutor()) {
+            // XXX 刷新动态线程池的相关字段
             doRefreshDtp(executorWrapper, props);
             return;
         }
+        // XXX 刷新一一般段
         doRefreshCommon(executorWrapper, props);
     }
 
+    /**
+     *
+     * @param executorWrapper 线程池包装器
+     * @param props XXX 新配置
+     */
     private static void doRefreshCommon(ExecutorWrapper executorWrapper, DtpExecutorProps props) {
 
         if (StringUtils.isNotBlank(props.getThreadPoolAliasName())) {
@@ -275,16 +294,23 @@ public class DtpRegistry {
             executorWrapper.setRejectHandler(rejectHandler);
         }
 
+        // XXX 基于配置中配置的任务包装器，获得所有任务包装器并设置
         List<TaskWrapper> taskWrappers = TaskWrappers.getInstance().getByNames(props.getTaskWrapperNames());
         executorWrapper.setTaskWrappers(taskWrappers);
 
         // update notify related
         NotifyHelper.updateNotifyInfo(executorWrapper, props, dtpProperties.getPlatforms());
         // update aware related
+        // XXX 更新感知器和线程池的绑定关系， 基于最新配置（props）刷新感知器的全量状态
         AwareManager.refresh(executorWrapper, props);
         updateWrapper(executorWrapper, props);
     }
 
+    /**
+     * XXX 这里与上面的方法很像，因为上上个方法有一个return
+     * @param executorWrapper 线程池
+     * @param props 新配置
+     */
     private static void doRefreshDtp(ExecutorWrapper executorWrapper, DtpExecutorProps props) {
 
         DtpExecutor executor = (DtpExecutor) executorWrapper.getExecutor();
@@ -324,6 +350,11 @@ public class DtpRegistry {
         updateWrapper(executorWrapper, props);
     }
 
+    /**
+     * XXX 更新一些包装的信息
+     * @param executorWrapper 线程池包装器
+     * @param props 新配置
+     */
     private static void updateWrapper(ExecutorWrapper executorWrapper, DtpExecutorProps props) {
         if (executorWrapper.isDtpExecutor()) {
             executorWrapper.setThreadPoolAliasName(props.getThreadPoolAliasName());

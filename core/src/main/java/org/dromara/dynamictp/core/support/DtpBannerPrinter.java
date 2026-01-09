@@ -62,6 +62,7 @@ public class DtpBannerPrinter {
 
     public static void printBanner() {
         // TODO 这里的CustomContextRefreshedEvent 和 ContextManagerHelper
+        // XXX ContextManagerHelkper通过委托模式委托ContextManager进行相关调用
         boolean enable = Boolean.parseBoolean(ContextManagerHelper.getEnvironmentProperty(DynamicTpConst.BANNER_ENABLED_PROP, "true"));
         if (enable) {
             log.info(BANNER + "\n" + NAME + "\n :: {} :: \n" + SITE + "\n" + GITHUB_REPO + "\n" + GITEE_REPO,

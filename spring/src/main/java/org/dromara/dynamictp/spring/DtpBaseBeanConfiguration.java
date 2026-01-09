@@ -32,44 +32,77 @@ import org.springframework.context.annotation.Role;
 
 /**
  * DtpBaseBeanConfiguration related
- *
+ * XXX 基于Spring配置一些配置类
  * @author yanhom
  * @since 1.0.0
  **/
 @Configuration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 public class DtpBaseBeanConfiguration {
-    
+
+    /**
+     * XXX 全局配置类
+     * @return 全局配置类
+     */
     @Bean
     public DtpProperties dtpProperties() {
         return DtpProperties.getInstance();
     }
 
+    /**
+     * XXX 全局生命周期管理，统一管理所有线程池的生命周期
+     * @return 全局生命周期管理器
+     */
     @Bean
     public DtpLifecycle dtpLifecycle() {
         return new DtpLifecycle();
     }
 
+    /**
+     * XXX 用于管理全局的动态线程池
+     * @param dtpProperties 注入全局配置
+     * @return 动态线程池的管理器
+     */
     @Bean
     public DtpRegistry dtpRegistry(DtpProperties dtpProperties) {
         return new DtpRegistry(dtpProperties);
     }
 
+    /**
+     * XXX 指标监控
+     * @param dtpProperties 注入全局配置
+     * @return 指标监控器
+     */
     @Bean
     public DtpMonitor dtpMonitor(DtpProperties dtpProperties) {
         return new DtpMonitor(dtpProperties);
     }
 
+    /**
+     * 打印dynamic-tp的banner
+     * @return 打印器
+     */
     @Bean
     public DtpBannerPrinter dtpBannerPrinter() {
         return new DtpBannerPrinter();
     }
 
+    /**
+     * XXX Spring相关的生命周期管理器
+     * XXX 将已有的DTP的生命周期管理适配Spring的生命周期管理
+     * @param lifeCycleManagement 相关的生命周期管理器，XXX 委托给该参数进行生命周期管理
+     * @return
+     */
     @Bean
     public DtpLifecycleSpringAdapter dtpLifecycleSpringAdapter(LifeCycleManagement lifeCycleManagement) {
         return new DtpLifecycleSpringAdapter(lifeCycleManagement);
     }
 
+    /**
+     * XXX 基于Spring事件监听的事件监听器
+     * XXX 底层的事件处理是基于EventBusManager来的
+     * @return 事件监听器
+     */
     @Bean
     public DtpApplicationListener dtpApplicationListener() {
         return new DtpApplicationListener();

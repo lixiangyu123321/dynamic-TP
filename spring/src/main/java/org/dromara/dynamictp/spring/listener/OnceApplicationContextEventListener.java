@@ -34,6 +34,7 @@ import static org.springframework.util.ObjectUtils.nullSafeEquals;
 /**
  * The abstract class {@link ApplicationListener} for {@link ApplicationEvent} guarantees just one-time execution
  * and prevents the event propagation in the hierarchical {@link ApplicationContext ApplicationContexts}
+ * XXX 监听Spring对应的事件
  * @author yanhom
  * @since 1.1.4
  */
@@ -44,6 +45,11 @@ public abstract class OnceApplicationContextEventListener implements Application
 
     protected OnceApplicationContextEventListener() { }
 
+    /**
+     * XXX 基于模板方法模式对事件进行处理
+     * 事件监听处理的核心方法
+     * @param event 对应的Spring事件
+     */
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (isOriginalEventSource(event) && event instanceof ApplicationContextEvent) {
@@ -92,9 +98,9 @@ public abstract class OnceApplicationContextEventListener implements Application
     }
 
     /**
-     * Is original {@link ApplicationContext} as the event source
-     * @param event {@link ApplicationEvent}
-     * @return if original, return <code>true</code>, or <code>false</code>
+     * 判断事件源是否是当前的Spring容器
+     * @param event 事件
+     * @return 是否
      */
     private boolean isOriginalEventSource(ApplicationEvent event) {
         return nullSafeEquals(this.applicationContext, event.getSource());

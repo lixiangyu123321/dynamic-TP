@@ -27,7 +27,7 @@ import java.util.Objects;
 
 /**
  * BinderHelper related
- *
+ * XXX 将Map类型/environment中信息绑定到dtpProperties中
  * @author dragon-zhang
  * @since 1.1.4
  */

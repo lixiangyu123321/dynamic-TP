@@ -153,6 +153,7 @@ public class DtpInterceptorRegistry {
     }
 
     /**
+     * XXX 基于拦截器（这里是增强功能）进行线程池的增强
      * 重载增强方法：为目标对象应用指定的拦截器（有参构造）
      * 适配需要通过有参构造创建代理实例的场景
      * @param target 待增强的目标对象

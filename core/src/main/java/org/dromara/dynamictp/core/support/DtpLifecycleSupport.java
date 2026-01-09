@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * DtpLifecycleSupport which mainly implements ThreadPoolExecutor's lifecycle management.
- * 线程池生命周期工具类
+ * 线程池生命周期工具类 XXX 用于管理动态线程池，或者说线程池包装器的启动/暂停的工具类
  * 初始化管理: 提供线程池初始化的统一入口
  * 优雅关闭: 实现线程池的优雅关闭逻辑
  * 异步关闭: 支持异步关闭线程池

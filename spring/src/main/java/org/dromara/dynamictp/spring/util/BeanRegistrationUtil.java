@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * SpringBeanHelper related
- *
+ * XXX Bean注册的相关工具类
  * @author yanhom
  * @since 1.0.4
  **/
@@ -81,6 +81,7 @@ public final class BeanRegistrationUtil {
                                         Map<String, Object> propertyValues,
                                         List<String> dependsOnBeanNames,
                                         Object... constructorArgs) {
+        // XXX 未注册到Bean中， 或者没有这样的BeanDefinition
         if (!ifPresent(registry, beanName, clazz) && !registry.containsBeanDefinition(beanName)) {
             doRegister(registry, beanName, clazz, propertyValues, dependsOnBeanNames, constructorArgs);
         }
@@ -101,10 +102,12 @@ public final class BeanRegistrationUtil {
                                    Map<String, Object> propertyValues,
                                    List<String> dependsOnBeanNames,
                                    Object... constructorArgs) {
+        // XXX BeanDefinitionBuilder未Spring提供的构建BeanDefinition的工具类
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
         for (Object constructorArg : constructorArgs) {
             builder.addConstructorArgValue(constructorArg);
         }
+        // XXX 这里处理Bean的属性值
         if (MapUtils.isNotEmpty(propertyValues)) {
             propertyValues.forEach(builder::addPropertyValue);
         }

@@ -31,7 +31,7 @@ import java.util.concurrent.Executor;
 
 /**
  * AwareManager related
- *
+ * TODO
  * @author kyao
  * @since 1.1.4
  */

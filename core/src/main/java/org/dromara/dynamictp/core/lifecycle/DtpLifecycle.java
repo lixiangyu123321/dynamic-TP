@@ -39,6 +39,9 @@ public class DtpLifecycle implements LifeCycleManagement {
 
     private final AtomicBoolean running = new AtomicBoolean(false);
 
+    /**
+     * 所有注册了的线程池的启动
+     */
     @Override
     public void start() {
         if (this.running.compareAndSet(false, true)) {

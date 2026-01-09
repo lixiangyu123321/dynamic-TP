@@ -73,6 +73,10 @@ public class DtpBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar
 
     private Environment environment;
 
+    /**
+     * 实现自EnvironmetAware
+     * @param environment 环境变量
+     */
     @Override
     public void setEnvironment(Environment environment) {
         this.environment = environment;
@@ -82,6 +86,7 @@ public class DtpBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         DtpProperties dtpProperties = DtpProperties.getInstance();
         BinderHelper.bindDtpProperties(environment, dtpProperties);
+        // XXX 业务中的动态线程池
         val executors = dtpProperties.getExecutors();
         if (CollectionUtils.isEmpty(executors)) {
             log.info("DynamicTp registrar, no executors are configured.");
@@ -89,16 +94,26 @@ public class DtpBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar
         }
 
         executors.forEach(e -> {
+            // XXX 判断是否要自动创建，对应这里是否要注册到BeanDefinition中
             if (!e.isAutoCreate()) {
                 return;
             }
+            // XXX ExecutorType基于类型名获得类型
             Class<?> executorTypeClass = ExecutorType.getClass(e.getExecutorType());
+            // XXX 提取全局配置属性
             Map<String, Object> propertyValues = buildPropertyValues(e);
+            // XXX 基于全局配置与线程池类型获得线程池配置属性
             Object[] args = buildConstructorArgs(executorTypeClass, e);
+            // XXX 注册相应的线程池到Bean中
             BeanRegistrationUtil.register(registry, e.getThreadPoolName(), executorTypeClass, propertyValues, args);
         });
     }
 
+    /**
+     * 将全局配置中的属性提取出来
+     * @param props
+     * @return
+     */
     private Map<String, Object> buildPropertyValues(DtpExecutorProps props) {
         Map<String, Object> propertyValues = Maps.newHashMap();
         propertyValues.put(THREAD_POOL_NAME, props.getThreadPoolName());
@@ -124,6 +139,12 @@ public class DtpBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar
         return propertyValues;
     }
 
+    /**
+     * 返回线程池的基本参数
+     * @param clazz （动态）线程池类型
+     * @param props 全局配置属性
+     * @return
+     */
     private Object[] buildConstructorArgs(Class<?> clazz, DtpExecutorProps props) {
         BlockingQueue<Runnable> taskQueue;
         if (clazz.equals(EagerDtpExecutor.class)) {

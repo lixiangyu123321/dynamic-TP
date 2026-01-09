@@ -167,8 +167,8 @@ management:
         
     # 指标标签配置
     tags:
-      application: ${spring.application.name}
-      environment: ${spring.profiles.active:default}
+      application: ${spring事件驱动模型的使用.md.application.name}
+      environment: ${spring事件驱动模型的使用.md.profiles.active:default}
       
   # 端点详细配置
   endpoint:
@@ -358,7 +358,7 @@ scrape_configs:
 
 ```bash
 # 使用 Maven 启动
-mvn spring-boot:run
+mvn spring事件驱动模型的使用.md-boot:run
 
 # 或打包后启动
 mvn clean package

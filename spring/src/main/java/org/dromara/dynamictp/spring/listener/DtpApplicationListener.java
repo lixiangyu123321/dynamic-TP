@@ -24,16 +24,22 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
  * DtpApplicationListener related
- *
+ * XXX 监听Spring对应的事件，这里只重写了刷新事件
  * @author vzer200
  * @since 1.2.0
  **/
 @Slf4j
 public class DtpApplicationListener extends OnceApplicationContextEventListener {
 
+    /**
+     * 监听容器刷新的事件
+     * @param event {@link ContextRefreshedEvent}
+     */
     @Override
     protected void onContextRefreshedEvent(ContextRefreshedEvent event) {
+        // XXX 发布用户上下文刷新事件
         CustomContextRefreshedEvent refreshedEvent = new CustomContextRefreshedEvent(this);
+        // XXX 通过EventBusManager发布改事件
         EventBusManager.post(refreshedEvent);
     }
 }

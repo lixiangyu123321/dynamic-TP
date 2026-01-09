@@ -63,6 +63,7 @@ public interface DtpInterceptor {
      */
     default Object plugin(Object target, Class<?>[] argumentTypes, Object[] arguments) {
         // 委托给代理工厂类，基于参数类型+参数精准创建目标对象的代理
+        // XXX 创建代理类，并基于指定参数构造代理类
         return DtpInterceptorProxyFactory.enhance(target, argumentTypes, arguments, this);
     }
 }

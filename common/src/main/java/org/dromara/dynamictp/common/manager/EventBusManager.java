@@ -34,6 +34,9 @@ public class EventBusManager {
 
     private static final EventBus EVENT_BUS = new EventBus();
 
+    /**
+     * 所有事件
+     */
     private static final Set<Object> REGISTERED_OBJECTS = ConcurrentHashMap.newKeySet();
 
     private EventBusManager() { }

@@ -33,7 +33,7 @@ import static org.dromara.dynamictp.common.util.DefaultValueUtil.setIfZero;
 
 /**
  * NotifyItem related
- * 通知项
+ * 通知项 XXX 需要触发通知的告警类型
  * @author yanhom
  * @since 1.0.0
  **/

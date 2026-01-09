@@ -28,7 +28,8 @@ import java.util.Objects;
 
 /**
  * Manages the Spring ApplicationContext and provides access to beans and environment properties.
- *
+ * XXX Spring上下文持有器，用于为Spring容器管理的类获得Spring相关能力
+ * XXX ContextManager 主要提供一些Bena获得能力，环境参数获得能力
  * @author vzer200
  * @since 1.2.0
  */
@@ -56,6 +57,10 @@ public class SpringContextHolder implements ContextManager, ApplicationContextAw
         return getInstance().getBeansOfType(clazz);
     }
 
+    /**
+     * 返回Spring上下文信息
+     * @return Spring上下文信息
+     */
     public static ApplicationContext getInstance() {
         if (Objects.isNull(context)) {
             throw new NullPointerException("ApplicationContext is null, please check if the spring container is started.");
