@@ -19,7 +19,7 @@ package org.dromara.dynamictp.example.service;
 
 /**
  * TestService related
- *
+ * XXX 测试服务接口
  * @author yanhom
  * @since 1.1.0
  */

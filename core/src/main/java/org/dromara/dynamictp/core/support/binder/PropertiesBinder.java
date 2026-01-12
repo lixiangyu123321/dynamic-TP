@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * PropertiesBinder related
- *
+ * XXX 提供将Map/environment中参数信息绑定到全局配置，以及一些钩子方法的能力
  * @author yanhom
  * @since 1.0.3
  **/

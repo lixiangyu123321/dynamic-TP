@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * SmsClient related
- *
+ * 只起到打印日志的作用
  * @author yanhom
  * @since 1.1.0
  */

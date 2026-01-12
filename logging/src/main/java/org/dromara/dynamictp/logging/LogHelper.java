@@ -21,7 +21,8 @@ import org.slf4j.Logger;
 
 /**
  * LogHelper related
- *
+ * XXX 给出了日志器的获取方式
+ * XXX 这里是日志配置初始化的位置
  * @author yanhom
  * @since 1.0.0
  **/
@@ -30,6 +31,7 @@ public final class LogHelper {
     private static Logger monitorLogger;
 
     static {
+        // XXX 这里调用全局的日志初始化器进行初始化
         DtpLoggingInitializer.getInstance().loadConfiguration();
     }
 

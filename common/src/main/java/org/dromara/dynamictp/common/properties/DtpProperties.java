@@ -27,6 +27,7 @@ import org.dromara.dynamictp.common.entity.TpExecutorProps;
 import java.util.List;
 
 /**
+ * XXX 全局配置
  * 动态线程池（Dynamic Thread Pool, DTP）核心配置类
  * 作用：统一管理动态线程池的所有配置项（开关、监控、注册中心、各组件线程池等）
  * 设计：单例模式（Holder 静态内部类）+ Lombok @Data（自动生成get/set/toString等方法）

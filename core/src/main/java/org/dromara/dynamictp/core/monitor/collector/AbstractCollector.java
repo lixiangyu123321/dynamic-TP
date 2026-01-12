@@ -19,7 +19,7 @@ package org.dromara.dynamictp.core.monitor.collector;
 
 /**
  * AbstractCollector related
- *
+ * 指标收集抽象类
  * @author linyanhong@ihuman.com
  * @since 1.0.0
  **/

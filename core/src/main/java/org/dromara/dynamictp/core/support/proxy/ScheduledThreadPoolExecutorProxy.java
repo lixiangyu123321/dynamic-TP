@@ -33,6 +33,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * ScheduledThreadPoolExecutorProxy related
  * The schedule method does not support queue timeout monitoring
+ * XXX ScheduledThreadPoolExecutor是以线程池的方式实现定时任务以及延时任务的
+ * XXX 在原有的基础上对相关任务进行增强，这里与ThreadPoolExecutorProxy的作用是类似的，主要是任务的功能增强
  * 这个代理类就是为了对拒绝策略进行一次代理
  * @author kyao
  * @since 1.1.5
@@ -59,6 +61,10 @@ public class ScheduledThreadPoolExecutorProxy extends ScheduledThreadPoolExecuto
         setRejectedExecutionHandler(RejectHandlerGetter.getProxy(executor.getRejectedExecutionHandler()));
     }
 
+    /**
+     * 下面的各方法其实是在ScheduledThreadPoolExecutor的基础上对方法进行了封装
+     * @param command the runnable task
+     */
     @Override
     public void execute(Runnable command) {
         command = getEnhancedTask(command);

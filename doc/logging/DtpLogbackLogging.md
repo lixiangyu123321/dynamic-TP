@@ -1,8 +1,27 @@
-# DtpLogbackLogging
+# DtpLogbackLogging 详解
+
+## 文件位置
+
+```
+logging/src/main/java/org/dromara/dynamictp/logging/logback/DtpLogbackLogging.java
+```
 
 ## 概述
 
-`DtpLogbackLogging` 是 DynamicTp 日志模块的 Logback 实现类，继承自 `AbstractDtpLogging`。它负责加载 Logback 配置文件并初始化监控日志 Logger，支持将线程池监控数据输出到独立的日志文件中。
+`DtpLogbackLogging` 是 DynamicTp 日志模块的 Logback 实现类，继承自 `AbstractDtpLogging`。它负责加载 Logback 配置文件并初始化监控日志 Logger，支持将线程池监控数据输出到独立的日志文件中。当检测到项目使用 Logback 作为日志框架时（Logback 是优先选择的日志框架），会自动使用此实现类进行日志初始化。
+
+## 类声明
+
+```java
+@Slf4j
+public class DtpLogbackLogging extends AbstractDtpLogging {
+    // ...
+}
+```
+
+**设计模式**：
+- **继承**：继承 `AbstractDtpLogging` 抽象基类
+- **模板方法模式**：实现父类定义的抽象方法
 
 ## 核心作用
 

@@ -19,7 +19,7 @@ package org.dromara.dynamictp.example.notifier;
 
 /**
  * SmsNotifyConst related
- *
+ * XXX 通知或告警模板
  * @author yanhom
  * @since 1.1.0
  */

@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * ThreadPoolExecutorAdapter implements ExecutorAdapter, the goal of this class
  * is to be compatible with {@link java.util.concurrent.ThreadPoolExecutor}.
- *
+ * XXX 执行器适配器的线程池的实现，基于委托实现相关功能
  * @author dragon-zhang
  * @since 1.1.3
  **/

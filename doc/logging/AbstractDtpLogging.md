@@ -1,8 +1,33 @@
-# AbstractDtpLogging
+# AbstractDtpLogging 详解
+
+## 文件位置
+
+```
+logging/src/main/java/org/dromara/dynamictp/logging/AbstractDtpLogging.java
+```
+
+## 文件位置
+
+```
+logging/src/main/java/org/dromara/dynamictp/logging/AbstractDtpLogging.java
+```
 
 ## 概述
 
-`AbstractDtpLogging` 是 DynamicTp 日志模块的抽象基类，定义了日志初始化的通用逻辑和资源加载方法。它为不同的日志框架实现（Logback 和 Log4j2）提供了统一的抽象接口和公共功能。
+`AbstractDtpLogging` 是 DynamicTp 日志模块的抽象基类，定义了日志初始化的通用逻辑和资源加载方法。它为不同的日志框架实现（Logback 和 Log4j2）提供了统一的抽象接口和公共功能。采用模板方法模式，定义日志初始化的骨架流程，由子类实现具体的日志框架配置加载逻辑。
+
+## 类声明
+
+```java
+@Slf4j
+public abstract class AbstractDtpLogging {
+    // ...
+}
+```
+
+**设计模式**：
+- **模板方法模式**：定义算法骨架，子类实现具体步骤
+- **抽象类**：不能被实例化，只能被继承
 
 ## 核心作用
 

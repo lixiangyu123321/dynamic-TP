@@ -28,6 +28,7 @@ import org.dromara.dynamictp.core.executor.ScheduledDtpExecutor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
+ * 进行方法转发，从而实现功能增强的
  * @author windsearcher.lq
  */
 @DtpIntercepts(
@@ -40,9 +41,17 @@ import java.lang.reflect.InvocationTargetException;
 @Slf4j
 public class TestExecuteInterceptor implements DtpInterceptor {
 
+    /**
+     * Target包含源方法的信息，包括目标类，方法，参数信息
+     * @param invocation 方法调用上下文对象，包含目标对象、方法、参数、执行逻辑等核心信息
+     * @return
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
     @Override
     public Object intercept(DtpInvocation invocation) throws InvocationTargetException, IllegalAccessException {
 
+        // XXX 这里只是打印日志，并没有实际的方法增强
         DtpExecutor dtpExecutor = (DtpExecutor) invocation.getTarget();
         String method = invocation.getMethod().getName();
         Object[] args = invocation.getArgs();

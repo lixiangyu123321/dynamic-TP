@@ -61,7 +61,7 @@ import static org.dromara.dynamictp.core.support.DtpLifecycleSupport.shutdownGra
 
 /**
  * BeanPostProcessor that handles all related beans managed by Spring.
- * XXX
+ * XXX 这个类用于在Bean初始化之后增强相关线程池为动态线程池
  *
  * XXX BeanPostProcessor专门用于增强Bean
  * XXX BeanFactoryAware 用于获得BeanFactory
@@ -79,7 +79,7 @@ public class DtpPostProcessor implements BeanPostProcessor, BeanFactoryAware, Pr
     private static final String REGISTER_SOURCE = "beanPostProcessor";
 
     /**
-     * XXX 注入BeanFactory专门用于获得Bean
+     * XXX 注入BeanFactory专门用于获得Bean/BeanDefinition
      */
     private DefaultListableBeanFactory beanFactory;
 
@@ -105,6 +105,7 @@ public class DtpPostProcessor implements BeanPostProcessor, BeanFactoryAware, Pr
      */
     @Override
     public Object postProcessAfterInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
+        // XXX 跳过非线程池Bean
         if (!(bean instanceof ThreadPoolExecutor) && !(bean instanceof ThreadPoolTaskExecutor)) {
             return bean;
         }
@@ -152,6 +153,7 @@ public class DtpPostProcessor implements BeanPostProcessor, BeanFactoryAware, Pr
         // 存储@DynamicTp注解的value值（即自定义的线程池名称）
         String dtpAnnoValue;
         try {
+            // XXX 兜底策略，尝试从类上获取相关注解
             // 第一步：尝试从bean级别获取@DynamicTp注解（比如类上的注解）
             DynamicTp dynamicTp = beanFactory.findAnnotationOnBean(beanName, DynamicTp.class);
             if (Objects.nonNull(dynamicTp)) {
@@ -195,16 +197,18 @@ public class DtpPostProcessor implements BeanPostProcessor, BeanFactoryAware, Pr
 
     /**
      * 创建相关代理
-     * TODO 关于代理哪里还没看
      * @param bean
      * @param poolName
      * @return
      */
     private Object doRegisterAndReturnCommon(Object bean, String poolName) {
         if (bean instanceof ThreadPoolTaskExecutor) {
+            // XXX ThreadPoolTaskExecutor是Spring的ThreadPoolExecutor
+            // XXX ThreadPoolTaskExecutor会通过委托内部的threadPoolExecutor进行任务提交
             ThreadPoolTaskExecutor poolTaskExecutor = (ThreadPoolTaskExecutor) bean;
             val proxy = newProxy(poolName, poolTaskExecutor.getThreadPoolExecutor());
             try {
+                // DtpExecutor的“threadpoolExecutor”
                 ReflectionUtil.setFieldValue("threadPoolExecutor", bean, proxy);
                 tryWrapTaskDecorator(poolName, poolTaskExecutor, proxy);
             } catch (IllegalAccessException ignored) { }
@@ -212,6 +216,7 @@ public class DtpPostProcessor implements BeanPostProcessor, BeanFactoryAware, Pr
             return bean;
         }
         Executor proxy;
+        // XXX 获得代理
         if (bean instanceof ScheduledThreadPoolExecutor) {
             proxy = newScheduledTpProxy(poolName, (ScheduledThreadPoolExecutor) bean);
         } else {
@@ -228,6 +233,7 @@ public class DtpPostProcessor implements BeanPostProcessor, BeanFactoryAware, Pr
      */
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        // XXX 这里主要还是获得ConfigurableListableBeanFactory的相关方法，从而获得相关的@Bean方法的注解信息
         this.beanFactory = (DefaultListableBeanFactory) beanFactory;
     }
 
@@ -240,19 +246,43 @@ public class DtpPostProcessor implements BeanPostProcessor, BeanFactoryAware, Pr
         return Ordered.HIGHEST_PRECEDENCE;
     }
 
+    /**
+     * XXX 创建相关线程的代理，其实就是进行任务增强，是一种延迟增强，只有当任务执行时才涉及到增强
+     * @param name
+     * @param originExecutor
+     * @return
+     */
     private ThreadPoolExecutorProxy newProxy(String name, ThreadPoolExecutor originExecutor) {
+        // XXX new ThreadPoolExecutorProxy 会创建一个新的线程池，所以对旧的需要优雅关闭
         val proxy = new ThreadPoolExecutorProxy(originExecutor);
+        // XXX 这里不进行相关增强器的设置proxy.setTaskWrappers，真正方法调用时是不会增强方法的
         shutdownGracefulAsync(originExecutor, name, 0);
         return proxy;
     }
 
+    /**
+     * XXX 对定时任务进行相关增强
+     * @param name
+     * @param originExecutor
+     * @return
+     */
     private ScheduledThreadPoolExecutorProxy newScheduledTpProxy(String name, ScheduledThreadPoolExecutor originExecutor) {
+        // XXX new ThreadPoolExecutorProxy 会创建一个新的线程池，所以对旧的需要优雅关闭
         val proxy = new ScheduledThreadPoolExecutorProxy(originExecutor);
+        // XXX 这里不进行相关增强器的设置proxy.setTaskWrappers，真正方法调用时是不会增强方法的
         shutdownGracefulAsync(originExecutor, name, 0);
         return proxy;
     }
 
+    /**
+     * XXX 反射适配工具方法，用于将 Spring ThreadPoolTaskExecutor 中的 taskDecorator（任务装饰器）适配为 dynamic-tp 框架的 TaskWrapper 接口实例，并注入到 ThreadPoolExecutorProxy 代理对象中
+     * @param poolName
+     * @param poolTaskExecutor
+     * @param proxy
+     * @throws IllegalAccessException
+     */
     private void tryWrapTaskDecorator(String poolName, ThreadPoolTaskExecutor poolTaskExecutor, ThreadPoolExecutorProxy proxy) throws IllegalAccessException {
+        // 获得taskDecorator的字段值
         Object taskDecorator = ReflectionUtil.getFieldValue("taskDecorator", poolTaskExecutor);
         if (Objects.isNull(taskDecorator)) {
             return;
@@ -268,7 +298,9 @@ public class DtpPostProcessor implements BeanPostProcessor, BeanFactoryAware, Pr
                 return ((TaskDecorator) taskDecorator).decorate(runnable);
             }
         };
+        // XXX 基于反射设置了代理类的增强
         ReflectionUtil.setFieldValue("taskWrappers", proxy, Lists.newArrayList(taskWrapper));
+        // XXX proxy.setTaskWrappers(Lists.newArrayList(taskWrapper));同理吧
         TaskWrappers.getInstance().register(taskWrapper);
     }
 }

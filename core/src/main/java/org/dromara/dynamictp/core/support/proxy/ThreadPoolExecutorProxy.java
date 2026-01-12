@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * ThreadPoolExecutor Proxy
- *
+ * XXX 主要是将任务增强
  * @author kyao
  * @since 1.1.4
  */

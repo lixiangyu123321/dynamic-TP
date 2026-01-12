@@ -86,6 +86,7 @@ public class ThreadPoolStatProvider {
 
     /**
      * queueTimeoutMap  key -> Runnable  value -> Timeout
+     * XXX 任务以及监控其队列超时的监控任务
      */
     private final Map<Runnable, SoftReference<Timeout>> queueTimeoutMap = new ConcurrentHashMap<>();
 
@@ -166,10 +167,15 @@ public class ThreadPoolStatProvider {
         queueTimeoutCount.add(count);
     }
 
+    /**
+     * XXX 开启队列超时任务
+     * @param r 要监控的任务
+     */
     public void startQueueTimeoutTask(Runnable r) {
         if (queueTimeout <= 0) {
             return;
         }
+        // XXX 这里的时间轮应该是单例模式
         HashedWheelTimer timer = ContextManagerHelper.getBean(HashedWheelTimer.class);
         QueueTimeoutTimerTask timerTask = new QueueTimeoutTimerTask(executorWrapper, r);
         queueTimeoutMap.put(r, new SoftReference<>(timer.newTimeout(timerTask, queueTimeout, TimeUnit.MILLISECONDS)));
@@ -181,6 +187,11 @@ public class ThreadPoolStatProvider {
                 .ifPresent(Timeout::cancel);
     }
 
+    /**
+     * XXX 开启监控运行超时任务
+     * @param t 线程池
+     * @param r 任务
+     */
     public void startRunTimeoutTask(Thread t, Runnable r) {
         if (runTimeout <= 0) {
             return;

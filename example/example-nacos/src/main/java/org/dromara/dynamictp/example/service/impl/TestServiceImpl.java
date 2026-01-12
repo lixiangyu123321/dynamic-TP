@@ -26,6 +26,7 @@ import org.dromara.dynamictp.core.executor.OrderedDtpExecutor;
 import org.dromara.dynamictp.core.support.task.runnable.NamedRunnable;
 import org.dromara.dynamictp.core.support.task.runnable.OrderedRunnable;
 import org.dromara.dynamictp.example.service.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * TestServiceImpl related
- *
+ * XXX 测试服务实现
  * @author yanhom
  * @since 1.1.0
  */
@@ -54,6 +55,15 @@ public class TestServiceImpl implements TestService {
 
     private final OrderedDtpExecutor orderedDtpExecutor;
 
+    /**
+     * 基于final修饰的常量以及构造方法的自动注入
+     * @param jucThreadPoolExecutor
+     * @param threadPoolTaskExecutor
+     * @param eagerDtpExecutor
+     * @param scheduledDtpExecutor
+     * @param orderedDtpExecutor
+     */
+    // XXX Spring4.3之后@Autowired可省略，可以只保留一个构造方法
     public TestServiceImpl(ThreadPoolExecutor jucThreadPoolExecutor,
                            ThreadPoolTaskExecutor threadPoolTaskExecutor,
                            DtpExecutor eagerDtpExecutor,
@@ -65,6 +75,10 @@ public class TestServiceImpl implements TestService {
         this.scheduledDtpExecutor = scheduledDtpExecutor;
         this.orderedDtpExecutor = orderedDtpExecutor;
     }
+
+    /**
+     * 由于下面的线程池的executor被拦截，然后打印日志
+     */
 
     @Override
     public void testJucTp() {
@@ -150,6 +164,10 @@ public class TestServiceImpl implements TestService {
             this.userInfo = userInfo;
         }
 
+        /**
+         * XXX 这样看来同一个用户的任务是有序的
+         * @return
+         */
         @Override
         public Object hashKey() {
             return userInfo.getUid();

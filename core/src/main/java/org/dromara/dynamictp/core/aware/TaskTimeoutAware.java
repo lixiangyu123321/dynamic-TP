@@ -30,7 +30,7 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.TRUE_STR;
 
 /**
  * TaskTimeoutAware related
- *
+ * 监控任务队列等待超时以及任务执行超时的感知器
  * @author kyao
  * @since 1.1.4
  */
@@ -47,6 +47,11 @@ public class TaskTimeoutAware extends TaskStatAware {
         return AwareTypeEnum.TASK_TIMEOUT_AWARE.getName();
     }
 
+    /**
+     * 核心作用是将配置参数（超时时间、中断开关）同步到统计提供者（statProvider）中
+     * @param props 线程池的相关配置
+     * @param statProvider 统计提供者
+     */
     @Override
     protected void refresh(TpExecutorProps props, ThreadPoolStatProvider statProvider) {
         super.refresh(props, statProvider);
@@ -57,6 +62,11 @@ public class TaskTimeoutAware extends TaskStatAware {
         }
     }
 
+    /**
+     * 启动队列超时任务监控
+     * @param executor executor
+     * @param r       runnable
+     */
     @Override
     public void execute(Executor executor, Runnable r) {
         if (TRUE_STR.equals(System.getProperty(DTP_EXECUTE_ENHANCED, TRUE_STR))) {
@@ -64,6 +74,12 @@ public class TaskTimeoutAware extends TaskStatAware {
         }
     }
 
+    /**
+     * 任务要执行了，取消队列超时监控，开始任务超时监控
+     * @param executor executor
+     * @param t        thread
+     * @param r        runnable
+     */
     @Override
     public void beforeExecute(Executor executor, Thread t, Runnable r) {
         Optional.ofNullable(statProviders.get(executor)).ifPresent(p -> {
@@ -72,11 +88,22 @@ public class TaskTimeoutAware extends TaskStatAware {
         });
     }
 
+    /**
+     * 任务执行后取消任务超时监控
+     * @param executor executor
+     * @param r        runnable
+     * @param t        throwable
+     */
     @Override
     public void afterExecute(Executor executor, Runnable r, Throwable t) {
         Optional.ofNullable(statProviders.get(executor)).ifPresent(p -> p.cancelRunTimeoutTask(r));
     }
 
+    /**
+     * 任务被拒绝同样启用队列超时监控
+     * @param r runnable
+     * @param executor executor
+     */
     @Override
     public void beforeReject(Runnable r, Executor executor) {
         Optional.ofNullable(statProviders.get(executor)).ifPresent(p -> p.cancelQueueTimeoutTask(r));

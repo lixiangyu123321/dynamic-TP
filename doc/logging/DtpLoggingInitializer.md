@@ -1,8 +1,27 @@
-# DtpLoggingInitializer
+# DtpLoggingInitializer 详解
+
+## 文件位置
+
+```
+logging/src/main/java/org/dromara/dynamictp/logging/DtpLoggingInitializer.java
+```
 
 ## 概述
 
-`DtpLoggingInitializer` 是 DynamicTp 框架的日志初始化器，负责自动检测和初始化日志框架。它采用单例模式，在静态代码块中自动检测可用的日志框架（Logback 或 Log4j2），并创建相应的日志实现实例。
+`DtpLoggingInitializer` 是 DynamicTp 框架的日志初始化器，负责自动检测和初始化日志框架。它采用单例模式，在静态代码块中自动检测可用的日志框架（Logback 或 Log4j2），并创建相应的日志实现实例。这是日志模块的入口点，负责协调整个日志初始化流程。
+
+## 类声明
+
+```java
+@Slf4j
+public class DtpLoggingInitializer {
+    // ...
+}
+```
+
+**设计模式**：
+- **单例模式**：使用静态内部类实现线程安全的单例
+- **策略模式**：根据检测到的日志框架选择不同的实现策略
 
 ## 核心作用
 

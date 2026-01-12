@@ -34,7 +34,7 @@ public interface TaskEnhanceAware extends DtpAware {
 
     /**
      * Enhance task
-     * Runnable使用TaskWrapper层层包装
+     * XXX Runnable使用TaskWrapper层层包装
      * @param command      command
      * @param taskWrappers task wrappers
      * @return enhanced task

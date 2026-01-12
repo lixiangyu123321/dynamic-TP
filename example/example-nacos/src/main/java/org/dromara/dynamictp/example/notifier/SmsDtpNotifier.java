@@ -33,6 +33,9 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.UNKNOWN;
  */
 public class SmsDtpNotifier extends AbstractDtpNotifier {
 
+    /**
+     * 构造方法传入对应的通知器
+     */
     public SmsDtpNotifier() {
         super(new SmsNotifier(new SmsClient()));
     }
@@ -75,10 +78,19 @@ public class SmsDtpNotifier extends AbstractDtpNotifier {
         return extInfo + "\n" + memoryMetrics;
     }
 
+    /**
+     * 基于分布式链路ID查到相关记录？？
+     * @param traceId 分布式链路ID
+     * @return 相关的查询地址
+     */
     private String getKibanaUrl(String traceId) {
         return "https://kibana.com/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:'logstash-*',interval:auto,query:(language:lucene,query:'traceId:" + traceId + "'),sort:!('@timestamp',desc))";
     }
 
+    /**
+     * 模拟获得系统内存指标信息
+     * @return Mock信息
+     */
     private String getMemoryMetrics() {
         int heapInit = 1024;
         int heapUsed = 521;

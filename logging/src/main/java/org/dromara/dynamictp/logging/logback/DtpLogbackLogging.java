@@ -25,7 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * DtpLogbackLogging related
- *
+ * XXX 更新logback日志相关的配置
+ * XXX Logger
+ * 1. 业务代码中 log.info() 实际调用的就是这个类的方法；
+ * 2. 每个 Logger 关联到 LoggerContext，使用上下文的配置规则；
+ * 3. 按名称（如 DTP.MONITOR.LOG）区分不同日志器
  * @author yanhom
  * @since 1.0.5
  */
@@ -39,7 +43,18 @@ public class DtpLogbackLogging extends AbstractDtpLogging {
     @Override
     public void loadConfiguration() {
         try {
+            // XXX logback全局配置
+            /**
+             * 1. Logback 全局上下文（单例 / 独立上下文），管理所有 Logger、Appender、配置；
+             * 2. 每个 LoggerContext 对应一套独立的日志配置；
+             * 3. 是 Logback 日志系统的 “入口中枢”
+             */
             loggerContext = new LoggerContext();
+            /**
+             * 1. 负责加载 Logback 配置文件（XML/ Groovy）；
+             * 2. 将配置解析后注入到 LoggerContext 中；
+             * 3. 支持从 URL/File/Classpath 加载配置
+             */
             new ContextInitializer(loggerContext).configureByResource(getResourceUrl(LOGBACK_LOCATION));
         } catch (Exception e) {
             log.error("Cannot initialize dtp logback logging.");
@@ -50,6 +65,9 @@ public class DtpLogbackLogging extends AbstractDtpLogging {
         return loggerContext;
     }
 
+    /**
+     * 获得指定的日志器
+     */
     @Override
     public void initMonitorLogger() {
         LogHelper.init(getLoggerContext().getLogger(MONITOR_LOG_NAME));

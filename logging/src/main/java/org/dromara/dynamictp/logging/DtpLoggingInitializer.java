@@ -25,17 +25,25 @@ import java.util.Objects;
 
 /**
  * DtpLogging related
- *
+ * XXX 全局的日志配置初始化器
+ * XXX 主要方法是初始化日志门面实现，以及提供手动加载日志配置的能力
  * @author yanhom
  * @since 1.0.5
  **/
 @Slf4j
 public class DtpLoggingInitializer {
 
+    /**
+     * 框架日志能力的通用功能
+     */
     private static AbstractDtpLogging dtpLogging;
 
+    /**
+     * XXX 在框架启动时，自动检测项目中引入的日志框架（优先 Logback，其次 Log4j2），并初始化对应的日志实现类
+     */
     static  {
         try {
+            // XXX 默认logback的日志
             Class.forName("ch.qos.logback.classic.Logger");
             dtpLogging = new DtpLogbackLogging();
         } catch (ClassNotFoundException e) {
@@ -48,6 +56,9 @@ public class DtpLoggingInitializer {
         }
     }
 
+    /**
+     * 静态内部类实现单例，而且是一种懒汉式的单例
+     */
     private static class LoggingInstance {
         private static final DtpLoggingInitializer INSTANCE = new DtpLoggingInitializer();
     }
@@ -56,6 +67,9 @@ public class DtpLoggingInitializer {
         return LoggingInstance.INSTANCE;
     }
 
+    /**
+     * XXX 加载配置
+     */
     public void loadConfiguration() {
         if (Objects.isNull(dtpLogging)) {
             return;

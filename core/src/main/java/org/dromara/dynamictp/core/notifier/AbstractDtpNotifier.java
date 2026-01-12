@@ -52,7 +52,8 @@ import static org.dromara.dynamictp.core.notifier.manager.NotifyHelper.getAllAla
 
 /**
  * AbstractDtpNotifier related
- *
+ * XXX 抽象类实现DtpNotifier接口，给出了一些构建通知内容以及发送相关的接口
+ * XXX 相关实现类只需实现获得通知的模板的方法即可 + 传入对应的Notifier即可
  * @author yanhom
  * @since 1.0.0
  **/
@@ -176,6 +177,10 @@ public abstract class AbstractDtpNotifier implements DtpNotifier {
         return tid;
     }
 
+    /**
+     * XXX 获得系统信息
+     * @return 格式化字符串
+     */
     protected String getExtInfo() {
         return SystemMetricManager.getSystemMetric();
     }

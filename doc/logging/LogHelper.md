@@ -1,8 +1,26 @@
-# LogHelper
+# LogHelper 详解
+
+## 文件位置
+
+```
+logging/src/main/java/org/dromara/dynamictp/logging/LogHelper.java
+```
 
 ## 概述
 
-`LogHelper` 是 DynamicTp 日志模块的辅助类，提供统一的监控日志输出接口。它是一个工具类，采用单例模式管理监控日志 Logger，确保整个应用使用同一个监控日志实例。
+`LogHelper` 是 DynamicTp 日志模块的辅助类，提供统一的监控日志输出接口。它是一个工具类，采用单例模式管理监控日志 Logger，确保整个应用使用同一个监控日志实例。这是日志模块对外提供的统一访问入口，其他模块通过 `LogHelper` 获取监控 Logger 并输出监控数据。
+
+## 类声明
+
+```java
+public final class LogHelper {
+    // ...
+}
+```
+
+**设计特点**：
+- **工具类**：使用 `final` 类和私有构造函数，防止实例化
+- **静态方法**：所有方法都是静态方法，方便调用
 
 ## 核心作用
 

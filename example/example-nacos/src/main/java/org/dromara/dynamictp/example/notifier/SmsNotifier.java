@@ -22,7 +22,7 @@ import org.dromara.dynamictp.common.notifier.AbstractNotifier;
 
 /**
  * SmsNotifier related
- *
+ * XXX 依旧模拟实现通知器
  * @author yanhom
  * @since 1.1.0
  */

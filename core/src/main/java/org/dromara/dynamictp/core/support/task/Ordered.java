@@ -21,7 +21,7 @@ import org.dromara.dynamictp.core.executor.OrderedDtpExecutor;
 
 /**
  * Used in {@link OrderedDtpExecutor} to ensure that the tasks are executed in order.
- *
+ * XXX Ordered中的方法是hashKey是保证同一个hashKey的任务是有序的
  * @author yanhom
  * @since 1.0.0
  **/

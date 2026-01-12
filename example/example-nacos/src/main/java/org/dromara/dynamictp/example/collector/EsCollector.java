@@ -23,7 +23,7 @@ import org.dromara.dynamictp.core.monitor.collector.AbstractCollector;
 
 /**
  * EsCollector related
- *
+ * 模拟ESClient的收集指标
  * @author yanhom
  * @since 1.1.0
  */

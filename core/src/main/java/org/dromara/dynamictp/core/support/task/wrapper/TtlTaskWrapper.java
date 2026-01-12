@@ -17,11 +17,12 @@
 
 package org.dromara.dynamictp.core.support.task.wrapper;
 
+import com.alibaba.ttl.TransmittableThreadLocal;
 import com.alibaba.ttl.TtlRunnable;
 
 /**
  * TtlTaskWrapper related
- * 基于com.alibaba.ttl实现含超时时间的任务
+ * 基于com.alibaba.ttl实现可以被线程池中线程继承使用的线程私有变量的任务
  * @author yanhom
  * @since 1.0.4
  **/

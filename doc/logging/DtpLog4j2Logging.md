@@ -1,8 +1,27 @@
-# DtpLog4j2Logging
+# DtpLog4j2Logging 详解
+
+## 文件位置
+
+```
+logging/src/main/java/org/dromara/dynamictp/logging/log4j2/DtpLog4j2Logging.java
+```
 
 ## 概述
 
-`DtpLog4j2Logging` 是 DynamicTp 日志模块的 Log4j2 实现类，继承自 `AbstractDtpLogging`。它负责加载 Log4j2 配置文件并初始化监控日志 Logger，支持将线程池监控数据输出到独立的日志文件中。
+`DtpLog4j2Logging` 是 DynamicTp 日志模块的 Log4j2 实现类，继承自 `AbstractDtpLogging`。它负责加载 Log4j2 配置文件并初始化监控日志 Logger，支持将线程池监控数据输出到独立的日志文件中。当检测到项目使用 Log4j2 作为日志框架时，会自动使用此实现类进行日志初始化。
+
+## 类声明
+
+```java
+@Slf4j
+public class DtpLog4j2Logging extends AbstractDtpLogging {
+    // ...
+}
+```
+
+**设计模式**：
+- **继承**：继承 `AbstractDtpLogging` 抽象基类
+- **模板方法模式**：实现父类定义的抽象方法
 
 ## 核心作用
 
