@@ -51,6 +51,11 @@ public abstract class TaskStatAware implements ExecutorAware {
         statProviders.put(wrapper.getExecutor().getOriginal(), statProvider);
     }
 
+    /**
+     * TODO 这里是做什么的
+     * @param wrapper executor wrapper
+     * @param props  executor props
+     */
     @Override
     public void refresh(ExecutorWrapper wrapper, TpExecutorProps props) {
         if (Objects.isNull(statProviders.get(wrapper.getExecutor()))) {

@@ -31,6 +31,7 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.TRUE_STR;
 /**
  * TaskTimeoutAware related
  * 监控任务队列等待超时以及任务执行超时的感知器
+ * XXX 感知任务超时并做出处理
  * @author kyao
  * @since 1.1.4
  */

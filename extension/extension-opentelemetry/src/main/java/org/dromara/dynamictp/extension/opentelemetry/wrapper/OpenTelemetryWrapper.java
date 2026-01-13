@@ -27,7 +27,7 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.TRACE_ID;
 
 /**
  * OpenTelemetryWrapper related
- *
+ * XXX 基于Opentelemetry框架中，获得上下文信息中的traceId，并进行封装任务
  * @author weishaopeng
  * @since 1.1.3
  **/

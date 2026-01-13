@@ -28,6 +28,7 @@ import java.util.Objects;
 /**
  * BinderHelper related
  * XXX 将Map类型/environment中信息绑定到dtpProperties中
+ * XXX 绑定器延迟加载，只有当第一次getBinder发现没有的时候，才从全局单例池中加载
  * @author dragon-zhang
  * @since 1.1.4
  */
@@ -47,6 +48,7 @@ public class BinderHelper {
         if (Objects.nonNull(binder)) {
             return binder;
         }
+        // XXX 基于SPI机制加载
         final PropertiesBinder loadedFirstBinder = ExtensionServiceLoader.getFirst(PropertiesBinder.class);
         if (Objects.isNull(loadedFirstBinder)) {
             log.error("DynamicTp refresh, no SPI for org.dromara.dynamictp.core.support.binder.PropertiesBinder.");

@@ -30,21 +30,32 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * AbstractRedisRateLimiter related
- *
+ * XXX 实现执行lua脚本的操作
  * @author yanhom
  * @since 1.0.8
  **/
 @SuppressWarnings("all")
 public abstract class AbstractRedisRateLimiter implements RedisRateLimiter<List<Long>> {
 
+    /**
+     * Lua脚本存放的类路径前缀（固定路径，所有限流脚本都放/scripts/下）
+     */
     private static final String SCRIPT_PATH = "/scripts/";
-
+    /**
+     * Redis Key的统一前缀（避免和其他业务Key冲突）
+     */
     protected static final String PREFIX = "dtp";
-
+    /**
+     * 加载好的Lua脚本对象（泛型指定返回值为List<Long>）
+     */
     private final RedisScript<List<Long>> script;
-
+    /**
+     * Redis操作模板（注入使用，所有子类共享）
+     */
     protected final StringRedisTemplate stringRedisTemplate;
-
+    /**
+     * 原子计数器（可用于请求计数/分片等，子类可复用）
+     */
     protected static final AtomicInteger COUNTER = new AtomicInteger(0);
 
     public AbstractRedisRateLimiter(String scriptName, StringRedisTemplate stringRedisTemplate) {
@@ -60,10 +71,19 @@ public abstract class AbstractRedisRateLimiter implements RedisRateLimiter<List<
         return script;
     }
 
+    /**
+     * 执行lua脚本
+     * @param key
+     * @param windowSize
+     * @param limit
+     * @return
+     */
     public List<Object> isAllowed(String key, long windowSize, int limit) {
         RedisScript<?> script = this.getScript();
         List<String> keys = this.getKeys(key);
         String[] values = this.getArgs(key, windowSize, limit);
+        // XXX 执行lua脚本，键可以多个，值可以多个
+        // XXX execute(RedisScript<T> script, List<K> keys, Object... args)
         return Collections.unmodifiableList((List) Objects.requireNonNull(stringRedisTemplate.execute(script, keys,
                 values)));
     }

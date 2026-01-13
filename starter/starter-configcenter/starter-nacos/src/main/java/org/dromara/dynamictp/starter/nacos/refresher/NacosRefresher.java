@@ -33,15 +33,29 @@ import org.springframework.context.event.SmartApplicationListener;
 @Slf4j
 public class NacosRefresher extends AbstractSpringRefresher implements SmartApplicationListener {
 
+    /**
+     * 要更新的数据
+     * @param dtpProperties 需要更新的全局配置数据，XXX 一般是唯一的
+     */
     public NacosRefresher(DtpProperties dtpProperties) {
         super(dtpProperties);
     }
 
+    /**
+     * 支持监听的事件
+     * @param eventType XXX 事件类型
+     * @return
+     */
     @Override
     public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
         return NacosConfigEvent.class.isAssignableFrom(eventType);
     }
 
+    /**
+     * TODO 监听Nacos事件，基于environment进行更新，那监听nacos配置刷新并将更新后配置刷新到environment中的操作在哪里
+     * Spring的相关事件监听
+     * @param event Spring事件
+     */
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof NacosConfigEvent) {

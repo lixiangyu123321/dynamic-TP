@@ -33,6 +33,7 @@ import org.springframework.context.annotation.Role;
 /**
  * DtpBaseBeanConfiguration related
  * XXX 基于Spring配置一些配置类
+ * XXX 这里没有配置DtpInitializerExecutor，所以初始化器需要手动配置，像DtpApplicationContextInitializer
  * @author yanhom
  * @since 1.0.0
  **/

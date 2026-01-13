@@ -24,6 +24,7 @@ import java.util.Map;
 
 /**
  * Helper class for accessing ContextManager.
+ * XXX 完成扩展的上下文管理器的加载，以及委托给ContextManager实现相关功能
  * 上下文管理器的辅助方法，采用委托模式委托给ContextManager实现方法
  * @author vzer200
  * @since 1.2.0

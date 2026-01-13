@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * DtpInitializerExecutor related
+ * XXX 全局初始化执行器
  * 负责执行所有注册的DtpInitializer，确保初始化器只执行依次，并按照顺序执行
  * @author yanhom
  * @since 1.1.6
@@ -36,7 +37,7 @@ public class DtpInitializerExecutor {
 
     /**
      * 基于SPI机制发现所有扩展的初始化器，依次执行所有的初始化
-     * @param args
+     * @param args 目前来看，传入的是Spring的上下文 XXX 从功能角度来看，是希望传入初始化需要的参数
      */
     public static void init(Object... args) {
         if (!INITIALIZED.compareAndSet(false, true)) {

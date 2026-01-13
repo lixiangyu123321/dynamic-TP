@@ -22,7 +22,7 @@ import org.dromara.dynamictp.common.entity.NotifyPlatform;
 
 /**
  * AbstractNotifier related
- *
+ * XXX 抽象通知器，定义发送规则模板
  * @author kyao
  * @since 1.1.3
  */

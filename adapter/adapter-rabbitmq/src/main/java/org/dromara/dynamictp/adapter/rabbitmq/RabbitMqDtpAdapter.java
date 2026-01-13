@@ -42,13 +42,24 @@ public class RabbitMqDtpAdapter extends AbstractDtpAdapter {
 
     private static final String TP_PREFIX = "rabbitMqTp";
 
+    /**
+     * 对应的中间件线程池字段名称
+     */
     private static final String CONSUME_EXECUTOR_FIELD = "executorService";
 
+    /**
+     * 基于配置的线程池
+     * @param dtpProperties the targeted dtpProperties
+     */
     @Override
     public void refresh(DtpProperties dtpProperties) {
         refresh(dtpProperties.getRabbitmqTp(), dtpProperties.getPlatforms());
     }
 
+    /**
+     * 获得中间件类型
+     * @return
+     */
     @Override
     protected String getTpPrefix() {
         return TP_PREFIX;

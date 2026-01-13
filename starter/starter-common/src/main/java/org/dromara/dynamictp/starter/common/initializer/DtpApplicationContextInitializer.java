@@ -23,12 +23,16 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * DtpApplicationContextInitializer related
- *
+ * XXX ApplicationContextInitializer在 Spring 容器完全启动前，做一些前置准备工作
  * @author yanhom
  * @since 1.1.6
  */
 public class DtpApplicationContextInitializer implements ApplicationContextInitializer {
 
+    /**
+     * 核心方法：Spring容器初始化时会调用这个方法
+     * @param applicationContext Spring上下文
+     */
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         DtpInitializerExecutor.init(applicationContext);

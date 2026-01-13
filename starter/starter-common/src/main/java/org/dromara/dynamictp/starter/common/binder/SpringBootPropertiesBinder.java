@@ -40,7 +40,7 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.MAIN_PROPERTI
 
 /**
  * SpringBootPropertiesBinder related
- *
+ * XXX 基于SpringBoot实现属性绑定的功能
  * @author yanhom
  * @since 1.0.3
  **/
@@ -49,8 +49,11 @@ public class SpringBootPropertiesBinder implements PropertiesBinder {
 
     @Override
     public void bindDtpProperties(Map<?, Object> properties, DtpProperties dtpProperties) {
+        // XXX 钩子方法依旧没有实现
+        // XXX 钩子方法依旧为空
         beforeBind(properties, dtpProperties);
         try {
+            // XXX 判断版本
             Class.forName("org.springframework.boot.context.properties.bind.Binder");
             doBindIn2X(properties, dtpProperties);
         } catch (ClassNotFoundException e) {
@@ -80,15 +83,30 @@ public class SpringBootPropertiesBinder implements PropertiesBinder {
         DtpPropertiesBinderUtil.tryResetWithGlobalConfig(source, dtpProperties);
     }
 
+    /**
+     * 基于SpringBoot提供属性绑定机制实现属性绑定
+     * @param properties Map
+     * @param dtpProperties 实体类
+     */
     private void doBindIn2X(Map<?, Object> properties, DtpProperties dtpProperties) {
+        // 1. 将原始Map包装成Spring能识别的配置属性源
         ConfigurationPropertySource sources = new MapConfigurationPropertySource(properties);
+        // 2. 创建配置绑定器（核心工具类），用于后续属性绑定
+        // XXX Binder 是 Spring Core 中负责属性绑定的核心类，相当于 “属性赋值工具”，
+        // XXX 它能从 ConfigurationPropertySource 中读取配置，并映射到 Java 对象的字段上。
         Binder binder = new Binder(sources);
+        // 3. 获取DtpProperties类的类型元信息（包含泛型、字段等）
+        // XXX ResolvableType 是 Spring 提供的类型解析工具，能处理泛型、继承等复杂类型场景，这里用来明确绑定的目标类型是 DtpProperties。
         ResolvableType type = ResolvableType.forClass(DtpProperties.class);
+        // 4. 包装待绑定的目标对象：指定绑定类型为DtpProperties，且使用已存在的dtpProperties实例（而非新建）
         Bindable<?> target = Bindable.of(type).withExistingValue(dtpProperties);
+        // 5. 核心操作：将配置源中以MAIN_PROPERTIES_PREFIX为前缀的属性，绑定到dtpProperties对象上
         binder.bind(MAIN_PROPERTIES_PREFIX, target);
     }
 
     private void doBindIn2X(Environment environment, DtpProperties dtpProperties) {
+        // XXX Binder.get(environment) 是 Spring 提供的 “快捷工厂方法”
+        // XXX Spring与environment是一家，所以提供这样的快捷方式
         Binder binder = Binder.get(environment);
         ResolvableType type = ResolvableType.forClass(DtpProperties.class);
         Bindable<?> target = Bindable.of(type).withExistingValue(dtpProperties);
@@ -114,6 +132,11 @@ public class SpringBootPropertiesBinder implements PropertiesBinder {
         }
     }
 
+    /**
+     * SpringBoot1.X的方式
+     * @param properties Map
+     * @param dtpProperties 实体类
+     */
     private void doBindIn1X(Map<?, ?> properties, DtpProperties dtpProperties) {
         try {
             // new RelaxedDataBinder(dtpProperties, MAIN_PROPERTIES_PREFIX)

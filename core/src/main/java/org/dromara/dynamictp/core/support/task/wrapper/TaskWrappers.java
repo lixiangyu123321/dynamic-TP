@@ -32,6 +32,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * TaskWrapperHolder related
  * XXX 所有的任务包装器，全局的任务包装器
+ * XXX 依旧懒加载，第一次使用到TaskWrappers时进行SPI加载
  * @author yanhom
  * @since 1.0.4
  **/

@@ -25,6 +25,9 @@ import java.util.List;
 /**
  * MetricsAware related
  * 1-2 18:34 这里弱化了感知属性，只是提供了指标的查询的功能
+ * XXX 这里的感知器是用来被感知的，当一个动态线程池实现了该类，就可以被其他统计程序感知到了
+ * XXX val handlerMap = ContextManagerHelper.getBeansOfType(MetricsAware.class);
+ * XXX 从而可以对外提供统计信息的能力
  * @author yanhom
  * @since 1.0.9
  */
@@ -41,7 +44,7 @@ public interface MetricsAware extends DtpAware {
 
     /**
      * Get multi thread pool stats.
-     *
+     * XXX 获得多个统计数据
      * @return thead pools stats
      */
     default List<ThreadPoolStats> getMultiPoolStats() {

@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * ExecutorConverter related
+ * XXX 获得线程池相关信息
  * 将ExecutorWrapper 转换为 配置对象和监控对象
  * @author yanhom
  * @since 1.0.0
@@ -41,7 +42,7 @@ public class ExecutorConverter {
 
     /**
      * 获得线程池主要配置字段
-     * @param executorWrapper
+     * @param executorWrapper 线程池包装器
      * @return
      */
     public static TpMainFields toMainFields(ExecutorWrapper executorWrapper) {
@@ -60,7 +61,7 @@ public class ExecutorConverter {
 
     /**
      * 获得线程池监控信息/或者叫指标信息
-     * @param wrapper
+     * @param wrapper 线程池包装器
      * @return
      */
     public static ThreadPoolStats toMetrics(ExecutorWrapper wrapper) {
@@ -70,7 +71,9 @@ public class ExecutorConverter {
         }
         ThreadPoolStatProvider provider = wrapper.getThreadPoolStatProvider();
         PerformanceProvider performanceProvider = provider.getPerformanceProvider();
+        // XXX 获得关于响应时间的快照
         val performanceSnapshot = performanceProvider.getSnapshotAndReset();
+        // XXX 从线程池中获得一些统计数据
         ThreadPoolStats poolStats = convertCommon(executor);
         poolStats.setPoolName(wrapper.getThreadPoolName());
         poolStats.setPoolAliasName(wrapper.getThreadPoolAliasName());
@@ -92,6 +95,11 @@ public class ExecutorConverter {
         return poolStats;
     }
 
+    /**
+     * 获得线程池中一些参数的信息
+     * @param executor 线程池适配器
+     * @return 统计数据
+     */
     private static ThreadPoolStats convertCommon(ExecutorAdapter<?> executor) {
         ThreadPoolStats poolStats = new ThreadPoolStats();
         poolStats.setCorePoolSize(executor.getCorePoolSize());

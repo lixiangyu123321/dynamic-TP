@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * RedisRateLimiterNotifyFilter related
- *
+ * XXX 对通知进行相应的限流
  * @author yanhom
  * @since 1.0.8
  **/
@@ -43,6 +43,11 @@ public class RedisRateLimiterNotifyFilter implements NotifyFilter {
         return 10;
     }
 
+    /**
+     * 过滤
+     * @param context context 线程池包装器 + 通知项
+     * @param nextInvoker next invoker 调用者
+     */
     @Override
     public void doFilter(BaseNotifyCtx context, Invoker<BaseNotifyCtx> nextInvoker) {
         if (tryPass(context)) {
@@ -53,9 +58,11 @@ public class RedisRateLimiterNotifyFilter implements NotifyFilter {
     private boolean tryPass(BaseNotifyCtx context) {
         // silence period <= 0 indicates that no rate limit check is required.
         NotifyItem notifyItem = context.getNotifyItem();
+        // XXX 不在静默期
         if (notifyItem.getSilencePeriod() <= 0) {
             return true;
         }
+        // XXX 基于通知项的配置进行相应的限流操作
         String notifyName = context.getExecutorWrapper().getThreadPoolName() + "#" + context.getNotifyItemEnum().getValue();
         int silencePeriod = notifyItem.getSilencePeriod();
         int clusterLimit = notifyItem.getClusterLimit();

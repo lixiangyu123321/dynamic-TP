@@ -30,7 +30,7 @@ import java.util.Optional;
 
 /**
  * YunZhiJiaNotifier related
- *
+ * XXX 基于Http进行通知
  * @author husky12138
  * @since 1.1.4
  **/

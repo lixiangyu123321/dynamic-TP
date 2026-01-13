@@ -27,7 +27,7 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.TRACE_ID;
 
 /**
  * SwTraceTaskWrapper related
- *
+ * XXX 基于skywalking的分布式链路追踪，从相应的上下文中获得链路ID
  * @author yanhom
  * @since 1.0.8
  **/

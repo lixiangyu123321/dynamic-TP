@@ -63,7 +63,7 @@ import static org.dromara.dynamictp.core.support.DtpLifecycleSupport.shutdownGra
 
 /**
  * AbstractDtpAdapter related
- *
+ * XXX 封装动态线程池的通用逻辑（初始化、配置刷新、状态采集、通知告警、线程池增强），定义统一的扩展接口，让不同类型的线程池都能接入 DTP 框架，实现动态配置调整、状态监控、变更通知等核心能力。
  * @author yanhom
  * @author dragon-zhang
  * @since 1.0.6
@@ -71,14 +71,22 @@ import static org.dromara.dynamictp.core.support.DtpLifecycleSupport.shutdownGra
 @Slf4j
 public abstract class AbstractDtpAdapter implements DtpAdapter {
 
+    /**
+     * 比较两个对象是否相等，并返回字段差异
+     */
     private static final Equator EQUATOR = new GetterBaseEquator();
 
     protected final Map<String, ExecutorWrapper> executors = Maps.newHashMap();
 
     protected AbstractDtpAdapter() {
+        // XXX 注册当前适配器到事件总线，监听 Spring 容器事件
         EventBusManager.register(this);
     }
 
+    /**
+     * 监听用户刷新事件
+     * @param event
+     */
     @Subscribe
     public synchronized void onContextRefreshedEvent(CustomContextRefreshedEvent event) {
         try {
@@ -95,6 +103,9 @@ public abstract class AbstractDtpAdapter implements DtpAdapter {
     protected void initialize() {
     }
 
+    /**
+     * XXX 注册所有线程池到线程池感知器中
+     */
     protected void afterInitialize() {
         getExecutorWrappers().forEach((k, v) -> AwareManager.register(v));
     }

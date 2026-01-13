@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * RedisRateLimiter related.
- *
+ * XXX 基于 Redis 实现的限流算法抽象接口
  * @param <T>
  * @author yanhom
  * @since 1.0.8
@@ -32,14 +32,14 @@ public interface RedisRateLimiter<T> {
 
     /**
      * Get script.
-     *
+     * XXX 获取限流的Lua脚本
      * @return the script
      */
     RedisScript<T> getScript();
 
     /**
      * Get keys.
-     *
+     * XXX 限流相关key的获取
      * @param key the key
      * @return the keys
      */
@@ -47,7 +47,10 @@ public interface RedisRateLimiter<T> {
 
     /**
      * Get args.
-     *
+     * XXX 限流的核心参数：
+     * XXX - windowSize：限流窗口大小（如 1 秒）
+     * XXX - limit：窗口内最大请求数（如 100 次）
+     * XXX 该方法把这些参数组装成 Lua 脚本能识别的格式
      * @param key the key
      * @param windowSize the window size
      * @param limit the limit
@@ -57,7 +60,11 @@ public interface RedisRateLimiter<T> {
 
     /**
      * Acquires permission of an invocation only if it is available at the time of invoking.
-     *
+     * XXX 尝试获取一次限流许可：
+     * XXX - name：限流标识（如接口名、用户 ID）
+     * XXX - interval：限流时间窗口（同 windowSize）
+     * XXX - limit：窗口内限流阈值
+     * XXX - 返回 true= 允许通过，false= 限流拦截
      * @param name the key
      * @param interval the interval
      * @param limit the limit

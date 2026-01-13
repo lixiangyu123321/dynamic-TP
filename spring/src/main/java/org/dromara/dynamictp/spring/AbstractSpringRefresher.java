@@ -25,7 +25,7 @@ import org.springframework.core.env.Environment;
 
 /**
  *  Abstract class for refreshing properties in a Spring environment.
- * 获得Spring的环境
+ * XXX 在AbstractRefresher的基础上，可以获得Spring的环境
  *  @author vzer200
  * @since 1.2.0
  */

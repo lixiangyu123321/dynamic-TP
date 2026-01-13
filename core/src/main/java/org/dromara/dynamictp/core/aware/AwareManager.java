@@ -31,7 +31,7 @@ import java.util.concurrent.Executor;
 
 /**
  * AwareManager related
- * TODO
+ * 全局感知器管理器
  * @author kyao
  * @since 1.1.4
  */
@@ -47,6 +47,7 @@ public class AwareManager {
         EXECUTOR_AWARE_LIST.add(new TaskTimeoutAware());
         EXECUTOR_AWARE_LIST.add(new TaskRejectAware());
 
+        // XXX 基于SPI机制注册感知器
         List<ExecutorAware> serviceLoader = ExtensionServiceLoader.get(ExecutorAware.class);
         EXECUTOR_AWARE_LIST.addAll(serviceLoader);
         EXECUTOR_AWARE_LIST.sort(Comparator.comparingInt(ExecutorAware::getOrder));

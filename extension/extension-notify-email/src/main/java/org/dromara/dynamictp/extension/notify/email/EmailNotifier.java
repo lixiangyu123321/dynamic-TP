@@ -34,7 +34,7 @@ import java.util.Date;
 
 /**
  * EmailNotifier related
- *
+ * XXX Email通知器底层的通知器
  * @author ljinfeng
  * @since 1.0.8
  */
@@ -47,9 +47,15 @@ public class EmailNotifier extends AbstractNotifier {
     @Value("${spring.mail.title:ThreadPool Notify}")
     private String title;
 
+    /**
+     * Java用于发邮件的工具类
+     */
     @Resource
     private JavaMailSender javaMailSender;
 
+    /**
+     * Thymeleaf 的html模板操作
+     */
     @Resource
     private TemplateEngine templateEngine;
 
@@ -58,6 +64,11 @@ public class EmailNotifier extends AbstractNotifier {
         return NotifyPlatformEnum.EMAIL.name().toLowerCase();
     }
 
+    /**
+     * XXX 由AbstractNotifier调用
+     * @param platform platform
+     * @param content content
+     */
     @SneakyThrows
     @Override
     protected void send0(NotifyPlatform platform, String content) {
@@ -72,6 +83,12 @@ public class EmailNotifier extends AbstractNotifier {
         log.info("DynamicTp notify, {} send success.", platform());
     }
 
+    /**
+     * 处理动态渲染的页面
+     * @param template 模板对应的文件名
+     * @param context 动态配置的数据
+     * @return 返回渲染的模板
+     */
     public String processTemplateContent(String template, Context context) {
         return templateEngine.process(template, context);
     }

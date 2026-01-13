@@ -22,7 +22,7 @@ import lombok.Getter;
 
 /**
  * RateLimitEnum related
- *
+ * XXX 限流的枚举
  * @author yanhom
  * @since 1.0.8
  **/

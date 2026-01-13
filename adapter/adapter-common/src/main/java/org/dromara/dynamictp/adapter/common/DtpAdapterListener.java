@@ -36,7 +36,7 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.SCHEDULE_NOTI
 
 /**
  * DtpAdapterListener related
- *
+ * XXX 监听事件进行相关处理
  * @author yanhom
  * @since 1.0.6
  */

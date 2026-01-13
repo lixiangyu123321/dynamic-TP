@@ -77,11 +77,19 @@ public class DtpEmailNotifier extends AbstractDtpNotifier {
         return null;
     }
 
+    /**
+     * XXX 无需获得模板，直接重写buildAlarmContent相关方法
+     * @param platform
+     * @param notifyItemEnum
+     * @return
+     */
     @Override
     protected String buildAlarmContent(NotifyPlatform platform, NotifyItemEnum notifyItemEnum) {
+        // 上下文的ThreadLocal上下文
         AlarmCtx alarmCtx = (AlarmCtx) DtpNotifyCtxHolder.get();
         NotifyItem notifyItem = alarmCtx.getNotifyItem();
         ExecutorWrapper executorWrapper = alarmCtx.getExecutorWrapper();
+
         String threadPoolName = executorWrapper.getThreadPoolName();
         String alarmValue = notifyItem.getCount() + " / " + alarmCtx.getAlarmInfo().getCount();
         String lastAlarmTime = AlarmCounter.getLastAlarmTime(threadPoolName, notifyItem.getType());
@@ -114,6 +122,7 @@ public class DtpEmailNotifier extends AbstractDtpNotifier {
         context.setVariable("highlightVariables", getAlarmKeys(notifyItemEnum));
         context.setVariable("trace", getTraceInfo());
         context.setVariable("ext", getExtInfo());
+        // XXX 调用底层通知器处理模板内容
         return ((EmailNotifier) notifier).processTemplateContent("alarm", context);
     }
 

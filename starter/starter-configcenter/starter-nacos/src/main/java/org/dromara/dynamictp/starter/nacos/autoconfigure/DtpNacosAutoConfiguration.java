@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * DtpAutoConfiguration for not spring cloud nacos application.
- *
+ * XXX 注册相关Bean
  * @author yanhom
  * @since 1.0.0
  **/

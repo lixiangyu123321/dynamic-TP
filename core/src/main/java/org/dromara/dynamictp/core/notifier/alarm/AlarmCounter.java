@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * AlarmCounter related
+ * XXX 全局的告警计数管理器，基于线程池Name和通知类型进行键的维护
  * 告警计数器，用于统计告警次数和记录最后告警时间，使用Guava Cache存储告警信息，支持过期自动清理
  * @author yanhom
  * @since 1.0.4

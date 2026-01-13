@@ -40,6 +40,8 @@ import static org.dromara.dynamictp.common.constant.DynamicTpConst.DTP_EXECUTE_E
 import static org.dromara.dynamictp.common.constant.DynamicTpConst.FALSE_STR;
 
 /**
+ * XXX 为了解决Runnable基于装饰器模式层层包装的问题
+ * XXX ExecutorAware是为了感知线程的执行做出相应操作的
  * deal agent wrapper
  * @author txbao
  */

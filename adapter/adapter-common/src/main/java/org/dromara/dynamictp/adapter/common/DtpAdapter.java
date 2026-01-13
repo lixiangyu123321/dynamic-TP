@@ -28,7 +28,7 @@ import java.util.Map;
 
 /**
  * DtpAdapter related
- *
+ * XXX MetricsAware被感知，向外提供统计信息
  * @author yanhom
  * @since 1.0.6
  */
@@ -36,7 +36,7 @@ public interface DtpAdapter extends MetricsAware {
 
     /**
      * Get specify thread pool executor wrapper.
-     *
+     * XXX 向外提供线程池封装器
      * @return specify executor
      */
     default ExecutorWrapper getExecutorWrapper() {
@@ -45,7 +45,7 @@ public interface DtpAdapter extends MetricsAware {
 
     /**
      * Get executor wrappers.
-     *
+     * XXX 向外提供Name2ExecutorWrapper的Map
      * @return executors
      */
     default Map<String, ExecutorWrapper> getExecutorWrappers() {
@@ -54,14 +54,14 @@ public interface DtpAdapter extends MetricsAware {
 
     /**
      * Refresh the thread pool with specify properties.
-     *
+     * XXX 基于全局配置进行刷新
      * @param dtpProperties the targeted dtpProperties
      */
     void refresh(DtpProperties dtpProperties);
 
     /**
      * Check update params.
-     *
+     * XXX 检查更新参数
      * @param props the targeted properties
      * @param log logger
      * @return true or false
